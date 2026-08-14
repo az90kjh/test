@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...
+                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
                 </div>
               </div>
             </div>
@@ -410,6 +410,7 @@ export default {
           </div>
         </section>
 
+        <!-- 기능 스크립트 모음 -->
         <script>
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
@@ -549,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 구글 스프레드시트 완벽 연동 로직 (오류 및 누락 완벽 해결) ===== */
+          /* ===== 완벽하게 수정된 구글 시트 연동 로더 (압축 해제 및 안내문구 차단 탑재) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 쪼개어 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -560,6 +561,7 @@ export default {
               const grouped = {};
               let globalSongIndex = 1;
 
+              // 최신 데이터를 불러오기 위해 시간표시(캐시방지) 추가
               const timestamp = new Date().getTime();
               const fetchPromises = sheetNames.map(async (sheetName) => {
                 const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}&_=\${timestamp}\`;
@@ -577,71 +579,65 @@ export default {
                 let lastSinger = sheetName;
 
                 rows.forEach((row) => {
-                  if (!row || !row.c) return; 
+                  if (!row.c) return; 
 
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
                   
-                  let rawSinger = cells[1] ? cells[1] : '';
-                  let title = cells[2] ? cells[2] : '';
-                  let diff = cells[3] ? cells[3] : '';
-                  let status = cells[4] ? cells[4] : '';
+                  let rawSingerCell = cells[1] ? cells[1] : '';
+                  let titleCell = cells[2] ? cells[2] : '';
+                  let diffCell = cells[3] ? cells[3] : '';
+                  let statusCell = cells[4] ? cells[4] : '';
 
-                  // 데이터가 밀렸을 때 자동 보정
-                  if (!title && cells.filter(t=>t).length >= 2 && cells[0]) {
-                    rawSinger = cells[0];
-                    title = cells[1];
+                  // 열 배치가 다를 경우 자동 추적
+                  if (!titleCell && cells.filter(t=>t).length >= 2) {
+                     let valid = cells.filter(t=>t);
+                     rawSingerCell = valid[0];
+                     titleCell = valid[1];
+                  } else if (!titleCell && cells.filter(t=>t).length === 1) {
+                     titleCell = cells.filter(t=>t)[0];
                   }
 
-                  if (!rawSinger && !title) return;
+                  // 🔴 핵심 1: 하나의 칸에 Alt+Enter로 뭉친 여러 노래들을 쪼갭니다! (60곡 누락 해결)
+                  let singers = rawSingerCell.split(/\\r?\\n/).map(s => s.trim());
+                  let titles = titleCell.split(/\\r?\\n/).map(t => t.trim());
+                  let diffs = diffCell.split(/\\r?\\n/).map(d => d.trim());
+                  let statuses = statusCell.split(/\\r?\\n/).map(s => s.trim());
 
-                  // 🔴 핵심 1: 하나의 칸에 줄바꿈 기호(\n)로 뭉친 여러 곡들을 배열로 완벽하게 쪼갭니다! (60곡 누락 원천 해결)
-                  let singersList = rawSinger.split(/\\r?\\n/).map(s => s.trim());
-                  let titlesList = title.split(/\\r?\\n/).map(t => t.trim());
-                  let diffsList = diff.split(/\\r?\\n/).map(d => d.trim());
-                  let statusList = status.split(/\\r?\\n/).map(s => s.trim());
-
-                  let maxLen = Math.max(titlesList.length, singersList.length);
+                  let maxLen = Math.max(titles.length, singers.length);
 
                   for (let i = 0; i < maxLen; i++) {
-                    let t = titlesList[i] || ''; 
-                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
-                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
-                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
+                    let t = titles[i] || titles[0] || ''; 
+                    let s = singers[i] || (singers.length === 1 ? singers[0] : ''); 
+                    let d = diffs[i] || diffs[0] || 'ㅡ';
+                    let st = statuses[i] || statuses[0] || 'ㅡ';
 
                     if (!t) continue;
 
                     let lowerT = t.toLowerCase().replace(/\\s+/g, '');
                     let lowerS = s.toLowerCase().replace(/\\s+/g, '');
 
-                    // 🔴 핵심 2: 노래가 아닌 잡다한 문구 및 에러들을 아예 화면에 안 뜨게 컷트! (이상한 글 등록 완벽 해결)
+                    // 🔴 핵심 2: 노래가 아닌 안내문구와 설명서를 완벽하게 차단합니다! (이상한 글 등록 해결)
                     if (
                       lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
                       lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
                       lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') ||
-                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') || lowerT.includes('재신청') ||
-                      lowerT.includes('이거불러죠') ||
-                      lowerT.includes('유료곡->') || lowerT.includes('유료곡→') ||
+                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') ||
+                      lowerT.includes('유료곡->') || lowerT.includes('유료곡→') || lowerT.includes('이거불러죠') ||
                       (lowerT === 'original' && lowerS.includes('오리지널')) ||
-                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
-                      lowerT === '-error' || lowerT === 'error'
+                      (lowerT === 'error') || lowerT === '-error' ||
+                      (t === sheetName && !d && !st) 
                     ) {
                       continue;
                     }
 
                     // 가수가 비어있다면 바로 윗줄의 가수를 상속받습니다.
-                    let singer = s ? s : lastSinger;
-                    lastSinger = singer;
+                    let finalSinger = s ? s : lastSinger;
+                    lastSinger = finalSinger;
 
                     let no = String(globalSongIndex).padStart(2, '0');
 
-                    if (!grouped[singer]) grouped[singer] = [];
-                    grouped[singer].push({ 
-                      no, 
-                      title: t, 
-                      difficulty: d || 'ㅡ', 
-                      status: st || 'ㅡ', 
-                      sheetName 
-                    });
+                    if (!grouped[finalSinger]) grouped[finalSinger] = [];
+                    grouped[finalSinger].push({ no, title: t, difficulty: d, status: st, sheetName });
                     globalSongIndex++;
                   }
                 });
@@ -655,7 +651,6 @@ export default {
               renderSongbookTable(grouped);
 
             } catch (err) {
-              console.error(err);
               container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
             }
           }
@@ -756,7 +751,7 @@ export default {
     return new Response(html, {
       headers: { 
         "content-type": "text/html;charset=UTF-8",
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" // 브라우저 캐시 완벽 방지
       },
     });
   },
