@@ -285,11 +285,11 @@ export default {
                 </div>
                 <div>
                   <div class="profile-info">
-                    <h1>Song Hyun</h1>
-                    <p class="sub">송현 | Virtual Streamer</p>
+                    <h1>송현</h1>
+                    <p class="sub">Song Hyun | Virtual Streamer</p>
                     <table class="info-table">
                       <tr><th>AGE</th><th>DEBUT</th></tr>
-                      <tr><td>17</td><td>2025.02.22</td></tr>
+                      <tr><td>17</td><td>2024.02</td></tr>
                       <tr><th>BIRTHDAY</th><th>FAN NAME</th></tr>
                       <tr><td>06.08</td><td>황숭이</td></tr>
                     </table>
@@ -346,7 +346,13 @@ export default {
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                          <div class="badge-item"><img sc="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
                         </div>
                       </div>
                     </div>
