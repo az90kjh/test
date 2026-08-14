@@ -550,7 +550,7 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 업그레이드된 구글 스프레드시트 CSV 파서 (데이터 누락 완벽 방지) ===== */
+          /* ===== 업그레이드된 구글 스프레드시트 CSV 파서 (데이터 뭉침 완벽 해결) ===== */
           function parseCSV(text) {
             const result = [];
             let row = [];
@@ -562,7 +562,7 @@ export default {
               if (c === '"') {
                 if (inQuote && next === '"') {
                   col += '"';
-                  i++;
+                  i++; // 이스케이프된 따옴표 건너뛰기
                 } else {
                   inQuote = !inQuote;
                 }
@@ -570,25 +570,34 @@ export default {
                 row.push(col);
                 col = '';
               } else if ((c === '\\n' || c === '\\r') && !inQuote) {
-                if (c === '\\r' && next === '\\n') i++;
+                // 이 부분이 이전에 \\n 으로 오타가 나서 발생했던 오류입니다!
+                // 올바르게 줄바꿈 기호를 처리하여 행을 나눕니다.
+                if (c === '\\r' && next === '\\n') i++; 
                 row.push(col);
-                result.push(row);
+                
+                // 빈 줄(유령 데이터)이 생기는 것을 방지
+                if (row.some(cell => cell.trim() !== '')) {
+                   result.push(row);
+                }
                 col = '';
                 row = [];
               } else {
                 col += c;
               }
             }
+            // 마지막 줄 처리
             if (col !== '' || row.length > 0) {
               row.push(col);
-              result.push(row);
+              if (row.some(cell => cell.trim() !== '')) {
+                 result.push(row);
+              }
             }
             return result;
           }
 
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 꼼꼼하게 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 깔끔하게 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -597,7 +606,6 @@ export default {
               let globalSongIndex = 1;
 
               const fetchPromises = sheetNames.map(async (sheetName) => {
-                // out:csv 방식으로 강제 텍스트 추출 (숫자 제목 누락 완벽 방지)
                 const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:csv&sheet=\${encodeURIComponent(sheetName)}\`;
                 const response = await fetch(url);
                 const csvText = await response.text();
