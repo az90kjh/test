@@ -328,12 +328,11 @@ export default {
                       <div class="badge-section">
                         <h3>구독 뱃지</h3>
                         <div class="badge-container">
-                          <!-- 👇 아래의 '...' 부분에 각 개월 수에 맞는 뱃지 이미지 주소를 넣어주세요 👇 -->
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" alt="3개월"><span class="badge-label">3개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
                           <div class="badge-line"></div>
@@ -513,7 +512,7 @@ export default {
           </div>
         </section>
 
-        <!-- 8. INFO 탭 -->
+        <!-- 8. INFO 탭 (9번째 메뉴 버튼) -->
         <section id="tab-info" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -522,20 +521,27 @@ export default {
             <div class="content-card">
               <p style="font-size:14px; color:var(--text-sub);">Official contact, character credit and community links.</p>
               <div class="link-grid">
+                
+                <!-- 1. Contact Email (초록색 이모티콘으로 변경) -->
                 <a href="#" class="link-card">
                   <div class="link-left">
-                    <span class="material-symbols-rounded link-icon" style="color:#EA4335;">mail</span>
-                    <div class="link-txt"><h4>Contact Email</h4><p>이메일주소@gmail.com</p></div>
+                    <span class="material-symbols-rounded link-icon" style="color:#03C75A;">mail</span>
+                    <div class="link-txt"><h4>Contact Email</h4><p>songhy___@naver.com</p></div>
                   </div>
                   <div class="link-right">MAIL ↗</div>
                 </a>
-                <a href="#" class="link-card">
+                
+                <!-- 2. Official Broadcasting (SOOP 아이콘 이미지로 변경) -->
+                <a href="https://www.sooplive.com/station/songhy" class="link-card">
                   <div class="link-left">
-                    <span class="material-symbols-rounded link-icon" style="color:#555;">person</span>
-                    <div class="link-txt"><h4>Character</h4><p>캐릭터 디자인 크레딧</p></div>
+                    <!-- 👇 아래 src 부분에 SOOP 로고 이미지 링크를 넣어주세요 👇 -->
+                    <img src="https://res.sooplive.com/images/svg/soop_logo.svg" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="SOOP">
+                    <div class="link-txt"><h4>Official Broadcasting</h4><p>SOOP 방송국</p></div>
                   </div>
-                  <div class="link-right">CREDIT</div>
+                  <div class="link-right">BROADCAST ↗</div>
                 </a>
+                
+                <!-- 3. YouTube -->
                 <a href="https://www.youtube.com/@songhy___/featured" target="_blank" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#FF0000;">smart_display</span>
@@ -543,13 +549,25 @@ export default {
                   </div>
                   <div class="link-right">VIDEO ↗</div>
                 </a>
-                <a href="https://www.sooplive.com/station/songhy" target="_blank" class="link-card">
+                
+                <!-- 4. 카페 커뮤니티 -->
+                <a href="https://cafe.naver.com/songhysonghy" target="_blank" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#03C75A;">coffee</span>
-                    <div class="link-txt"><h4>SOOP</h4><p>Official Broadcasting</p></div>
+                    <div class="link-txt"><h4>COMMUNITY</h4><p>황숭이 수용소</p></div>
                   </div>
-                  <div class="link-right">COMMUNITY ↗</div>
+                  <div class="link-right">CAFE ↗</div>
                 </a>
+
+                <!-- 5. 새롭게 추가된 다섯 번째 링크 -->
+                <a href="다섯번째_링크_주소를_넣어주세요" target="_blank" class="link-card">
+                  <div class="link-left">
+                    <span class="material-symbols-rounded link-icon" style="color:#888888;">link</span>
+                    <div class="link-txt"><h4>다섯번째 링크 제목</h4><p>Fansim</p></div>
+                  </div>
+                  <div class="link-right">LINK ↗</div>
+                </a>
+
               </div>
             </div>
           </div>
@@ -708,9 +726,6 @@ export default {
           /* ===== 최근 작성글 연동(디자인 틀) 로직 ===== */
           function loadRecentPosts() {
             const container = document.getElementById('soop-posts-container');
-            
-            // 아프리카TV 게시글을 직접 긁어오는 것은 CORS 정책에 의해 브라우저 단에서 불가능합니다.
-            // 대신, 사용자가 직접 수동으로 업데이트 하거나 디자인을 확인할 수 있도록 예시 레이아웃을 제공합니다.
             const dummyPosts = [
               { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
               { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
