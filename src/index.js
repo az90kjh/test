@@ -182,6 +182,9 @@ export default {
                 <div class="btn-group">
                   <a href="https://www.sooplive.com/station/songhy" target="_blank" class="btn soop">SOOP 방송국 ↗</a>
                   <a href="https://www.youtube.com/@songhy___/featured" target="_blank" class="btn">유튜브 채널 ↗</a>
+                  <a href="https://cafe.naver.com/songhysonghy" target="_blank" class="btn">황숭이 수용소 ↗</a> 
+                  <a href="songhy___@naver.com" target="_blank" class="btn">Contact Email ↗</a>   
+                  <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="btn">Fansim ↗</a>                     
                 </div>
               </div>
             </div>
