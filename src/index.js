@@ -40,8 +40,11 @@ export default {
             justify-content: center;
             font-size: 14px;
             color: #888;
-            /* 실제 이미지로 바꾸려면 아래 주석(/* */)을 지우고 이미지 주소를 넣으세요 */
-            /* background-image: url('여기에_이미지_주소_입력.jpg'); */
+            
+            /* 👇 프로필 사진을 넣고 싶다면 아래 주소(https://...)를 실제 이미지 주소로 변경하세요. 
+               사진이 없다면 이 줄 맨 앞에 /* 를 붙이고 맨 뒤에 */ 를 붙여서 주석 처리하시면 됩니다. */
+            background-image: url('https://profile.img.afreecatv.com/LOGO/so/songhy/songhy.jpg');
+            
             background-size: cover;
             background-position: center;
           }
@@ -64,7 +67,7 @@ export default {
             display: block; 
             margin-top: 12px; 
             padding: 16px; 
-            background: #0058ff; /* SOOP 브랜드 컬러 느낌의 블루 */
+            background: #0058ff; 
             color: white; 
             text-decoration: none; 
             border-radius: 12px; 
@@ -90,8 +93,8 @@ export default {
       </head>
       <body>
         <div class="profile-container">
-          <!-- 프로필 사진 -->
-          <div class="profile-image">프로필 사진</div>
+          <!-- 프로필 사진 (이미지가 들어가면 텍스트는 안 보이기 때문에 비워두었습니다) -->
+          <div class="profile-image"></div>
           
           <!-- 닉네임 -->
           <h1>송현_</h1>
@@ -99,11 +102,11 @@ export default {
           <!-- 짧은 소개글 -->
           <p>안녕하세요! SOOP 스트리머 송현_입니다.<br>오늘도 찾아와 주셔서 감사합니다 💙</p>
           
-          <!-- SOOP 방송국 링크 (href 안의 주소를 실제 방송국 주소로 바꿔주세요) -->
+          <!-- SOOP 방송국 링크 (정상 수정됨) -->
           <a href="https://www.sooplive.com/station/songhy" target="_blank" class="link-btn">SOOP 방송국 바로가기</a>
           
-          <!-- 유튜브 링크 (필요 없다면 이 줄과 아래 줄을 지우시면 됩니다) -->
-          <a href="https://www.youtube.com/@songhy___/featured="_blank" class="link-btn youtube">유튜브 채널 구경하기</a>
+          <!-- 유튜브 링크 (정상 수정됨) -->
+          <a href="https://www.youtube.com/@songhy___/featured" target="_blank" class="link-btn youtube">유튜브 채널 구경하기</a>
         </div>
       </body>
       </html>
