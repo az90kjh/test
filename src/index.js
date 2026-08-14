@@ -241,7 +241,7 @@ export default {
           </div>
           <div class="video-container">
             <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
-            <!-- 재생목록일 경우: https://www.youtube.com/watch?v=EwzcI6BcC_s&list=PLQsBVkS90xTY -->
+            <!-- 재생목록일 경우: https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY -->
             <!-- 단일영상일 경우: https://www.youtube.com/embed/아이디 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=유튜브_재생목록_ID를_넣어주세요" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
