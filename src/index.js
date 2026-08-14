@@ -54,7 +54,7 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 상단 플로팅 네비게이션 바 (2번 사진 등 참조) ===== */
+          /* ===== 상단 플로팅 네비게이션 바 ===== */
           .nav-container {
             position: fixed;
             top: 20px;
@@ -87,7 +87,22 @@ export default {
           .nav-btn.active { background-color: var(--bg-card); color: var(--nav-icon-active); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 메인 콘텐츠 카드 영역 ===== */
+          /* ===== 1. 메인 홈 (전체화면 꽉 차게 변경) ===== */
+          .fullscreen-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* 👇 홈 화면 전체에 띄울 실제 이미지 주소로 변경하세요 */
+            background-image: url('https://via.placeholder.com/1920x1080/ff478e/ffffff?text=HABI+MAIN+IMAGE');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1; /* 다른 요소들 뒤에 배치 */
+          }
+
+          /* ===== 메인 콘텐츠 카드 영역 (프로필, 노래책 등) ===== */
           .main-wrapper {
             max-width: 1100px;
             margin: 100px auto 40px;
@@ -113,17 +128,6 @@ export default {
           .section-header { margin-bottom: 30px; }
           .section-header h2 { font-size: 20px; font-weight: 800; display: inline-block; margin-right: 10px; }
           .section-header span { font-size: 14px; color: var(--text-sub); }
-
-          /* ===== 1. 메인 홈 (1번 사진) ===== */
-          #tab-home .main-img {
-            width: 100%;
-            height: 600px;
-            border-radius: 12px;
-            background-color: #ddd;
-            background-image: url('https://via.placeholder.com/1100x600/ff478e/ffffff?text=HABI+MAIN+IMAGE');
-            background-size: cover;
-            background-position: center;
-          }
 
           /* ===== 2. 프로필 (2번 사진) ===== */
           .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
@@ -250,15 +254,15 @@ export default {
           </div>
         </div>
 
-        <!-- 메인 콘텐츠 영역 -->
-        <div class="main-wrapper">
+        <!-- 1. 홈 탭 (테두리 없는 전체화면 배경) -->
+        <section id="tab-home" class="tab-section active">
+          <div class="fullscreen-bg"></div>
+        </section>
+
+        <!-- 메뉴 선택 시에만 나타나는 카드 래퍼 영역 (기본은 숨김 처리) -->
+        <div class="main-wrapper" id="card-wrapper" style="display: none;">
           <div class="content-card">
             
-            <!-- 1. 홈 탭 -->
-            <section id="tab-home" class="tab-section active">
-              <div class="main-img"></div>
-            </section>
-
             <!-- 2. 프로필 탭 -->
             <section id="tab-profile" class="tab-section">
               <div class="section-header"><h2>PROFILE</h2><span>/ 프로필</span></div>
@@ -306,7 +310,6 @@ export default {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -435,11 +438,12 @@ export default {
         </div>
 
         <script>
-          // 탭 전환 기능 (새로고침 없이 화면 변경)
+          // 탭 전환 기능 (홈 화면과 나머지 카드 영역 구분)
           function switchTab(tabId, clickedBtn) {
             // 모든 섹션 숨기기
             const sections = document.querySelectorAll('.tab-section');
             sections.forEach(sec => sec.classList.remove('active'));
+            
             // 모든 네비 버튼 비활성화 (뮤직, 다크모드 버튼 제외)
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => {
@@ -447,9 +451,19 @@ export default {
                 btn.classList.remove('active');
               }
             });
+            
             // 선택한 섹션과 버튼 활성화
             document.getElementById(tabId).classList.add('active');
             if(clickedBtn) clickedBtn.classList.add('active');
+
+            // 홈 탭일 경우 카드 디자인 숨기기, 다른 탭일 경우 보이게 만들기
+            const cardWrapper = document.getElementById('card-wrapper');
+            if (tabId === 'tab-home') {
+              cardWrapper.style.display = 'none';
+            } else {
+              cardWrapper.style.display = 'block';
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
 
