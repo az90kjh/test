@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 가져오는 중입니다...
+                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
                 </div>
               </div>
             </div>
@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 만능 스마트 구글 시트 파서 (모든 탭 구조 대응) ===== */
+          /* ===== 완벽하게 수정된 구글 시트 연동 로더 (압축 해제 및 안내문구 차단 탑재) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 완벽하게 분석하여 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 쪼개어 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -561,8 +561,10 @@ export default {
               const grouped = {};
               let globalSongIndex = 1;
 
+              // 최신 데이터를 불러오기 위해 시간표시(캐시방지) 추가
+              const timestamp = new Date().getTime();
               const fetchPromises = sheetNames.map(async (sheetName) => {
-                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}\`;
+                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}&_=\${timestamp}\`;
                 const response = await fetch(url);
                 let text = await response.text();
                 
@@ -579,68 +581,65 @@ export default {
                 rows.forEach((row) => {
                   if (!row.c) return; 
 
-                  // 해당 행의 모든 텍스트 셀 추출
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
-                  let validTexts = cells.filter(t => t !== '');
-
-                  if (validTexts.length === 0) return;
-
-                  // 탭별 혹은 행별 배치가 달라도 '텍스트 내용'을 바탕으로 가수와 제목을 똑똑하게 판별
-                  let rawSinger = '';
-                  let title = '';
-                  let difficulty = 'ㅡ';
-                  let status = 'ㅡ';
-
-                  // 일반적인 배치 (B열=가수, C열=제목) 확인
-                  if (cells[1] && cells[2]) {
-                    rawSinger = cells[1];
-                    title = cells[2];
-                    difficulty = cells[3] || 'ㅡ';
-                    status = cells[4] || 'ㅡ';
-                  } else if (validTexts.length >= 2) {
-                    // 데이터가 당겨져 있는 경우
-                    rawSinger = validTexts[0];
-                    title = validTexts[1];
-                  } else if (validTexts.length === 1) {
-                    title = validTexts[0];
-                  }
-
-                  // 안내문구, 상단 헤더, 탭 타이틀 완벽 차단 필터
-                  let lowerTitle = title.toLowerCase();
-                  let lowerSinger = rawSinger.toLowerCase();
                   
-                  if (
-                    lowerTitle.includes('송현 노래책') || 
-                    lowerTitle.includes('노래신청은') || 
-                    lowerTitle.includes('제목') || 
-                    lowerTitle.includes('가수') ||
-                    lowerTitle.includes('노래책 설명서') ||
-                    lowerTitle.includes('별풍 200개') ||
-                    lowerTitle.includes('이거 불러죠') ||
-                    lowerTitle.includes('블렀던곡') ||
-                    lowerTitle.includes('녹음음원') ||
-                    lowerSinger.includes('송현 노래책') ||
-                    lowerSinger.includes('가수')
-                  ) {
-                    return;
+                  let rawSingerCell = cells[1] ? cells[1] : '';
+                  let titleCell = cells[2] ? cells[2] : '';
+                  let diffCell = cells[3] ? cells[3] : '';
+                  let statusCell = cells[4] ? cells[4] : '';
+
+                  // 열 배치가 다를 경우 자동 추적
+                  if (!titleCell && cells.filter(t=>t).length >= 2) {
+                     let valid = cells.filter(t=>t);
+                     rawSingerCell = valid[0];
+                     titleCell = valid[1];
+                  } else if (!titleCell && cells.filter(t=>t).length === 1) {
+                     titleCell = cells.filter(t=>t)[0];
                   }
 
-                  // 탭 제목 자체인 경우(예: 오리지널 곡✨) 데이터가 없고 제목에만 들어가 있다면 노래가 아니므로 스킵
-                  if ((title === '오리지널 곡✨' || title === '숙제곡💖' || title === 'k pop' || title === 'pop' || title === 'j pop') && !cells[3] && !cells[4]) {
-                    return;
+                  // 🔴 핵심 1: 하나의 칸에 Alt+Enter로 뭉친 여러 노래들을 쪼갭니다! (60곡 누락 해결)
+                  let singers = rawSingerCell.split(/\\r?\\n/).map(s => s.trim());
+                  let titles = titleCell.split(/\\r?\\n/).map(t => t.trim());
+                  let diffs = diffCell.split(/\\r?\\n/).map(d => d.trim());
+                  let statuses = statusCell.split(/\\r?\\n/).map(s => s.trim());
+
+                  let maxLen = Math.max(titles.length, singers.length);
+
+                  for (let i = 0; i < maxLen; i++) {
+                    let t = titles[i] || titles[0] || ''; 
+                    let s = singers[i] || (singers.length === 1 ? singers[0] : ''); 
+                    let d = diffs[i] || diffs[0] || 'ㅡ';
+                    let st = statuses[i] || statuses[0] || 'ㅡ';
+
+                    if (!t) continue;
+
+                    let lowerT = t.toLowerCase().replace(/\\s+/g, '');
+                    let lowerS = s.toLowerCase().replace(/\\s+/g, '');
+
+                    // 🔴 핵심 2: 노래가 아닌 안내문구와 설명서를 완벽하게 차단합니다! (이상한 글 등록 해결)
+                    if (
+                      lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
+                      lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
+                      lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') ||
+                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') ||
+                      lowerT.includes('유료곡->') || lowerT.includes('유료곡→') || lowerT.includes('이거불러죠') ||
+                      (lowerT === 'original' && lowerS.includes('오리지널')) ||
+                      (lowerT === 'error') || lowerT === '-error' ||
+                      (t === sheetName && !d && !st) 
+                    ) {
+                      continue;
+                    }
+
+                    // 가수가 비어있다면 바로 윗줄의 가수를 상속받습니다.
+                    let finalSinger = s ? s : lastSinger;
+                    lastSinger = finalSinger;
+
+                    let no = String(globalSongIndex).padStart(2, '0');
+
+                    if (!grouped[finalSinger]) grouped[finalSinger] = [];
+                    grouped[finalSinger].push({ no, title: t, difficulty: d, status: st, sheetName });
+                    globalSongIndex++;
                   }
-
-                  if (!title) return;
-
-                  // 가수가 비어있다면 바로 윗 가수 상속
-                  let singer = rawSinger ? rawSinger : lastSinger;
-                  lastSinger = singer;
-
-                  let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
-
-                  if (!grouped[singer]) grouped[singer] = [];
-                  grouped[singer].push({ no, title, difficulty, status, sheetName });
-                  globalSongIndex++;
                 });
               });
               
@@ -750,7 +749,10 @@ export default {
     `;
 
     return new Response(html, {
-      headers: { "content-type": "text/html;charset=UTF-8" },
+      headers: { 
+        "content-type": "text/html;charset=UTF-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" // 브라우저 캐시 완벽 방지
+      },
     });
   },
 };
