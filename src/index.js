@@ -550,28 +550,35 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 완벽하게 안전한 CSV 파서 및 노래 데이터 로더 ===== */
+          /* ===== 완벽하게 안전한 CSV 파서 (데이터 뭉침 완벽 해결) ===== */
           function parseCSV(text) {
             const result = [];
             let row = [];
             let col = '';
             let inQuote = false;
+            
+            // 특수문자 충돌을 원천 차단하기 위한 아스키코드 사용 (10번=줄바꿈)
+            const LF = String.fromCharCode(10);
+            const CR = String.fromCharCode(13);
+
             for (let i = 0; i < text.length; i++) {
               let c = text[i];
               let next = text[i+1];
               if (c === '"') {
                 if (inQuote && next === '"') {
                   col += '"';
-                  i++;
+                  i++; // 이스케이프된 따옴표 건너뛰기
                 } else {
                   inQuote = !inQuote;
                 }
               } else if (c === ',' && !inQuote) {
                 row.push(col);
                 col = '';
-              } else if ((c === '\\n' || c === '\\r') && !inQuote) {
-                if (c === '\\r' && next === '\\n') i++;
+              } else if ((c === LF || c === CR) && !inQuote) {
+                if (c === CR && next === LF) i++; 
                 row.push(col);
+                
+                // 빈 줄(유령 데이터)이 생기는 것을 방지
                 if (row.some(cell => cell.trim() !== '')) {
                    result.push(row);
                 }
@@ -581,6 +588,7 @@ export default {
                 col += c;
               }
             }
+            // 마지막 줄 처리
             if (col !== '' || row.length > 0) {
               row.push(col);
               if (row.some(cell => cell.trim() !== '')) {
@@ -590,9 +598,10 @@ export default {
             return result;
           }
 
+          /* ===== 다중 탭 구글 스프레드시트 연동 로직 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 가져오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 정확하게 분리하여 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -611,38 +620,50 @@ export default {
 
               results.forEach(({ sheetName, rows }) => {
                 let lastSinger = sheetName;
+                let singerColIdx = -1;
+                let titleColIdx = -1;
+
+                // 1단계: 시트 내에서 '가수'와 '제목' 열 번호를 지능적으로 탐색
+                for (let r = 0; r < Math.min(10, rows.length); r++) {
+                  for (let c = 0; c < rows[r].length; c++) {
+                    let val = rows[r][c].trim().replace(/\\s+/g, '');
+                    if (val === '가수' || val.toLowerCase() === 'singer') singerColIdx = c;
+                    if (val === '제목' || val.toLowerCase() === 'title' || val === '노래제목') titleColIdx = c;
+                  }
+                  if (singerColIdx !== -1 && titleColIdx !== -1) break;
+                }
+
+                // 만약 못 찾으면 기본값 적용 (통상적인 구글시트 배치는 1(B열), 2(C열)임)
+                if (singerColIdx === -1) singerColIdx = 1;
+                if (titleColIdx === -1) titleColIdx = 2;
 
                 rows.forEach((row) => {
-                  if (row.length < 2) return; 
+                  if (row.length === 0) return; 
                   
-                  // 어떤 열에 데이터가 있든 빈칸이 아닌 텍스트를 유연하게 추출
-                  let validCols = row.map(cell => cell ? cell.trim() : '').filter(cell => cell !== '');
-                  if (validCols.length === 0) return;
+                  let rawSinger = row[singerColIdx] ? row[singerColIdx].trim() : '';
+                  let title = row[titleColIdx] ? row[titleColIdx].trim() : '';
+                  
+                  // 시트 상단의 안내 문구 및 헤더 완벽 차단
+                  if (title.includes('노래신청은') || title.replace(/\\s+/g, '') === '제목' || title === 'Title') return;
+                  if (rawSinger.includes('송현 노래책') || rawSinger.replace(/\\s+/g, '') === '가수' || rawSinger === 'Singer') return;
 
-                  // 사진상 보통 B열이 가수, C열이 제목이므로 인덱스 1과 2를 우선 탐색
-                  let rawSinger = row[1] ? row[1].trim() : '';
-                  let title = row[2] ? row[2].trim() : '';
-                  
-                  // 만약 2열 배치가 다르다면 유효한 텍스트에서 추정
-                  if (!title && validCols.length >= 2) {
-                    rawSinger = validCols[0];
-                    title = validCols[1];
-                  } else if (!title && validCols.length === 1) {
-                    title = validCols[0];
+                  // 제목이 빈칸일 때, 가수에만 내용이 있다면 그건 다음 곡들을 묶어줄 '가수 이름'으로 간주
+                  if (!title) {
+                    if (rawSinger && !rawSinger.includes('노래책')) {
+                      let cleaned = rawSinger.replace(/\\s+/g, '');
+                      if (cleaned !== '가수' && cleaned !== 'Singer') {
+                         lastSinger = rawSinger;
+                      }
+                    }
+                    return;
                   }
-
-                  // 불필요한 상단 타이틀 필터링
-                  if (title.includes('노래신청은') || title === '제목' || title === 'Title' || title === '가수') return;
-                  if (rawSinger.includes('송현 노래책') || rawSinger === '가수' || rawSinger === 'Singer') return;
-
-                  if (!title) return;
                   
                   let singer = rawSinger ? rawSinger : lastSinger;
                   lastSinger = singer; 
                   
                   let no = row[0] && row[0].trim().length < 5 ? row[0].trim() : String(globalSongIndex).padStart(2, '0');
-                  let difficulty = row[3] ? row[3].trim() : 'ㅡ';
-                  let status = row[4] ? row[4].trim() : 'ㅡ';
+                  let difficulty = row[titleColIdx + 1] ? row[titleColIdx + 1].trim() : 'ㅡ';
+                  let status = row[titleColIdx + 2] ? row[titleColIdx + 2].trim() : 'ㅡ';
 
                   if (!grouped[singer]) grouped[singer] = [];
                   grouped[singer].push({ no, title, difficulty, status, sheetName });
