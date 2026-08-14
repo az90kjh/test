@@ -550,20 +550,21 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 다중 탭 구글 스프레드시트 연동 로직 (이모티콘 적용 및 데이터 구조 수정) ===== */
+          /* ===== 다중 탭 구글 스프레드시트 연동 로직 (업그레이드 버전) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 여러 탭의 노래 목록을 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 노래 목록을 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
-              // 👇 이모티콘이 포함된 실제 탭 이름으로 정확히 맞추었습니다.
+              // 👇 이모티콘을 포함하여 시트 탭 이름과 100% 동일하게 맞춤
               const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
               const grouped = {};
               let globalSongIndex = 1;
 
               const fetchPromises = sheetNames.map(async (sheetName) => {
-                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&sheet=\${encodeURIComponent(sheetName)}\`;
+                // 👇 구글이 마음대로 첫 줄(헤더)을 삭제하지 못하게 &headers=0 추가!
+                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}\`;
                 const response = await fetch(url);
                 let text = await response.text();
                 
@@ -575,25 +576,30 @@ export default {
               const results = await Promise.all(fetchPromises);
 
               results.forEach(({ sheetName, rows }) => {
+                let lastSinger = sheetName; // 가수가 빈칸일 경우를 대비해 탭 이름으로 초기화
+
                 rows.forEach((row) => {
-                  // B열(가수) 데이터 확인 (사진 기준 B열이 c[1])
-                  if (!row.c || !row.c[1] || row.c[1].v === null) return;
+                  if (!row.c) return; // 텅 빈 줄 건너뛰기
                   
-                  let singer = String(row.c[1].v).trim();
+                  // B열(가수) - c[1], C열(제목) - c[2]
+                  let rawSinger = row.c[1] && row.c[1].v !== null ? String(row.c[1].v).trim() : '';
+                  let title = row.c[2] && row.c[2].v !== null ? String(row.c[2].v).trim() : '';
                   
-                  // 👇 시트 최상단 병합된 타일과 헤더를 무시하는 로직 (사진 참조)
-                  if (singer.includes('송현 노래책') || singer.includes('노래신청은') || singer === '가수' || singer === 'Singer') return;
+                  // 👇 제목이 비어있으면 노래가 아니므로 무시 (매우 중요)
+                  if (!title) return;
                   
-                  // A열이 비어있을 수 있으므로 기본 인덱스 처리, C열은 제목(c[2])
+                  // 👇 시트 최상단의 병합된 타이틀(송현 노래책 등) 필터링
+                  if (title.includes('노래신청은') || title === '제목' || title === 'Title') return;
+                  if (rawSinger.includes('송현 노래책') || rawSinger === '가수' || rawSinger === 'Singer') return;
+                  
+                  // 👇 가수가 비어있으면 바로 윗줄의 가수 이름을 사용 (병합 셀 완벽 대응)
+                  let singer = rawSinger ? rawSinger : lastSinger;
+                  lastSinger = singer; // 다음 노래를 위해 갱신
+                  
                   let no = row.c[0] && row.c[0].v !== null ? row.c[0].v : String(globalSongIndex).padStart(2, '0');
-                  let title = row.c[2] && row.c[2].v !== null ? row.c[2].v : '';
-                  
-                  // 시트에 D열, E열이 비어있다면 기본값 출력
                   let difficulty = row.c[3] && row.c[3].v !== null ? row.c[3].v : 'ㅡ';
                   let status = row.c[4] && row.c[4].v !== null ? row.c[4].v : 'ㅡ';
                   
-                  if (!singer) singer = sheetName;
-
                   if (!grouped[singer]) grouped[singer] = [];
                   grouped[singer].push({ no, title, difficulty, status, sheetName });
                   globalSongIndex++;
