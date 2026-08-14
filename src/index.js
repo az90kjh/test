@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
+                  모든 탭의 노래 목록을 빠짐없이 분석하여 가져오는 중입니다...
                 </div>
               </div>
             </div>
@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 완벽하게 수정된 구글 시트 연동 로더 (압축 해제 및 안내문구 차단 탑재) ===== */
+          /* ===== 가장 안전하게 구성된 구글 시트 연동 기능 (에러 원천 차단) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 쪼개어 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -561,83 +561,93 @@ export default {
               const grouped = {};
               let globalSongIndex = 1;
 
-              // 최신 데이터를 불러오기 위해 시간표시(캐시방지) 추가
               const timestamp = new Date().getTime();
               const fetchPromises = sheetNames.map(async (sheetName) => {
-                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}&_=\${timestamp}\`;
+                // 백틱이나 특수기호 에러 방지를 위해 문자열 결합 방식으로 통신
+                const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&headers=0&sheet=' + encodeURIComponent(sheetName) + '&_=' + timestamp;
                 const response = await fetch(url);
                 let text = await response.text();
                 
                 text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
                 const data = JSON.parse(text);
-                return { sheetName, rows: data.table.rows };
+                return { sheetName: sheetName, rows: data.table.rows };
               });
 
               const results = await Promise.all(fetchPromises);
+              
+              // 줄바꿈 기호 안전 처리용 문자 (아스키 10)
+              const LF = String.fromCharCode(10); 
 
-              results.forEach(({ sheetName, rows }) => {
+              results.forEach((resultObj) => {
+                let sheetName = resultObj.sheetName;
+                let rows = resultObj.rows;
                 let lastSinger = sheetName;
 
                 rows.forEach((row) => {
-                  if (!row.c) return; 
+                  if (!row || !row.c) return; 
 
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
                   
-                  let rawSingerCell = cells[1] ? cells[1] : '';
-                  let titleCell = cells[2] ? cells[2] : '';
-                  let diffCell = cells[3] ? cells[3] : '';
-                  let statusCell = cells[4] ? cells[4] : '';
+                  let rawSinger = cells[1] ? cells[1] : '';
+                  let title = cells[2] ? cells[2] : '';
+                  let diff = cells[3] ? cells[3] : '';
+                  let status = cells[4] ? cells[4] : '';
 
-                  // 열 배치가 다를 경우 자동 추적
-                  if (!titleCell && cells.filter(t=>t).length >= 2) {
-                     let valid = cells.filter(t=>t);
-                     rawSingerCell = valid[0];
-                     titleCell = valid[1];
-                  } else if (!titleCell && cells.filter(t=>t).length === 1) {
-                     titleCell = cells.filter(t=>t)[0];
+                  // 열 데이터가 밀려있는 경우 자동 보정
+                  if (!title && cells.filter(t => t !== '').length >= 2 && cells[0]) {
+                    rawSinger = cells[0];
+                    title = cells[1];
                   }
 
-                  // 🔴 핵심 1: 하나의 칸에 Alt+Enter로 뭉친 여러 노래들을 쪼갭니다! (60곡 누락 해결)
-                  let singers = rawSingerCell.split(/\\r?\\n/).map(s => s.trim());
-                  let titles = titleCell.split(/\\r?\\n/).map(t => t.trim());
-                  let diffs = diffCell.split(/\\r?\\n/).map(d => d.trim());
-                  let statuses = statusCell.split(/\\r?\\n/).map(s => s.trim());
+                  if (!rawSinger && !title) return;
 
-                  let maxLen = Math.max(titles.length, singers.length);
+                  // 🔴 핵심 1: 하나의 칸 안에 줄바꿈(Enter)으로 뭉친 60곡을 여기서 모두 쪼갭니다!
+                  let singersList = rawSinger.split(LF).map(s => s.trim());
+                  let titlesList = title.split(LF).map(t => t.trim());
+                  let diffsList = diff.split(LF).map(d => d.trim());
+                  let statusList = status.split(LF).map(s => s.trim());
+
+                  let maxLen = Math.max(titlesList.length, singersList.length);
 
                   for (let i = 0; i < maxLen; i++) {
-                    let t = titles[i] || titles[0] || ''; 
-                    let s = singers[i] || (singers.length === 1 ? singers[0] : ''); 
-                    let d = diffs[i] || diffs[0] || 'ㅡ';
-                    let st = statuses[i] || statuses[0] || 'ㅡ';
+                    let t = titlesList[i] || ''; 
+                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
+                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
+                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
 
                     if (!t) continue;
 
-                    let lowerT = t.toLowerCase().replace(/\\s+/g, '');
-                    let lowerS = s.toLowerCase().replace(/\\s+/g, '');
+                    let lowerT = t.toLowerCase().split(' ').join('');
+                    let lowerS = s.toLowerCase().split(' ').join('');
 
-                    // 🔴 핵심 2: 노래가 아닌 안내문구와 설명서를 완벽하게 차단합니다! (이상한 글 등록 해결)
+                    // 🔴 핵심 2: 쓸데없는 안내 문구와 에러 메시지는 노래책에서 완벽하게 차단합니다!
                     if (
                       lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
                       lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
-                      lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') ||
-                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') ||
-                      lowerT.includes('유료곡->') || lowerT.includes('유료곡→') || lowerT.includes('이거불러죠') ||
+                      lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') || lowerT.includes('노래검색') ||
+                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') || lowerT.includes('재신청') ||
+                      lowerT.includes('이거불러죠') || lowerT.includes('유료곡') || lowerT.includes('미션풍') ||
                       (lowerT === 'original' && lowerS.includes('오리지널')) ||
-                      (lowerT === 'error') || lowerT === '-error' ||
-                      (t === sheetName && !d && !st) 
+                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
+                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
                     ) {
                       continue;
                     }
 
-                    // 가수가 비어있다면 바로 윗줄의 가수를 상속받습니다.
-                    let finalSinger = s ? s : lastSinger;
-                    lastSinger = finalSinger;
+                    // 가수가 비어있다면 윗줄 가수로 채워넣기
+                    let singer = s ? s : lastSinger;
+                    lastSinger = singer;
 
                     let no = String(globalSongIndex).padStart(2, '0');
 
-                    if (!grouped[finalSinger]) grouped[finalSinger] = [];
-                    grouped[finalSinger].push({ no, title: t, difficulty: d, status: st, sheetName });
+                    if (!grouped[singer]) grouped[singer] = [];
+                    grouped[singer].push({ 
+                      no: no, 
+                      title: t, 
+                      difficulty: d || 'ㅡ', 
+                      status: st || 'ㅡ', 
+                      sheetName: sheetName 
+                    });
                     globalSongIndex++;
                   }
                 });
@@ -651,54 +661,50 @@ export default {
               renderSongbookTable(grouped);
 
             } catch (err) {
+              console.error(err);
               container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
             }
           }
 
+          // HTML 요소들을 백틱 없이 안전하게 묶어주는 그리기 함수
           function renderSongbookTable(grouped) {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = \`
-              <table class="song-table">
-                <thead>
-                  <tr>
-                    <th style="width: 10%;">번호</th>
-                    <th style="width: 15%;">가수</th>
-                    <th style="width: 45%;">노래제목</th>
-                    <th style="width: 15%;">난이도</th>
-                    <th style="width: 15%; text-align:center;">상태</th>
-                  </tr>
-                </thead>
-                <tbody id="songbook-tbody"></tbody>
-              </table>
-            \`;
+            container.innerHTML = '<table class="song-table">' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th style="width: 10%;">번호</th>' +
+                    '<th style="width: 15%;">가수</th>' +
+                    '<th style="width: 45%;">노래제목</th>' +
+                    '<th style="width: 15%;">난이도</th>' +
+                    '<th style="width: 15%; text-align:center;">상태</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody id="songbook-tbody"></tbody>' +
+              '</table>';
             
             const tbody = document.getElementById('songbook-tbody');
             
             for (const [singer, songs] of Object.entries(grouped)) {
               const headerTr = document.createElement('tr');
               headerTr.className = 'group-header-row';
-              headerTr.innerHTML = \`
-                <td colspan="5">
-                  <div class="group-header-box">
-                    <div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-                      <span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>
-                      \${singer}
-                    </div>
-                    <div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">\${songs.length}곡</div>
-                  </div>
-                </td>
-              \`;
+              headerTr.innerHTML = '<td colspan="5">' +
+                  '<div class="group-header-box">' +
+                    '<div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">' +
+                      '<span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>' +
+                      singer +
+                    '</div>' +
+                    '<div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">' + songs.length + '곡</div>' +
+                  '</div>' +
+                '</td>';
               tbody.appendChild(headerTr);
               
               songs.forEach(song => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = \`
-                  <td style="color: var(--text-sub); font-size: 13px;">\${song.no}</td>
-                  <td style="color: var(--text-sub); font-size: 13px;">\${singer}</td>
-                  <td style="font-weight: 600;">\${song.title}</td>
-                  <td style="color: var(--point-color); font-size:12px;">\${song.difficulty}</td>
-                  <td style="text-align: center; color: var(--text-sub);">\${song.status}</td>
-                \`;
+                tr.innerHTML = '<td style="color: var(--text-sub); font-size: 13px;">' + song.no + '</td>' +
+                  '<td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td>' +
+                  '<td style="font-weight: 600;">' + song.title + '</td>' +
+                  '<td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td>' +
+                  '<td style="text-align: center; color: var(--text-sub);">' + song.status + '</td>';
                 tbody.appendChild(tr);
               });
             }
@@ -749,10 +755,7 @@ export default {
     `;
 
     return new Response(html, {
-      headers: { 
-        "content-type": "text/html;charset=UTF-8",
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" // 브라우저 캐시 완벽 방지
-      },
+      headers: { "content-type": "text/html;charset=UTF-8" },
     });
   },
 };
