@@ -56,7 +56,8 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('https://via.placeholder.com/1920x1080/ff8200/ffffff?text=SONG+HYUN+MAIN+IMAGE');
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
+            background-image: url('여기에_홈_화면_배경_이미지_주소를_넣어주세요.jpg');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
@@ -534,7 +535,6 @@ export default {
                 <!-- 2. Official Broadcasting (SOOP 아이콘 이미지로 변경) -->
                 <a href="https://www.sooplive.com/station/songhy" class="link-card">
                   <div class="link-left">
-                    <!-- 👇 아래 src 부분에 SOOP 로고 이미지 링크를 넣어주세요 👇 -->
                     <img src="https://res.sooplive.com/images/svg/soop_logo.svg" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="SOOP">
                     <div class="link-txt"><h4>Official Broadcasting</h4><p>SOOP 방송국</p></div>
                   </div>
@@ -559,10 +559,11 @@ export default {
                   <div class="link-right">CAFE ↗</div>
                 </a>
 
-                <!-- 5. 새롭게 추가된 다섯 번째 링크 -->
+                <!-- 5. 새롭게 추가된 다섯 번째 링크 (Fansim) -->
                 <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
-                    <span class="material-symbols-rounded link-icon" style="color:#888888;">link</span>
+                    <!-- 👇 아래 src 부분에 Fansim 로고 이미지 링크를 넣어주세요 👇 -->
+                    <img src="Fansim_이미지_주소를_넣어주세요.png" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
                     <div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div>
                   </div>
                   <div class="link-right">LINK ↗</div>
