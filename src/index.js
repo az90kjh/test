@@ -116,7 +116,7 @@ export default {
           .sub-tab-btn { padding: 10px 20px; border: none; background-color: var(--bg-body); color: var(--text-sub); border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
           .sub-tab-btn.active { background-color: var(--text-main); color: var(--bg-card); }
 
-          /* ===== 4. 노래책 ===== */
+          /* ===== 노래책 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
           .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); }
           .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
@@ -550,25 +550,23 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 다중 탭 구글 스프레드시트 연동 로직 ===== */
+          /* ===== 다중 탭 구글 스프레드시트 연동 로직 (이모티콘 적용 및 데이터 구조 수정) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 여러 탭의 노래 목록을 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
-              // 하단 탭 이름과 띄어쓰기/대소문자가 반드시 일치해야 합니다!
-              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡', '숙제곡']; 
+              // 👇 이모티콘이 포함된 실제 탭 이름으로 정확히 맞추었습니다.
+              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
               const grouped = {};
               let globalSongIndex = 1;
 
-              // 여러 시트 데이터를 동시에 호출 (Promise.all)
               const fetchPromises = sheetNames.map(async (sheetName) => {
                 const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&sheet=\${encodeURIComponent(sheetName)}\`;
                 const response = await fetch(url);
                 let text = await response.text();
                 
-                // 불필요한 텍스트를 자르고 JSON 추출
                 text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
                 const data = JSON.parse(text);
                 return { sheetName, rows: data.table.rows };
@@ -576,23 +574,24 @@ export default {
 
               const results = await Promise.all(fetchPromises);
 
-              // 추출한 데이터를 정리하여 grouped 객체에 통합
               results.forEach(({ sheetName, rows }) => {
                 rows.forEach((row) => {
-                  // 가수 열이 비어있는 경우 건너뜀 (c[1] 기준)
+                  // B열(가수) 데이터 확인 (사진 기준 B열이 c[1])
                   if (!row.c || !row.c[1] || row.c[1].v === null) return;
                   
                   let singer = String(row.c[1].v).trim();
-                  // 제목 줄(가수/Singer)은 패스
-                  if (singer === '가수' || singer === 'Singer') return;
                   
-                  // 데이터 매핑 (없으면 빈칸 또는 기본값 처리)
+                  // 👇 시트 최상단 병합된 타일과 헤더를 무시하는 로직 (사진 참조)
+                  if (singer.includes('송현 노래책') || singer.includes('노래신청은') || singer === '가수' || singer === 'Singer') return;
+                  
+                  // A열이 비어있을 수 있으므로 기본 인덱스 처리, C열은 제목(c[2])
                   let no = row.c[0] && row.c[0].v !== null ? row.c[0].v : String(globalSongIndex).padStart(2, '0');
                   let title = row.c[2] && row.c[2].v !== null ? row.c[2].v : '';
+                  
+                  // 시트에 D열, E열이 비어있다면 기본값 출력
                   let difficulty = row.c[3] && row.c[3].v !== null ? row.c[3].v : 'ㅡ';
                   let status = row.c[4] && row.c[4].v !== null ? row.c[4].v : 'ㅡ';
                   
-                  // 시트에 가수 이름이 없으면 탭 이름(k pop 등)으로 대체 그룹화
                   if (!singer) singer = sheetName;
 
                   if (!grouped[singer]) grouped[singer] = [];
@@ -633,10 +632,7 @@ export default {
             
             const tbody = document.getElementById('songbook-tbody');
             
-            // 가수(또는 카테고리) 기준으로 그룹화 렌더링
             for (const [singer, songs] of Object.entries(grouped)) {
-              
-              // 각 그룹별 헤더 (핑크 박스 대신 주황색 박스 테마 적용)
               const headerTr = document.createElement('tr');
               headerTr.className = 'group-header-row';
               headerTr.innerHTML = \`
@@ -652,7 +648,6 @@ export default {
               \`;
               tbody.appendChild(headerTr);
               
-              // 해당 그룹의 노래들 렌더링
               songs.forEach(song => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = \`
@@ -667,7 +662,6 @@ export default {
             }
           }
 
-          // 검색 기능
           function filterSongs() {
             const query = document.getElementById('song-search-input').value.toLowerCase();
             const tbody = document.getElementById('songbook-tbody');
@@ -699,7 +693,6 @@ export default {
             }
           }
 
-          // 초기 로드 시 자동 실행
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
