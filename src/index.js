@@ -70,7 +70,7 @@ export default {
           .tab-section.active { display: block; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* ===== 프로필 탭 ===== */
+          /* ===== 2. 프로필 탭 ===== */
           .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
           .profile-img { width: 100%; height: 350px; border-radius: 12px; background-color: #eee; object-fit: cover; }
           .profile-info h1 { font-size: 32px; margin-bottom: 5px; }
@@ -83,8 +83,25 @@ export default {
           .like-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
           .like-item span.label { font-size: 13px; font-weight: 600; color: var(--text-main); }
           .like-circle { width: 55px; height: 55px; border-radius: 50%; background-color: var(--bg-point-light); display: flex; align-items: center; justify-content: center; color: var(--point-color); }
-          .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
+          
+          /* 어바웃(ABOUT) 박스 스타일 수정 (점선 추가) */
+          .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+          .about-box h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
+          [data-theme="dark"] .about-box h3 { border-bottom-color: rgba(255,255,255,0.2); }
           .about-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          .about-divider { grid-column: span 2; border-top: 1px dashed rgba(0,0,0,0.1); margin: 0; }
+          [data-theme="dark"] .about-divider { border-top-color: rgba(255,255,255,0.2); }
+          
+          /* 구독 뱃지 스타일 */
+          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
+          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
+          [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
+          .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+          .badge-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+          .badge-img { width: 45px; height: 45px; object-fit: contain; }
+          .badge-label { font-size: 11px; color: var(--text-sub); font-weight: 600; text-align: center; }
+          .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 15px; }
+          [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -120,101 +137,16 @@ export default {
           /* ===== 5. 의상실 (CLOSET) 스타일 ===== */
           .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .closet-sub-section.active { display: block; }
-          
-          .closet-card-grid {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-          }
-
-          .closet-item-card {
-            position: relative;
-            width: 320px;
-            height: 480px;
-            border-radius: 16px;
-            background-color: #1a1a1a;
-            background-size: cover;
-            background-position: center;
-            border: 2px solid rgba(255,255,255,0.15);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
-            box-sizing: border-box;
-          }
-
-          /* 카드 상단 배지 */
-          .closet-tag-name {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-            z-index: 2;
-          }
-          .closet-tag-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #ff478e;
-            color: #ffffff;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 10px;
-            z-index: 2;
-          }
-
-          /* 모서리 브래킷 프레임 조준선 효과 */
-          .closet-item-card::before, .closet-item-card::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            pointer-events: none;
-            z-index: 2;
-          }
-          .closet-item-card::before {
-            top: 8px; left: 8px;
-            border-top: 2px solid rgba(255,255,255,0.6);
-            border-left: 2px solid rgba(255,255,255,0.6);
-          }
-          .closet-item-card::after {
-            bottom: 8px; right: 8px;
-            border-bottom: 2px solid rgba(255,255,255,0.6);
-            border-right: 2px solid rgba(255,255,255,0.6);
-          }
-
-          /* 카드 하단 정보 바 */
-          .closet-card-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            box-sizing: border-box;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 2;
-          }
-          .closet-bottom-btn {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-          }
-          .closet-bottom-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: rgba(255,255,255,0.8);
-            font-size: 12px;
-          }
+          .closet-card-grid { display: flex; gap: 25px; flex-wrap: wrap; }
+          .closet-item-card { position: relative; width: 320px; height: 480px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
+          .closet-tag-name { position: absolute; top: 15px; left: 15px; color: #ffffff; font-size: 14px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.6); z-index: 2; }
+          .closet-tag-badge { position: absolute; top: 12px; right: 12px; background: #ff478e; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
+          .closet-item-card::before, .closet-item-card::after { content: ''; position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 2; }
+          .closet-item-card::before { top: 8px; left: 8px; border-top: 2px solid rgba(255,255,255,0.6); border-left: 2px solid rgba(255,255,255,0.6); }
+          .closet-item-card::after { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(255,255,255,0.6); border-right: 2px solid rgba(255,255,255,0.6); }
+          .closet-card-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; z-index: 2; }
+          .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+          .closet-bottom-icons { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-size: 12px; }
 
           /* ===== 노래책 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
@@ -267,18 +199,18 @@ export default {
       </head>
       <body>
 
-        <!-- 상단 네비게이션 바 -->
+        <!-- 상단 네비게이션 바 (뮤직 팝업 아이콘 8번째로 이동) -->
         <nav class="nav-container">
-          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
@@ -345,17 +277,42 @@ export default {
                       </div>
                     </div>
 
+                    <!-- 어바웃 섹션 (점선 추가됨) -->
                     <div class="about-section">
                       <div class="about-box">
-                        <h3 style="color:var(--point-color); font-size:12px; margin-bottom:20px;">ABOUT SONG HYUN 방송 & 캐릭터 정보</h3>
+                        <h3>ABOUT SONG HYUN 방송 & 캐릭터 정보</h3>
                         <div class="about-box-grid">
                           <div><span style="font-size:12px; color:var(--text-sub);">MBTI</span><br><strong>ISTP</strong></div>
                           <div><span style="font-size:12px; color:var(--text-sub);">특이사항</span><br><strong>짱구</strong></div>
+                          
+                          <!-- 중간 점선 구분선 -->
+                          <div class="about-divider"></div>
+                          
                           <div><span style="font-size:12px; color:var(--text-sub);">방송 시간</span><br><strong>오후 6시 ~ 오전 12시</strong></div>
                           <div><span style="font-size:12px; color:var(--text-sub);">팬닉</span><br><strong>OOOⓖ</strong></div>
                         </div>
                       </div>
+
+                      <!-- 뱃지 섹션 (새로 추가됨) -->
+                      <div class="badge-section">
+                        <h3>구독 뱃지</h3>
+                        <div class="badge-container">
+                          <!-- 👇 여기에 1개월부터 1년까지 뱃지 이미지를 넣어주세요 👇 -->
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="1개월"><span class="badge-label">기본 1개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="4개월"><span class="badge-label">4개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="1년"><span class="badge-label">1년<br>(12개월)</span></div>
+                        </div>
+                      </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -390,7 +347,7 @@ export default {
           </div>
         </section>
 
-        <!-- 4. 노래책 탭 -->
+        <!-- 4. 노래책 탭 (구글 시트 연동) -->
         <section id="tab-songbook" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -563,7 +520,6 @@ export default {
           </div>
         </section>
 
-        <!-- 기능 스크립트 모음 -->
         <script>
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
