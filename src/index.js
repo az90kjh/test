@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 완벽한 다중 탭 노래책 연동 로더 (누락 및 오분류 완벽 해결) ===== */
+          /* ===== 완벽하게 수정된 구글 시트 연동 로더 (모든 탭 누락 및 오류 완벽 해결) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 시트 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -594,20 +594,20 @@ export default {
                     title = validTextList[0];
                   }
 
-                  // 탭 이름이나 안내 문구가 가수나 제목으로 잘못 들어오는 현상 완벽 방지
+                  // 탭 이름 자체는 필터링하되, 그 탭 안의 '진짜 노래'들은 절대 차단되지 않도록 예외 처리
                   let checkStr = (rawSinger + " " + title).toLowerCase();
                   if (
                     checkStr.includes('송현 노래책') || 
                     checkStr.includes('노래신청은') || 
                     checkStr.includes('제목') || 
                     checkStr.includes('가수') ||
-                    checkStr.includes('오리지널 곡✨') ||
-                    checkStr.includes('숙제곡💖') ||
-                    checkStr.includes('노래책 설명서') ||
-                    checkStr.includes('별풍 200개') ||
-                    checkStr.includes('이거 불러죠') ||
-                    checkStr.includes('블렀던곡') ||
-                    checkStr.includes('녹음음원')
+                    (title === '오리지널 곡✨' && !cells[3] && !cells[4]) || 
+                    (title === '숙제곡💖' && !cells[3] && !cells[4]) ||
+                    title.includes('노래책 설명서') ||
+                    title.includes('별풍 200개') ||
+                    title.includes('이거 불러죠') ||
+                    title.includes('블렀던곡') ||
+                    title.includes('녹음음원')
                   ) {
                     return;
                   }
