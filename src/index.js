@@ -6,7 +6,7 @@ export default {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HABI | 스트리머 프로필</title>
+        <title>Song-Hyun | 스트리머 프로필</title>
         <!-- 웹 폰트 및 아이콘 불러오기 -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -95,7 +95,7 @@ export default {
             width: 100vw;
             height: 100vh;
             /* 👇 홈 화면 전체에 띄울 실제 이미지 주소로 변경하세요 */
-            background-image: url('https://via.placeholder.com/1920x1080/ff478e/ffffff?text=HABI+MAIN+IMAGE');
+            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
