@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 여러 탭의 노래 목록을 불러오는 중입니다...
+                  구글 시트에서 전체 노래 목록을 불러오는 중입니다...
                 </div>
               </div>
             </div>
@@ -550,56 +550,93 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 다중 탭 구글 스프레드시트 연동 로직 (업그레이드 버전) ===== */
+          /* ===== 업그레이드된 구글 스프레드시트 CSV 파서 (데이터 누락 완벽 방지) ===== */
+          function parseCSV(text) {
+            const result = [];
+            let row = [];
+            let col = '';
+            let inQuote = false;
+            for (let i = 0; i < text.length; i++) {
+              let c = text[i];
+              let next = text[i+1];
+              if (c === '"') {
+                if (inQuote && next === '"') {
+                  col += '"';
+                  i++;
+                } else {
+                  inQuote = !inQuote;
+                }
+              } else if (c === ',' && !inQuote) {
+                row.push(col);
+                col = '';
+              } else if ((c === '\\n' || c === '\\r') && !inQuote) {
+                if (c === '\\r' && next === '\\n') i++;
+                row.push(col);
+                result.push(row);
+                col = '';
+                row = [];
+              } else {
+                col += c;
+              }
+            }
+            if (col !== '' || row.length > 0) {
+              row.push(col);
+              result.push(row);
+            }
+            return result;
+          }
+
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 노래 목록을 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 꼼꼼하게 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
-              // 👇 이모티콘을 포함하여 시트 탭 이름과 100% 동일하게 맞춤
               const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
               const grouped = {};
               let globalSongIndex = 1;
 
               const fetchPromises = sheetNames.map(async (sheetName) => {
-                // 👇 구글이 마음대로 첫 줄(헤더)을 삭제하지 못하게 &headers=0 추가!
-                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}\`;
+                // out:csv 방식으로 강제 텍스트 추출 (숫자 제목 누락 완벽 방지)
+                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:csv&sheet=\${encodeURIComponent(sheetName)}\`;
                 const response = await fetch(url);
-                let text = await response.text();
-                
-                text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const data = JSON.parse(text);
-                return { sheetName, rows: data.table.rows };
+                const csvText = await response.text();
+                return { sheetName, rows: parseCSV(csvText) };
               });
 
               const results = await Promise.all(fetchPromises);
 
               results.forEach(({ sheetName, rows }) => {
-                let lastSinger = sheetName; // 가수가 빈칸일 경우를 대비해 탭 이름으로 초기화
+                let lastSinger = sheetName;
 
                 rows.forEach((row) => {
-                  if (!row.c) return; // 텅 빈 줄 건너뛰기
+                  if (row.length < 2) return; 
                   
-                  // B열(가수) - c[1], C열(제목) - c[2]
-                  let rawSinger = row.c[1] && row.c[1].v !== null ? String(row.c[1].v).trim() : '';
-                  let title = row.c[2] && row.c[2].v !== null ? String(row.c[2].v).trim() : '';
+                  let rawSinger = row[1] ? row[1].trim() : '';
+                  let title = row[2] ? row[2].trim() : '';
                   
-                  // 👇 제목이 비어있으면 노래가 아니므로 무시 (매우 중요)
-                  if (!title) return;
-                  
-                  // 👇 시트 최상단의 병합된 타이틀(송현 노래책 등) 필터링
+                  // 구글 시트 상단의 헤더 및 불필요한 텍스트 완벽 필터링
                   if (title.includes('노래신청은') || title === '제목' || title === 'Title') return;
                   if (rawSinger.includes('송현 노래책') || rawSinger === '가수' || rawSinger === 'Singer') return;
+
+                  // 제목이 빈칸일 때, 가수에만 내용이 있다면 그건 다음 곡들을 묶어줄 '가수 이름'
+                  if (!title) {
+                    if (rawSinger && rawSinger !== '가수' && !rawSinger.includes('노래책')) {
+                      lastSinger = rawSinger;
+                    }
+                    return;
+                  }
                   
-                  // 👇 가수가 비어있으면 바로 윗줄의 가수 이름을 사용 (병합 셀 완벽 대응)
+                  // 가수가 비어있으면 가장 최근에 적힌 가수 이름으로 자동 채우기
                   let singer = rawSinger ? rawSinger : lastSinger;
-                  lastSinger = singer; // 다음 노래를 위해 갱신
+                  lastSinger = singer; 
                   
-                  let no = row.c[0] && row.c[0].v !== null ? row.c[0].v : String(globalSongIndex).padStart(2, '0');
-                  let difficulty = row.c[3] && row.c[3].v !== null ? row.c[3].v : 'ㅡ';
-                  let status = row.c[4] && row.c[4].v !== null ? row.c[4].v : 'ㅡ';
+                  let no = row[0] ? row[0].trim() : '';
+                  if (!no || no.length > 5) no = String(globalSongIndex).padStart(2, '0');
                   
+                  let difficulty = row[3] ? row[3].trim() : 'ㅡ';
+                  let status = row[4] ? row[4].trim() : 'ㅡ';
+
                   if (!grouped[singer]) grouped[singer] = [];
                   grouped[singer].push({ no, title, difficulty, status, sheetName });
                   globalSongIndex++;
@@ -614,13 +651,12 @@ export default {
               renderSongbookTable(grouped);
 
             } catch (err) {
-              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트의 권한이 "링크가 있는 모든 사용자"로 설정되어 있는지, 탭 이름이 정확한지 확인해주세요.</div>';
+              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
             }
           }
 
           function renderSongbookTable(grouped) {
             const container = document.getElementById('songbook-list');
-            
             container.innerHTML = \`
               <table class="song-table">
                 <thead>
