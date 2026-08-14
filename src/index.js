@@ -549,7 +549,7 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 구글 시트 연동 로직 (압축 해제 및 완벽 필터링 적용 버전) ===== */
+          /* ===== 구글 스프레드시트 완벽 연동 로직 (오류 및 누락 완벽 해결) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
@@ -594,7 +594,7 @@ export default {
 
                   if (!rawSinger && !title) return;
 
-                  // 🔴 핵심 1: 하나의 칸에 Alt+Enter(\n)로 뭉친 여러 곡들을 배열로 분리! (60곡 누락 해결)
+                  // 🔴 핵심 1: 하나의 칸에 줄바꿈 기호(\n)로 뭉친 여러 곡들을 배열로 완벽하게 쪼갭니다! (60곡 누락 원천 해결)
                   let singersList = rawSinger.split(/\\r?\\n/).map(s => s.trim());
                   let titlesList = title.split(/\\r?\\n/).map(t => t.trim());
                   let diffsList = diff.split(/\\r?\\n/).map(d => d.trim());
@@ -613,7 +613,7 @@ export default {
                     let lowerT = t.toLowerCase().replace(/\\s+/g, '');
                     let lowerS = s.toLowerCase().replace(/\\s+/g, '');
 
-                    // 🔴 핵심 2: 노래가 아닌 잡다한 문구들을 아예 화면에 안 뜨게 컷트!
+                    // 🔴 핵심 2: 노래가 아닌 잡다한 문구 및 에러들을 아예 화면에 안 뜨게 컷트! (이상한 글 등록 완벽 해결)
                     if (
                       lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
                       lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
@@ -754,7 +754,10 @@ export default {
     `;
 
     return new Response(html, {
-      headers: { "content-type": "text/html;charset=UTF-8" },
+      headers: { 
+        "content-type": "text/html;charset=UTF-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+      },
     });
   },
 };
