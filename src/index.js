@@ -563,7 +563,7 @@ export default {
                 <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
                     <!-- 👇 아래 src 부분에 Fansim 로고 이미지 링크를 넣어주세요 👇 -->
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84PzQ5OjcBCgoKDQwNGg8OGislHCY1KzItKy0rKy4tKysrKzctNysrKy0tKysrKysrNysrLSsrKzcrKysrKy0rKy0rKysrK//AABEIABwAHAMBIgACEQEDEQH/xAAaAAACAgMAAAAAAAAAAAAAAAAGBwECAAUI/8QAKRAAAgECBAQGAwAAAAAAAAAAAQIRAwQABQYhBxNBURIiMYGCkRVhcf/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABcRAQEBAQAAAAAAAAAAAAAAAAABQRH/2gAMAwEAAhEDEQA/AFKxPQFj0A3J/WHFl/Axns6T5hnpp3LKDUp0rcMqHsCW3jvt/MLvQOX/AJXW+S2ZEqbtajjutOahH0se+Og9faNGs7O1tXzOvY06FQ1DyVnxmIE79N/vEjdpfZrwVtMuy26vX1GyLb0WqE1bYBRAnc+LCeRiVBIiemDTiXoS20YcuCZvXv6t0XPLrIB4FWPN692jAZgQy+ANklfWF7duR4rWyIRT6y7AT7AEfLGm4wZsuca7veVV5lvZKttSKtIkCXj5Fh7YEFlPMjMrREqY27YqFAAAG2Ib1VUVZIAk+pxOJjGRgr//2Q==" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQywUtO7pfrtYaRIu5gWF82EkhKgZPQ2lZ2TJ8iCY6dImZnyBbdMI0GfQM&s=10" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
                     <div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div>
                   </div>
                   <div class="link-right">LINK ↗</div>
