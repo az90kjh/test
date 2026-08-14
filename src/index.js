@@ -7,7 +7,6 @@ export default {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Song Hyun | 스트리머 프로필</title>
-        <!-- 웹 폰트 및 아이콘 불러오기 -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
@@ -39,106 +38,39 @@ export default {
             --nav-icon-active: #ff8200; 
           }
 
-          /* ===== 기본 스타일 ===== */
-          body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
-          }
-          
+          body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background-color: var(--bg-body); color: var(--text-main); transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
           h1, h2, h3, p { margin: 0; }
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 상단 플로팅 네비게이션 바 ===== */
+          /* ===== 상단 네비게이션 ===== */
           .nav-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--bg-nav);
-            border-radius: 30px;
-            padding: 8px 15px;
-            display: flex;
-            gap: 12px;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background-color: var(--bg-nav); border-radius: 30px; padding: 8px 15px; display: flex; gap: 12px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
           }
-
-          .nav-btn {
-            background: none;
-            border: none;
-            color: var(--nav-icon);
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-          }
-
+          .nav-btn { background: none; border: none; color: var(--nav-icon); cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
           .nav-btn:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
           .nav-btn.active { background-color: var(--bg-card); color: var(--nav-icon-active); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 1. 메인 홈 (전체화면) ===== */
+          /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: url('https://via.placeholder.com/1920x1080/ff8200/ffffff?text=SONG+HYUN+MAIN+IMAGE');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -1;
+            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
           /* ===== 메인 콘텐츠 영역 ===== */
-          .main-wrapper {
-            max-width: 1100px;
-            margin: 100px auto 40px;
-            padding: 0 20px;
-          }
-
-          .section-header-out {
-            margin-bottom: 12px;
-            padding-left: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          }
-          .section-header-out h2 {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--text-main);
-          }
-          .section-header-out span {
-            font-size: 11px;
-            color: var(--text-sub);
-          }
-
-          .content-card {
-            background-color: var(--bg-card);
-            border-radius: 20px;
-            padding: 40px;
-            min-height: 700px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: background-color 0.3s;
-          }
-
+          .main-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
+          .section-header-out { margin-bottom: 12px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
+          .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
+          .section-header-out span { font-size: 11px; color: var(--text-sub); }
+          .content-card { background-color: var(--bg-card); border-radius: 20px; padding: 40px; min-height: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: background-color 0.3s; }
           .tab-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .tab-section.active { display: block; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* ===== 2. 프로필 ===== */
+          /* ===== 프로필 탭 ===== */
           .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
           .profile-img { width: 100%; height: 350px; border-radius: 12px; background-color: #eee; object-fit: cover; }
           .profile-info h1 { font-size: 32px; margin-bottom: 5px; }
@@ -146,45 +78,24 @@ export default {
           .info-table { width: 100%; margin-bottom: 30px; border-collapse: collapse; }
           .info-table th { text-align: left; font-size: 12px; color: var(--text-sub); padding-bottom: 5px; }
           .info-table td { font-size: 15px; font-weight: 600; padding-bottom: 20px; }
-          
           .like-section h3, .about-section h3 { font-size: 16px; margin-bottom: 15px; }
           .like-icons { display: flex; gap: 20px; margin-bottom: 40px; }
           .like-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
           .like-item span.label { font-size: 13px; font-weight: 600; color: var(--text-main); }
           .like-circle { width: 55px; height: 55px; border-radius: 50%; background-color: var(--bg-point-light); display: flex; align-items: center; justify-content: center; color: var(--point-color); }
-          
           .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
           .about-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-          /* ===== 3. 일정표 ===== */
-          .calendar-header-new {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-          }
+          /* ===== 일정표 탭 ===== */
+          .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
           .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
           .cal-nav { display: flex; align-items: center; gap: 15px; }
-          .nav-arrow {
-            background: none; border: none; padding: 0; margin: 0;
-            color: var(--text-sub); cursor: pointer; display: flex; align-items: center;
-            transition: color 0.2s;
-          }
+          .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
           .nav-arrow:hover { color: var(--point-color); }
           #current-month-year { font-size: 15px; font-weight: 600; color: var(--text-sub); }
-
-          #cal-month-view {
-            display: grid; grid-template-columns: repeat(7, 1fr);
-            border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden;
-          }
-          .cal-day-head {
-            text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px;
-            border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02);
-          }
-          .cal-cell {
-            height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
-            padding: 10px; box-sizing: border-box;
-          }
+          #cal-month-view { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+          .cal-day-head { text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
+          .cal-cell { height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px; box-sizing: border-box; }
           .cal-cell.empty { background-color: transparent; }
           .cal-cell.bg-orange { background-color: var(--bg-point-light); }
           .cal-cell.bg-yellow { background-color: #fff9e6; }
@@ -192,15 +103,8 @@ export default {
           .cal-cell.bg-pink { background-color: #fff0f5; }
           .cal-cell .date { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
           .cal-cell .sch-txt { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-main); }
-
-          #cal-week-view {
-            display: none; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px;
-          }
-          .cal-week-card {
-            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
-            padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-          }
+          #cal-week-view { display: none; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px; }
+          .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
           .cal-week-date { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 15px; }
           .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
           .pill-blue { background-color: #8cd4f5; color: #000; } 
@@ -212,17 +116,15 @@ export default {
           .sub-tab-btn { padding: 10px 20px; border: none; background-color: var(--bg-body); color: var(--text-sub); border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
           .sub-tab-btn.active { background-color: var(--text-main); color: var(--bg-card); }
 
-          /* ===== 4. 노래책 (구글시트 연동 디자인) ===== */
+          /* ===== 4. 노래책 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
           .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); }
           .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
           .refresh-btn:hover { color: var(--point-color); }
-          
           .song-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
           .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
           .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
           .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
-          
           .group-header-row td { padding: 0 !important; border: none !important; }
           .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
 
@@ -261,7 +163,6 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
-
         </style>
       </head>
       <body>
@@ -271,13 +172,8 @@ export default {
           <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
           <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
           <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          
-          <!-- 4번째 자리: 글이 적힌 종이모양(가사/문서) 아이콘 (노래책 탭 연결) -->
           <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          
-          <!-- 뮤직 팝업은 5번째로 이동 -->
           <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          
           <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
           <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
           <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
@@ -374,7 +270,6 @@ export default {
               <h2>SCHEDULE</h2><span>/ 일정</span>
             </div>
             <div class="content-card">
-              
               <div class="calendar-header-new">
                 <div class="cal-title-left">
                   <h1>SCHEDULE</h1>
@@ -389,10 +284,8 @@ export default {
                   <button class="sub-tab-btn active" id="btn-month" onclick="toggleCalendarView('month')">월간</button>
                 </div>
               </div>
-
               <div id="cal-month-view"></div>
               <div id="cal-week-view"></div>
-
             </div>
           </div>
         </section>
@@ -409,14 +302,12 @@ export default {
                 <button class="refresh-btn" onclick="loadSongs()" title="실시간 새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
               
-              <!-- 실시간으로 불러온 내용이 표시될 영역 -->
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 노래 목록을 불러오는 중입니다...
+                  구글 시트에서 여러 탭의 노래 목록을 불러오는 중입니다...
                 </div>
               </div>
-
             </div>
           </div>
         </section>
@@ -519,7 +410,7 @@ export default {
           </div>
         </section>
 
-        <!-- 스크립트 모음 -->
+        <!-- 기능 스크립트 모음 -->
         <script>
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
@@ -551,7 +442,7 @@ export default {
             popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
           }
 
-          /* ===== 동적 달력 로직 ===== */
+          /* ===== 동적 캘린더 로직 ===== */
           let currentDate = new Date(); 
           let calView = 'month';
 
@@ -659,59 +550,72 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 구글 스프레드시트 노래책 연동 로직 ===== */
+          /* ===== 다중 탭 구글 스프레드시트 연동 로직 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 노래 목록을 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 여러 탭의 노래 목록을 불러오는 중입니다...</div>';
             
             try {
-              // 해당 구글 스프레드시트의 JSON 데이터를 실시간으로 가져오는 엔드포인트
-              const url = 'https://docs.google.com/spreadsheets/d/1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ/gviz/tq?tqx=out:json&gid=767956172';
-              const response = await fetch(url);
-              let text = await response.text();
-              
-              // Google 시트 API가 반환하는 불필요한 텍스트 껍데기를 벗겨내고 순수 JSON만 추출
-              text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-              const data = JSON.parse(text);
-              const rows = data.table.rows;
-              
+              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
+              // 하단 탭 이름과 띄어쓰기/대소문자가 반드시 일치해야 합니다!
+              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡', '숙제곡']; 
               const grouped = {};
-              let songIndex = 1;
-              
-              rows.forEach((row) => {
-                // 열 데이터가 비어있으면 건너뜀 (c[1]이 보통 가수/카테고리)
-                if (!row.c || !row.c[1] || row.c[1].v === null) return;
+              let globalSongIndex = 1;
+
+              // 여러 시트 데이터를 동시에 호출 (Promise.all)
+              const fetchPromises = sheetNames.map(async (sheetName) => {
+                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&sheet=\${encodeURIComponent(sheetName)}\`;
+                const response = await fetch(url);
+                let text = await response.text();
                 
-                let singer = String(row.c[1].v).trim();
-                // 시트의 맨 윗줄(제목표시줄) 제외
-                if (singer === '가수' || singer === 'Singer') return;
-                
-                // 각 열의 데이터 할당 (시트 구조: 0:번호, 1:가수, 2:노래제목, 3:난이도, 4:상태)
-                let no = row.c[0] && row.c[0].v !== null ? row.c[0].v : String(songIndex).padStart(2, '0');
-                let title = row.c[2] && row.c[2].v !== null ? row.c[2].v : '';
-                let difficulty = row.c[3] && row.c[3].v !== null ? row.c[3].v : 'ㅡ';
-                let status = row.c[4] && row.c[4].v !== null ? row.c[4].v : 'ㅡ';
-                
-                if (!grouped[singer]) grouped[singer] = [];
-                grouped[singer].push({ no, title, difficulty, status });
-                songIndex++;
+                // 불필요한 텍스트를 자르고 JSON 추출
+                text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(text);
+                return { sheetName, rows: data.table.rows };
+              });
+
+              const results = await Promise.all(fetchPromises);
+
+              // 추출한 데이터를 정리하여 grouped 객체에 통합
+              results.forEach(({ sheetName, rows }) => {
+                rows.forEach((row) => {
+                  // 가수 열이 비어있는 경우 건너뜀 (c[1] 기준)
+                  if (!row.c || !row.c[1] || row.c[1].v === null) return;
+                  
+                  let singer = String(row.c[1].v).trim();
+                  // 제목 줄(가수/Singer)은 패스
+                  if (singer === '가수' || singer === 'Singer') return;
+                  
+                  // 데이터 매핑 (없으면 빈칸 또는 기본값 처리)
+                  let no = row.c[0] && row.c[0].v !== null ? row.c[0].v : String(globalSongIndex).padStart(2, '0');
+                  let title = row.c[2] && row.c[2].v !== null ? row.c[2].v : '';
+                  let difficulty = row.c[3] && row.c[3].v !== null ? row.c[3].v : 'ㅡ';
+                  let status = row.c[4] && row.c[4].v !== null ? row.c[4].v : 'ㅡ';
+                  
+                  // 시트에 가수 이름이 없으면 탭 이름(k pop 등)으로 대체 그룹화
+                  if (!singer) singer = sheetName;
+
+                  if (!grouped[singer]) grouped[singer] = [];
+                  grouped[singer].push({ no, title, difficulty, status, sheetName });
+                  globalSongIndex++;
+                });
               });
               
               if(Object.keys(grouped).length === 0) {
-                  container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">등록된 노래가 없습니다.</div>';
+                  container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">등록된 노래가 없습니다. 구글 시트 내용을 확인해주세요.</div>';
                   return;
               }
+              
               renderSongbookTable(grouped);
 
             } catch (err) {
-              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트의 권한이 "링크가 있는 모든 사용자"로 설정되어 있는지 확인해주세요.</div>';
+              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트의 권한이 "링크가 있는 모든 사용자"로 설정되어 있는지, 탭 이름이 정확한지 확인해주세요.</div>';
             }
           }
 
           function renderSongbookTable(grouped) {
             const container = document.getElementById('songbook-list');
             
-            // 테이블 뼈대 렌더링
             container.innerHTML = \`
               <table class="song-table">
                 <thead>
@@ -729,10 +633,10 @@ export default {
             
             const tbody = document.getElementById('songbook-tbody');
             
-            // 카테고리(가수)별로 데이터를 그려주기
+            // 가수(또는 카테고리) 기준으로 그룹화 렌더링
             for (const [singer, songs] of Object.entries(grouped)) {
               
-              // 그룹 헤더 (색상 박스)
+              // 각 그룹별 헤더 (핑크 박스 대신 주황색 박스 테마 적용)
               const headerTr = document.createElement('tr');
               headerTr.className = 'group-header-row';
               headerTr.innerHTML = \`
@@ -748,7 +652,7 @@ export default {
               \`;
               tbody.appendChild(headerTr);
               
-              // 각 노래 열 추가
+              // 해당 그룹의 노래들 렌더링
               songs.forEach(song => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = \`
@@ -763,7 +667,7 @@ export default {
             }
           }
 
-          // 검색창 실시간 필터링 기능
+          // 검색 기능
           function filterSongs() {
             const query = document.getElementById('song-search-input').value.toLowerCase();
             const tbody = document.getElementById('songbook-tbody');
@@ -790,19 +694,17 @@ export default {
                 }
               }
             });
-            // 마지막 그룹 처리
             if (currentGroupHeader) {
               currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
             }
           }
 
-          // ===== 페이지 로드 시 초기 실행 함수 모음 =====
+          // 초기 로드 시 자동 실행
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
-            loadSongs(); // 구글 시트 데이터 불러오기 실행
+            loadSongs();
           });
 
-          // 로딩 스피너 애니메이션
           const styleSheet = document.createElement("style");
           styleSheet.innerText = "@keyframes spin { 100% { transform: rotate(360deg); } }";
           document.head.appendChild(styleSheet);
