@@ -216,7 +216,7 @@ export default {
       </head>
       <body>
 
-        <!-- 상단 네비게이션 바 (뮤직 팝업 아이콘 8번째로 이동) -->
+        <!-- 상단 네비게이션 바 -->
         <nav class="nav-container">
           <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
           <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
@@ -240,7 +240,10 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
+            <!-- 재생목록일 경우: https://www.youtube.com/watch?v=EwzcI6BcC_s&list=PLQsBVkS90xTY -->
+            <!-- 단일영상일 경우: https://www.youtube.com/embed/아이디 -->
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=유튜브_재생목록_ID를_넣어주세요" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
             <span class="material-symbols-rounded" style="font-size:16px;">volume_up</span>
@@ -309,7 +312,7 @@ export default {
                       </div>
                     </div>
 
-                    <!-- 어바웃 섹션 (점선 추가됨) -->
+                    <!-- 어바웃 섹션 -->
                     <div class="about-section">
                       <div class="about-box">
                         <h3>ABOUT SONG HYUN 방송 & 캐릭터 정보</h3>
@@ -325,7 +328,7 @@ export default {
                         </div>
                       </div>
 
-                      <!-- 뱃지 섹션 (총 8개로 확장됨) -->
+                      <!-- 뱃지 섹션 (총 8개) -->
                       <div class="badge-section">
                         <h3>구독 뱃지</h3>
                         <div class="badge-container">
@@ -523,7 +526,7 @@ export default {
               <p style="font-size:14px; color:var(--text-sub);">Official contact, character credit and community links.</p>
               <div class="link-grid">
                 
-                <!-- 1. Contact Email (초록색 이모티콘으로 변경) -->
+                <!-- 1. Contact Email -->
                 <a href="#" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#03C75A;">mail</span>
@@ -532,7 +535,7 @@ export default {
                   <div class="link-right">MAIL ↗</div>
                 </a>
                 
-                <!-- 2. Official Broadcasting (SOOP 아이콘 이미지로 변경) -->
+                <!-- 2. Official Broadcasting -->
                 <a href="https://www.sooplive.com/station/songhy" class="link-card">
                   <div class="link-left">
                     <img src="https://res.sooplive.com/images/svg/soop_logo.svg" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="SOOP">
@@ -562,7 +565,6 @@ export default {
                 <!-- 5. 새롭게 추가된 다섯 번째 링크 (Fansim) -->
                 <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
-                    <!-- 👇 아래 src 부분에 Fansim 로고 이미지 링크를 넣어주세요 👇 -->
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQywUtO7pfrtYaRIu5gWF82EkhKgZPQ2lZ2TJ8iCY6dImZnyBbdMI0GfQM&s=10" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
                     <div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div>
                   </div>
