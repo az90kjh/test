@@ -112,9 +112,109 @@ export default {
           .pill-orange { background-color: #ffd8a8; color: #000; } 
 
           /* ===== 서브 탭 버튼 공통 ===== */
-          .sub-tabs { display: flex; gap: 10px; margin-bottom: 30px; }
-          .sub-tab-btn { padding: 10px 20px; border: none; background-color: var(--bg-body); color: var(--text-sub); border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-          .sub-tab-btn.active { background-color: var(--text-main); color: var(--bg-card); }
+          .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
+          .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
+          .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
+          .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
+
+          /* ===== 5. 의상실 (CLOSET) 스타일 ===== */
+          .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+          .closet-sub-section.active { display: block; }
+          
+          .closet-card-grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+          }
+
+          .closet-item-card {
+            position: relative;
+            width: 320px;
+            height: 480px;
+            border-radius: 16px;
+            background-color: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            box-sizing: border-box;
+          }
+
+          /* 카드 상단 배지 */
+          .closet-tag-name {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            z-index: 2;
+          }
+          .closet-tag-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ff478e;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 10px;
+            z-index: 2;
+          }
+
+          /* 모서리 브래킷 프레임 조준선 효과 */
+          .closet-item-card::before, .closet-item-card::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            pointer-events: none;
+            z-index: 2;
+          }
+          .closet-item-card::before {
+            top: 8px; left: 8px;
+            border-top: 2px solid rgba(255,255,255,0.6);
+            border-left: 2px solid rgba(255,255,255,0.6);
+          }
+          .closet-item-card::after {
+            bottom: 8px; right: 8px;
+            border-bottom: 2px solid rgba(255,255,255,0.6);
+            border-right: 2px solid rgba(255,255,255,0.6);
+          }
+
+          /* 카드 하단 정보 바 */
+          .closet-card-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+          }
+          .closet-bottom-btn {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+          }
+          .closet-bottom-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+          }
 
           /* ===== 노래책 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
@@ -167,18 +267,18 @@ export default {
       </head>
       <body>
 
-        <!-- 상단 네비게이션 바 (뮤직 팝업 아이콘을 8번째로 이동) -->
+        <!-- 상단 네비게이션 바 -->
         <nav class="nav-container">
-          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
@@ -290,7 +390,7 @@ export default {
           </div>
         </section>
 
-        <!-- 4. 노래책 탭 (구글 시트 연동) -->
+        <!-- 4. 노래책 탭 -->
         <section id="tab-songbook" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -305,26 +405,79 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
+                  모든 시트 탭의 노래 목록을 빠짐없이 불러오는 중입니다...
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 -->
+        <!-- 5. 의상실 탭 (사진 디자인 및 서브 탭 완벽 적용) -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
               <h2>CLOSET</h2><span>/ 의상 리스트</span>
             </div>
             <div class="content-card">
-              <div class="sub-tabs">
-                <button class="sub-tab-btn active">기본의상</button>
-                <button class="sub-tab-btn">이벤트의상</button>
-                <button class="sub-tab-btn">헤어</button>
+              <div style="margin-bottom: 20px;">
+                <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">CLOSET</h1>
+                <p style="font-size: 13px; color: var(--text-sub);">의상을 누르면 전체 이미지와 ON/OFF 가능한 부위를 볼 수 있어요.</p>
               </div>
-              <div style="width:100%; max-width:400px; height:600px; border-radius:16px; background:url('https://via.placeholder.com/400x600/333/fff?text=Closet+3D+Model') center/cover;"></div>
+
+              <!-- 서브 탭 메뉴 -->
+              <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchClosetTab('closet-default', this)">기본의상</button>
+                <button class="sub-tab-btn" onclick="switchClosetTab('closet-event', this)">이벤트의상</button>
+                <button class="sub-tab-btn" onclick="switchClosetTab('closet-hair', this)">헤어</button>
+              </div>
+
+              <!-- 1) 기본의상 영역 -->
+              <div id="closet-default" class="closet-sub-section active">
+                <div class="closet-card-grid">
+                  <div class="closet-item-card" style="background-image: url('여기에_기본의상_이미지_주소.jpg');">
+                    <span class="closet-tag-name">스텔라</span>
+                    <span class="closet-tag-badge">NEW</span>
+                    <div class="closet-card-bottom">
+                      <span class="closet-bottom-btn">기본의상</span>
+                      <div class="closet-bottom-icons">
+                        <span>+6</span>
+                        <span class="material-symbols-rounded" style="font-size: 16px;">visibility</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2) 이벤트의상 영역 -->
+              <div id="closet-event" class="closet-sub-section">
+                <div class="closet-card-grid">
+                  <div class="closet-item-card" style="background-image: url('여기에_이벤트의상_이미지_주소.jpg');">
+                    <span class="closet-tag-name">파티 드레스</span>
+                    <div class="closet-card-bottom">
+                      <span class="closet-bottom-btn">이벤트의상</span>
+                      <div class="closet-bottom-icons">
+                        <span class="material-symbols-rounded" style="font-size: 16px;">visibility</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3) 헤어 영역 -->
+              <div id="closet-hair" class="closet-sub-section">
+                <div class="closet-card-grid">
+                  <div class="closet-item-card" style="background-image: url('여기에_헤어_이미지_주소.jpg');">
+                    <span class="closet-tag-name">단발 펌</span>
+                    <div class="closet-card-bottom">
+                      <span class="closet-bottom-btn">헤어</span>
+                      <div class="closet-bottom-icons">
+                        <span class="material-symbols-rounded" style="font-size: 16px;">visibility</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
@@ -423,6 +576,16 @@ export default {
             document.getElementById(tabId).classList.add('active');
             if(clickedBtn) clickedBtn.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+
+          /* ===== 의상실(CLOSET) 서브 탭 전환 ===== */
+          function switchClosetTab(subTabId, clickedBtn) {
+            document.querySelectorAll('.closet-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
+            var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
+            parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
+            
+            document.getElementById(subTabId).classList.add('active');
+            clickedBtn.classList.add('active');
           }
 
           function toggleTheme() {
@@ -550,7 +713,7 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 구글 스프레드시트 연동 (오류 방지 및 필터 완벽 적용) ===== */
+          /* ===== 노래책 연동 로직 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 시트 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
@@ -574,9 +737,6 @@ export default {
 
               const results = await Promise.all(fetchPromises);
 
-              const LF = String.fromCharCode(10); 
-              const CR = String.fromCharCode(13);
-
               results.forEach(function(resultObj) {
                 let sheetName = resultObj.sheetName;
                 let rows = resultObj.rows;
@@ -591,8 +751,8 @@ export default {
                   
                   let rawSinger = cells[1] ? cells[1] : '';
                   let title = cells[2] ? cells[2] : '';
-                  let diff = cells[3] ? cells[3] : '';
-                  let status = cells[4] ? cells[4] : '';
+                  let diff = cells[3] ? cells[3] : 'ㅡ';
+                  let status = cells[4] ? cells[4] : 'ㅡ';
 
                   let validTextList = cells.filter(function(t) { return t !== ''; });
 
@@ -601,56 +761,37 @@ export default {
                     title = cells[1];
                   }
 
-                  if (!rawSinger && !title) return;
+                  if (!title) return;
 
-                  // 뭉친 60곡을 안전하게 쪼갭니다 (이 부분이 삭제되어 누락되었음)
-                  let singersList = rawSinger.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
-                  let titlesList = title.split(CR).join('').split(LF).map(function(t) { return t.trim(); });
-                  let diffsList = diff.split(CR).join('').split(LF).map(function(d) { return d.trim(); });
-                  let statusList = status.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
-
-                  let maxLen = Math.max(titlesList.length, singersList.length);
-
-                  for (let i = 0; i < maxLen; i++) {
-                    let t = titlesList[i] || ''; 
-                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
-                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
-                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
-
-                    if (!t) continue;
-
-                    let lowerT = t.toLowerCase().split(' ').join('');
-                    let lowerS = s.toLowerCase().split(' ').join('');
-
-                    // 잡다한 설명서와 오류 문구 필터링
-                    if (
-                      lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
-                      lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
-                      lowerT.indexOf('노래책설명서') !== -1 || lowerT.indexOf('컨트롤+f') !== -1 || lowerT.indexOf('컨트롤f') !== -1 || lowerT.indexOf('노래검색') !== -1 ||
-                      lowerT.indexOf('별풍') !== -1 || lowerT.indexOf('녹음음원') !== -1 || lowerT.indexOf('불렀던곡') !== -1 || lowerT.indexOf('재신청') !== -1 ||
-                      lowerT.indexOf('이거불러죠') !== -1 || lowerT.indexOf('유료곡') !== -1 || lowerT.indexOf('미션풍') !== -1 ||
-                      (lowerT === 'original' && lowerS.indexOf('오리지널') !== -1) ||
-                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
-                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
-                    ) {
-                      continue;
-                    }
-
-                    let singer = s ? s : lastSinger;
-                    lastSinger = singer;
-
-                    let no = String(globalSongIndex).padStart(2, '0');
-
-                    if (!grouped[singer]) grouped[singer] = [];
-                    grouped[singer].push({ 
-                      no: no, 
-                      title: t, 
-                      difficulty: d || 'ㅡ', 
-                      status: st || 'ㅡ', 
-                      sheetName: sheetName 
-                    });
-                    globalSongIndex++;
+                  let checkStr = (rawSinger + " " + title).toLowerCase();
+                  if (
+                    checkStr.indexOf('송현 노래책') !== -1 || 
+                    checkStr.indexOf('노래신청은') !== -1 || 
+                    checkStr.indexOf('제목') !== -1 || 
+                    checkStr.indexOf('가수') !== -1 ||
+                    checkStr.indexOf('노래책 설명서') !== -1 ||
+                    checkStr.indexOf('별풍 200개') !== -1 ||
+                    checkStr.indexOf('이거 불러죠') !== -1 ||
+                    checkStr.indexOf('블렀던곡') !== -1 ||
+                    checkStr.indexOf('녹음음원') !== -1
+                  ) {
+                    return;
                   }
+
+                  let singer = rawSinger ? rawSinger : lastSinger;
+                  lastSinger = singer;
+
+                  let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
+
+                  if (!grouped[singer]) grouped[singer] = [];
+                  grouped[singer].push({ 
+                    no: no, 
+                    title: title, 
+                    difficulty: diff || 'ㅡ', 
+                    status: status || 'ㅡ', 
+                    sheetName: sheetName 
+                  });
+                  globalSongIndex++;
                 });
               });
               
@@ -755,7 +896,10 @@ export default {
     `;
 
     return new Response(html, {
-      headers: { "content-type": "text/html;charset=UTF-8" },
+      headers: { 
+        "content-type": "text/html;charset=UTF-8",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+      },
     });
   },
 };
