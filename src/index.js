@@ -84,7 +84,7 @@ export default {
           .like-item span.label { font-size: 13px; font-weight: 600; color: var(--text-main); }
           .like-circle { width: 55px; height: 55px; border-radius: 50%; background-color: var(--bg-point-light); display: flex; align-items: center; justify-content: center; color: var(--point-color); }
           
-          /* 어바웃(ABOUT) 박스 스타일 수정 (점선 추가) */
+          /* 어바웃(ABOUT) 박스 */
           .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 30px; }
           .about-box h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
           [data-theme="dark"] .about-box h3 { border-bottom-color: rgba(255,255,255,0.2); }
@@ -92,7 +92,7 @@ export default {
           .about-divider { grid-column: span 2; border-top: 1px dashed rgba(0,0,0,0.1); margin: 0; }
           [data-theme="dark"] .about-divider { border-top-color: rgba(255,255,255,0.2); }
           
-          /* 구독 뱃지 스타일 */
+          /* 구독 뱃지 */
           .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
           .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
           [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
@@ -102,6 +102,22 @@ export default {
           .badge-label { font-size: 11px; color: var(--text-sub); font-weight: 600; text-align: center; }
           .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 15px; }
           [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
+
+          /* ===== 최근 작성글 (SOOP POSTS) ===== */
+          .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; margin-top: 20px; }
+          .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
+          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
+          .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
+          .recent-posts-more:hover { filter: brightness(0.8); }
+          .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
+          .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
+          .post-item:hover .post-title { color: var(--point-color); }
+          .post-title-row { display: flex; align-items: center; gap: 8px; }
+          .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+          [data-theme="dark"] .post-badge { background-color: rgba(255,255,255,0.1); color: var(--text-main); }
+          .post-badge.notice { background-color: var(--point-color); color: #fff; }
+          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+          .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -247,6 +263,21 @@ export default {
               <div class="profile-grid">
                 <div>
                   <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="profile-img" alt="프로필 이미지">
+                  
+                  <!-- 최근 작성글 (SOOP POSTS) 추가된 영역 -->
+                  <div class="recent-posts">
+                    <div class="recent-posts-header">
+                      <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--point-color);">SOOP POSTS</div>
+                        <h3 style="font-size: 16px; font-weight: 800; margin-top: 2px;">최근 게시글</h3>
+                      </div>
+                      <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
+                    </div>
+                    <div id="soop-posts-container" class="recent-posts-list">
+                      <!-- JS를 통해 게시글이 들어가는 곳 -->
+                    </div>
+                  </div>
+
                 </div>
                 <div>
                   <div class="profile-info">
@@ -520,6 +551,7 @@ export default {
           </div>
         </section>
 
+        <!-- 기능 스크립트 모음 -->
         <script>
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
@@ -667,6 +699,34 @@ export default {
             document.getElementById('btn-week').classList.remove('active');
             document.getElementById('btn-' + view).classList.add('active');
             renderCalendar();
+          }
+
+          /* ===== 최근 작성글 연동(디자인 틀) 로직 ===== */
+          function loadRecentPosts() {
+            const container = document.getElementById('soop-posts-container');
+            
+            // 아프리카TV 게시글을 직접 긁어오는 것은 CORS 정책에 의해 브라우저 단에서 불가능합니다.
+            // 대신, 사용자가 직접 수동으로 업데이트 하거나 디자인을 확인할 수 있도록 예시 레이아웃을 제공합니다.
+            const dummyPosts = [
+              { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
+              { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
+              { isNotice: false, title: "어제 방송 너무 재밌었어요!!", date: "2026.08.10", likes: 32, comments: 15 }
+            ];
+
+            let html = '';
+            dummyPosts.forEach(function(post) {
+              let badge = post.isNotice ? '<span class="post-badge notice">공지</span>' : '<span class="post-badge">일반</span>';
+              html += '<a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="post-item">' +
+                  '<div class="post-title-row">' + badge + '<span class="post-title">' + post.title + '</span></div>' +
+                  '<div class="post-meta">' +
+                    '<span>' + post.date + '</span>' +
+                    '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">favorite</span> ' + post.likes +
+                    '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">chat_bubble</span> ' + post.comments +
+                  '</div>' +
+                '</a>';
+            });
+            
+            container.innerHTML = html;
           }
 
           /* ===== 노래책 연동 로직 ===== */
@@ -841,6 +901,7 @@ export default {
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
+            loadRecentPosts(); // 추가된 게시판 데이터 로드
           });
 
           const styleSheet = document.createElement("style");
