@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
+                  구글 시트에서 전체 노래 목록을 가져오는 중입니다...
                 </div>
               </div>
             </div>
@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 완벽하게 수정된 구글 시트 연동 로더 (모든 탭 누락 및 오류 완벽 해결) ===== */
+          /* ===== 만능 스마트 구글 시트 파서 (모든 탭 구조 대응) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 완벽하게 분석하여 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -579,47 +579,64 @@ export default {
                 rows.forEach((row) => {
                   if (!row.c) return; 
 
+                  // 해당 행의 모든 텍스트 셀 추출
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
-                  let validTextList = cells.filter(t => t !== '');
+                  let validTexts = cells.filter(t => t !== '');
 
-                  if (validTextList.length === 0) return;
+                  if (validTexts.length === 0) return;
 
-                  let rawSinger = cells[1] ? cells[1] : '';
-                  let title = cells[2] ? cells[2] : '';
+                  // 탭별 혹은 행별 배치가 달라도 '텍스트 내용'을 바탕으로 가수와 제목을 똑똑하게 판별
+                  let rawSinger = '';
+                  let title = '';
+                  let difficulty = 'ㅡ';
+                  let status = 'ㅡ';
 
-                  if (!title && validTextList.length >= 2) {
-                    rawSinger = validTextList[0];
-                    title = validTextList[1];
-                  } else if (!title && validTextList.length === 1) {
-                    title = validTextList[0];
+                  // 일반적인 배치 (B열=가수, C열=제목) 확인
+                  if (cells[1] && cells[2]) {
+                    rawSinger = cells[1];
+                    title = cells[2];
+                    difficulty = cells[3] || 'ㅡ';
+                    status = cells[4] || 'ㅡ';
+                  } else if (validTexts.length >= 2) {
+                    // 데이터가 당겨져 있는 경우
+                    rawSinger = validTexts[0];
+                    title = validTexts[1];
+                  } else if (validTexts.length === 1) {
+                    title = validTexts[0];
                   }
 
-                  // 탭 이름 자체는 필터링하되, 그 탭 안의 '진짜 노래'들은 절대 차단되지 않도록 예외 처리
-                  let checkStr = (rawSinger + " " + title).toLowerCase();
+                  // 안내문구, 상단 헤더, 탭 타이틀 완벽 차단 필터
+                  let lowerTitle = title.toLowerCase();
+                  let lowerSinger = rawSinger.toLowerCase();
+                  
                   if (
-                    checkStr.includes('송현 노래책') || 
-                    checkStr.includes('노래신청은') || 
-                    checkStr.includes('제목') || 
-                    checkStr.includes('가수') ||
-                    (title === '오리지널 곡✨' && !cells[3] && !cells[4]) || 
-                    (title === '숙제곡💖' && !cells[3] && !cells[4]) ||
-                    title.includes('노래책 설명서') ||
-                    title.includes('별풍 200개') ||
-                    title.includes('이거 불러죠') ||
-                    title.includes('블렀던곡') ||
-                    title.includes('녹음음원')
+                    lowerTitle.includes('송현 노래책') || 
+                    lowerTitle.includes('노래신청은') || 
+                    lowerTitle.includes('제목') || 
+                    lowerTitle.includes('가수') ||
+                    lowerTitle.includes('노래책 설명서') ||
+                    lowerTitle.includes('별풍 200개') ||
+                    lowerTitle.includes('이거 불러죠') ||
+                    lowerTitle.includes('블렀던곡') ||
+                    lowerTitle.includes('녹음음원') ||
+                    lowerSinger.includes('송현 노래책') ||
+                    lowerSinger.includes('가수')
                   ) {
+                    return;
+                  }
+
+                  // 탭 제목 자체인 경우(예: 오리지널 곡✨) 데이터가 없고 제목에만 들어가 있다면 노래가 아니므로 스킵
+                  if ((title === '오리지널 곡✨' || title === '숙제곡💖' || title === 'k pop' || title === 'pop' || title === 'j pop') && !cells[3] && !cells[4]) {
                     return;
                   }
 
                   if (!title) return;
 
+                  // 가수가 비어있다면 바로 윗 가수 상속
                   let singer = rawSinger ? rawSinger : lastSinger;
                   lastSinger = singer;
 
                   let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
-                  let difficulty = cells[3] ? cells[3] : 'ㅡ';
-                  let status = cells[4] ? cells[4] : 'ㅡ';
 
                   if (!grouped[singer]) grouped[singer] = [];
                   grouped[singer].push({ no, title, difficulty, status, sheetName });
