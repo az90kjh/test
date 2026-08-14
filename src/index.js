@@ -560,10 +560,10 @@ export default {
                 </a>
 
                 <!-- 5. 새롭게 추가된 다섯 번째 링크 -->
-                <a href="다섯번째_링크_주소를_넣어주세요" target="_blank" class="link-card">
+                <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#888888;">link</span>
-                    <div class="link-txt"><h4>다섯번째 링크 제목</h4><p>Fansim</p></div>
+                    <div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div>
                   </div>
                   <div class="link-right">LINK ↗</div>
                 </a>
