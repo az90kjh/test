@@ -97,11 +97,14 @@ export default {
           .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
           .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
           [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
-          .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-          .badge-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-          .badge-img { width: 45px; height: 45px; object-fit: contain; }
-          .badge-label { font-size: 11px; color: var(--text-sub); font-weight: 600; text-align: center; }
-          .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 15px; }
+          
+          /* 뱃지가 무조건 한 줄에 들어가게끔 크기 축소 및 스와이프 기능 적용 */
+          .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
+          .badge-container::-webkit-scrollbar { display: none; }
+          .badge-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+          .badge-img { width: 32px; height: 32px; object-fit: contain; }
+          .badge-label { font-size: 10px; color: var(--text-sub); font-weight: 600; text-align: center; white-space: nowrap; letter-spacing: -0.3px; }
+          .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 14px; min-width: 5px; }
           [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
 
           /* ===== 최근 작성글 (SOOP POSTS) ===== */
@@ -240,9 +243,6 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
-            <!-- 재생목록일 경우: https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY -->
-            <!-- 단일영상일 경우: https://www.youtube.com/embed/아이디 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -328,10 +328,11 @@ export default {
                         </div>
                       </div>
 
-                      <!-- 뱃지 섹션 (총 8개) -->
+                      <!-- 뱃지 섹션 (크기 축소 & 1줄 고정 적용) -->
                       <div class="badge-section">
                         <h3>구독 뱃지</h3>
                         <div class="badge-container">
+                          <!-- 24개월 이미지 속성 sc 오타를 src로 수정했습니다 -->
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
@@ -346,7 +347,7 @@ export default {
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img sc="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
                           <div class="badge-line"></div>
