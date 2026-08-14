@@ -57,7 +57,7 @@ export default {
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
-            background-image: url('여기에_홈_화면_배경_이미지_주소를_넣어주세요.jpg');
+            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
@@ -563,7 +563,7 @@ export default {
                 <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
                     <!-- 👇 아래 src 부분에 Fansim 로고 이미지 링크를 넣어주세요 👇 -->
-                    <img src="Fansim_이미지_주소를_넣어주세요.png" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84PzQ5OjcBCgoKDQwNGg8OGislHCY1KzItKy0rKy4tKysrKzctNysrKy0tKysrKysrNysrLSsrKzcrKysrKy0rKy0rKysrK//AABEIABwAHAMBIgACEQEDEQH/xAAaAAACAgMAAAAAAAAAAAAAAAAGBwECAAUI/8QAKRAAAgECBAQGAwAAAAAAAAAAAQIRAwQABQYhBxNBURIiMYGCkRVhcf/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABcRAQEBAQAAAAAAAAAAAAAAAAABQRH/2gAMAwEAAhEDEQA/AFKxPQFj0A3J/WHFl/Axns6T5hnpp3LKDUp0rcMqHsCW3jvt/MLvQOX/AJXW+S2ZEqbtajjutOahH0se+Og9faNGs7O1tXzOvY06FQ1DyVnxmIE79N/vEjdpfZrwVtMuy26vX1GyLb0WqE1bYBRAnc+LCeRiVBIiemDTiXoS20YcuCZvXv6t0XPLrIB4FWPN692jAZgQy+ANklfWF7duR4rWyIRT6y7AT7AEfLGm4wZsuca7veVV5lvZKttSKtIkCXj5Fh7YEFlPMjMrREqY27YqFAAAG2Ib1VUVZIAk+pxOJjGRgr//2Q==" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
                     <div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div>
                   </div>
                   <div class="link-right">LINK ↗</div>
