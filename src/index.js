@@ -167,18 +167,18 @@ export default {
       </head>
       <body>
 
-        <!-- 상단 네비게이션 바 -->
+        <!-- 상단 네비게이션 바 (뮤직 팝업 아이콘을 8번째로 이동) -->
         <nav class="nav-container">
-          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 가장 안전하게 구성된 구글 시트 연동 기능 (에러 원천 차단) ===== */
+          /* ===== 구글 스프레드시트 연동 (오류 방지 및 필터 완벽 적용) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 시트 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -573,7 +573,7 @@ export default {
               });
 
               const results = await Promise.all(fetchPromises);
-              
+
               const LF = String.fromCharCode(10); 
               const CR = String.fromCharCode(13);
 
@@ -603,7 +603,7 @@ export default {
 
                   if (!rawSinger && !title) return;
 
-                  // 🔴 핵심 1: 하나의 칸 안에 줄바꿈(Enter)으로 뭉친 60곡을 여기서 모두 쪼갭니다!
+                  // 뭉친 60곡을 안전하게 쪼갭니다 (이 부분이 삭제되어 누락되었음)
                   let singersList = rawSinger.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
                   let titlesList = title.split(CR).join('').split(LF).map(function(t) { return t.trim(); });
                   let diffsList = diff.split(CR).join('').split(LF).map(function(d) { return d.trim(); });
@@ -622,7 +622,7 @@ export default {
                     let lowerT = t.toLowerCase().split(' ').join('');
                     let lowerS = s.toLowerCase().split(' ').join('');
 
-                    // 🔴 핵심 2: 쓸데없는 안내 문구와 에러 메시지는 노래책에서 완벽하게 차단합니다!
+                    // 잡다한 설명서와 오류 문구 필터링
                     if (
                       lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
                       lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
@@ -636,7 +636,6 @@ export default {
                       continue;
                     }
 
-                    // 가수가 비어있다면 윗줄 가수로 채워넣기
                     let singer = s ? s : lastSinger;
                     lastSinger = singer;
 
@@ -668,7 +667,6 @@ export default {
             }
           }
 
-          // HTML 요소들을 안전하게 묶어주는 그리기 함수
           function renderSongbookTable(grouped) {
             const container = document.getElementById('songbook-list');
             container.innerHTML = '<table class="song-table">' +
@@ -757,10 +755,7 @@ export default {
     `;
 
     return new Response(html, {
-      headers: { 
-        "content-type": "text/html;charset=UTF-8",
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
-      },
+      headers: { "content-type": "text/html;charset=UTF-8" },
     });
   },
 };
