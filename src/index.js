@@ -324,22 +324,26 @@ export default {
                         </div>
                       </div>
 
-                      <!-- 뱃지 섹션 (새로 추가됨) -->
+                      <!-- 뱃지 섹션 (총 8개로 확장됨) -->
                       <div class="badge-section">
                         <h3>구독 뱃지</h3>
                         <div class="badge-container">
-                          <!-- 👇 여기에 1개월부터 1년까지 뱃지 이미지를 넣어주세요 👇 -->
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="1개월"><span class="badge-label">기본 1개월</span></div>
+                          <!-- 👇 아래의 '...' 부분에 각 개월 수에 맞는 뱃지 이미지 주소를 넣어주세요 👇 -->
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" alt="3개월"><span class="badge-label">3개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="4개월"><span class="badge-label">4개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
                           <div class="badge-line"></div>
-                          <div class="badge-item"><img src="구독_뱃지_이미지_주소.png" class="badge-img" alt="1년"><span class="badge-label">1년<br>(12개월)</span></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
                         </div>
                       </div>
                     </div>
