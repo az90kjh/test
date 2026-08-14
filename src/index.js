@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
+                  모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...
                 </div>
               </div>
             </div>
@@ -410,7 +410,6 @@ export default {
           </div>
         </section>
 
-        <!-- 기능 스크립트 모음 -->
         <script>
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
@@ -453,350 +452,309 @@ export default {
             '2026-8-13': [{ text: '소하님 웰드', color: 'pink' }],
             '2026-8-14': [{ text: '옥독님 마크빙고', color: 'orange' }],
             '2026-8-15': [{ text: '옥독님 마크빙고', color: 'orange' }, { text: '런닝크루 PEAK', color: 'blue' }],
-            '2026-8-16': [{ text아차, 정말 미안해! 확인해 보니 방금 전 답변에서 전체 코드가 너무 길어서 **맨 마지막 자바스크립트(`script`) 부분이 뚝 끊긴 채로 전달**됐어. 코드가 완성되지 않은 상태로 들어가서 오류가 나버렸고, 그 때문에 노래들이 아예 화면에 나오지 않았던 거야.
+            '2026-8-16': [{ text: '옥독님 마크빙고', color: 'orange' }]
+          };
 
-전체 코드를 다시 다 보내면 또 글자 수 제한에 걸려서 잘릴 수 있으니, **문제가 생긴 맨 아랫부분의 `<script> ... </script>` 내용만 완벽하게 묶어서 따로 전달해 줄게!** 이전에 뭉쳐있던 60곡을 쪼개는 로직과 이상한 문구 필터링이 모두 들어간 최종 완성본이야.
-
-### 🛠️ 수정 방법
-1. 기존 `src/index.js` 코드의 맨 아래쪽을 보면 `<script>`부터 `</script>`까지의 구간이 있을 거야.
-2. 기존의 `<script> ~ </script>` 구간을 전부 지우고, 아래의 새로운 `<script> ~ </script>` 코드로 **교체(덮어쓰기)** 해줘.
-
-```html
-<script>
-  /* ===== 탭 및 테마 전환 ===== */
-  function switchTab(tabId, clickedBtn) {
-    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      if(!btn.innerHTML.includes('music_note') && !btn.innerHTML.includes('mode')) {
-        btn.classList.remove('active');
-      }
-    });
-    document.getElementById(tabId).classList.add('active');
-    if(clickedBtn) clickedBtn.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function toggleTheme() {
-    const htmlTag = document.documentElement;
-    const themeIcon = document.querySelector('#themeToggleBtn .material-symbols-rounded');
-    if (htmlTag.getAttribute('data-theme') === 'light') {
-      htmlTag.setAttribute('data-theme', 'dark');
-      themeIcon.textContent = 'light_mode'; 
-    } else {
-      htmlTag.setAttribute('data-theme', 'light');
-      themeIcon.textContent = 'dark_mode'; 
-    }
-  }
-
-  function toggleMusicPopup() {
-    const popup = document.getElementById('music-popup');
-    popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-  }
-
-  /* ===== 동적 캘린더 로직 ===== */
-  let currentDate = new Date(); 
-  let calView = 'month';
-
-  const mockEvents = {
-    '2026-8-9': [{ text: '런닝크루 PEAK', color: 'blue' }],
-    '2026-8-11': [{ text: '소하님 웰드', color: 'yellow' }],
-    '2026-8-12': [{ text: '소하님 웰드', color: 'yellow' }],
-    '2026-8-13': [{ text: '소하님 웰드', color: 'pink' }],
-    '2026-8-14': [{ text: '옥독님 마크빙고', color: 'orange' }],
-    '2026-8-15': [{ text: '옥독님 마크빙고', color: 'orange' }, { text: '런닝크루 PEAK', color: 'blue' }],
-    '2026-8-16': [{ text: '옥독님 마크빙고', color: 'orange' }]
-  };
-
-  function renderCalendar() {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth(); 
-    
-    if(calView === 'month') {
-      document.getElementById('current-month-year').innerText = year + '년 ' + (month + 1) + '월';
-    } else {
-      const tempDate = new Date(currentDate);
-      tempDate.setDate(currentDate.getDate() - currentDate.getDay());
-      document.getElementById('current-month-year').innerText = tempDate.getFullYear() + '년 ' + (tempDate.getMonth() + 1) + '월 (주간)';
-    }
-
-    if (calView === 'month') {
-      document.getElementById('cal-month-view').style.display = 'grid';
-      document.getElementById('cal-week-view').style.display = 'none';
-      renderMonth(year, month);
-    } else {
-      document.getElementById('cal-month-view').style.display = 'none';
-      document.getElementById('cal-week-view').style.display = 'grid';
-      renderWeek(currentDate);
-    }
-  }
-
-  function renderMonth(year, month) {
-    const grid = document.getElementById('cal-month-view');
-    grid.innerHTML = '<div class="cal-day-head">일</div><div class="cal-day-head">월</div><div class="cal-day-head">화</div><div class="cal-day-head">수</div><div class="cal-day-head">목</div><div class="cal-day-head">금</div><div class="cal-day-head">토</div>';
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate(); 
-    const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
-
-    for (let i = 0; i < totalCells; i++) {
-      if (i < firstDay || i >= firstDay + daysInMonth) {
-        grid.innerHTML += '<div class="cal-cell empty"></div>';
-      } else {
-        const dateNum = i - firstDay + 1;
-        const dateKey = year + '-' + (month + 1) + '-' + dateNum;
-        const dayEvents = mockEvents[dateKey] || [];
-        let eventHtml = '';
-        let bgClass = ''; 
-        
-        dayEvents.forEach(ev => {
-          eventHtml += '<div class="sch-txt">' + ev.text + '</div>';
-          if(!bgClass) bgClass = 'bg-' + ev.color; 
-        });
-
-        grid.innerHTML += '<div class="cal-cell ' + bgClass + '"><div class="date">' + dateNum + '</div>' + eventHtml + '</div>';
-      }
-    }
-  }
-
-  function renderWeek(date) {
-    const grid = document.getElementById('cal-week-view');
-    grid.innerHTML = '';
-    
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay());
-    const daysArr = ['일', '월', '화', '수', '목', '금', '토'];
-
-    for (let i = 0; i < 7; i++) {
-      const curr = new Date(startOfWeek);
-      curr.setDate(startOfWeek.getDate() + i);
-      const y = curr.getFullYear();
-      const m = curr.getMonth() + 1;
-      const d = curr.getDate();
-      const dateKey = y + '-' + m + '-' + d;
-
-      const dayEvents = mockEvents[dateKey] || [];
-      let eventHtml = '';
-      
-      dayEvents.forEach(ev => {
-        eventHtml += '<div class="event-pill pill-' + ev.color + '">' + ev.text + '</div>';
-      });
-      grid.innerHTML += '<div class="cal-week-card"><div class="cal-week-date">' + m + '/' + d + ' ' + daysArr[i] + '</div>' + eventHtml + '</div>';
-    }
-  }
-
-  function changeDate(dir) {
-    if (calView === 'month') {
-      currentDate.setMonth(currentDate.getMonth() + dir);
-    } else {
-      currentDate.setDate(currentDate.getDate() + (dir * 7));
-    }
-    renderCalendar();
-  }
-
-  function toggleCalendarView(view) {
-    calView = view;
-    document.getElementById('btn-month').classList.remove('active');
-    document.getElementById('btn-week').classList.remove('active');
-    document.getElementById('btn-' + view).classList.add('active');
-    renderCalendar();
-  }
-
-  /* ===== 구글 스프레드시트 연동 로직 (오류 및 누락 완벽 해결 버전) ===== */
-  async function loadSongs() {
-    const container = document.getElementById('songbook-list');
-    container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
-    
-    try {
-      const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
-      const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
-      const grouped = {};
-      let globalSongIndex = 1;
-
-      const timestamp = new Date().getTime();
-      const fetchPromises = sheetNames.map(async (sheetName) => {
-        const url = `[https://docs.google.com/spreadsheets/d/$](https://docs.google.com/spreadsheets/d/$){sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=${encodeURIComponent(sheetName)}&_=${timestamp}`;
-        const response = await fetch(url);
-        let text = await response.text();
-        
-        text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-        const data = JSON.parse(text);
-        return { sheetName, rows: data.table.rows };
-      });
-
-      const results = await Promise.all(fetchPromises);
-
-      results.forEach(({ sheetName, rows }) => {
-        let lastSinger = sheetName;
-
-        rows.forEach((row) => {
-          if (!row || !row.c) return; 
-
-          let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
-          
-          let rawSinger = cells[1] ? cells[1] : '';
-          let title = cells[2] ? cells[2] : '';
-          let diff = cells[3] ? cells[3] : '';
-          let status = cells[4] ? cells[4] : '';
-
-          // 데이터가 밀렸을 때 자동 보정
-          if (!title && cells.filter(t=>t).length >= 2 && cells[0]) {
-            rawSinger = cells[0];
-            title = cells[1];
-          }
-
-          if (!rawSinger && !title) return;
-
-          // 줄바꿈으로 뭉친 곡들 분리
-          let singersList = rawSinger.split(/\r?\n/).map(s => s.trim());
-          let titlesList = title.split(/\r?\n/).map(t => t.trim());
-          let diffsList = diff.split(/\r?\n/).map(d => d.trim());
-          let statusList = status.split(/\r?\n/).map(s => s.trim());
-
-          let maxLen = Math.max(titlesList.length, singersList.length);
-
-          for (let i = 0; i < maxLen; i++) {
-            let t = titlesList[i] || ''; 
-            let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
-            let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
-            let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
-
-            if (!t) continue;
-
-            let lowerT = t.toLowerCase().replace(/\s+/g, '');
-            let lowerS = s.toLowerCase().replace(/\s+/g, '');
-
-            // 설명서 및 오류 문구 완벽 필터링
-            if (
-              lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
-              lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
-              lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') ||
-              lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') || lowerT.includes('재신청') ||
-              lowerT.includes('이거불러죠') ||
-              lowerT.includes('유료곡->') || lowerT.includes('유료곡→') ||
-              (lowerT === 'original' && lowerS.includes('오리지널')) ||
-              lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
-              lowerT === '-error' || lowerT === 'error'
-            ) {
-              continue;
+          function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth(); 
+            
+            if(calView === 'month') {
+              document.getElementById('current-month-year').innerText = year + '년 ' + (month + 1) + '월';
+            } else {
+              const tempDate = new Date(currentDate);
+              tempDate.setDate(currentDate.getDate() - currentDate.getDay());
+              document.getElementById('current-month-year').innerText = tempDate.getFullYear() + '년 ' + (tempDate.getMonth() + 1) + '월 (주간)';
             }
 
-            let singer = s ? s : lastSinger;
-            lastSinger = singer;
-
-            let no = String(globalSongIndex).padStart(2, '0');
-
-            if (!grouped[singer]) grouped[singer] = [];
-            grouped[singer].push({ 
-              no, 
-              title: t, 
-              difficulty: d || 'ㅡ', 
-              status: st || 'ㅡ', 
-              sheetName 
-            });
-            globalSongIndex++;
+            if (calView === 'month') {
+              document.getElementById('cal-month-view').style.display = 'grid';
+              document.getElementById('cal-week-view').style.display = 'none';
+              renderMonth(year, month);
+            } else {
+              document.getElementById('cal-month-view').style.display = 'none';
+              document.getElementById('cal-week-view').style.display = 'grid';
+              renderWeek(currentDate);
+            }
           }
-        });
-      });
-      
-      if(Object.keys(grouped).length === 0) {
-          container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">등록된 노래가 없습니다. 구글 시트 내용을 확인해주세요.</div>';
-          return;
-      }
-      
-      renderSongbookTable(grouped);
 
-    } catch (err) {
-      console.error(err);
-      container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
-    }
-  }
+          function renderMonth(year, month) {
+            const grid = document.getElementById('cal-month-view');
+            grid.innerHTML = '<div class="cal-day-head">일</div><div class="cal-day-head">월</div><div class="cal-day-head">화</div><div class="cal-day-head">수</div><div class="cal-day-head">목</div><div class="cal-day-head">금</div><div class="cal-day-head">토</div>';
 
-  function renderSongbookTable(grouped) {
-    const container = document.getElementById('songbook-list');
-    container.innerHTML = `
-      <table class="song-table">
-        <thead>
-          <tr>
-            <th style="width: 10%;">번호</th>
-            <th style="width: 15%;">가수</th>
-            <th style="width: 45%;">노래제목</th>
-            <th style="width: 15%;">난이도</th>
-            <th style="width: 15%; text-align:center;">상태</th>
-          </tr>
-        </thead>
-        <tbody id="songbook-tbody"></tbody>
-      </table>
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); 
+            const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+            for (let i = 0; i < totalCells; i++) {
+              if (i < firstDay || i >= firstDay + daysInMonth) {
+                grid.innerHTML += '<div class="cal-cell empty"></div>';
+              } else {
+                const dateNum = i - firstDay + 1;
+                const dateKey = year + '-' + (month + 1) + '-' + dateNum;
+                const dayEvents = mockEvents[dateKey] || [];
+                let eventHtml = '';
+                let bgClass = ''; 
+                
+                dayEvents.forEach(ev => {
+                  eventHtml += '<div class="sch-txt">' + ev.text + '</div>';
+                  if(!bgClass) bgClass = 'bg-' + ev.color; 
+                });
+
+                grid.innerHTML += '<div class="cal-cell ' + bgClass + '"><div class="date">' + dateNum + '</div>' + eventHtml + '</div>';
+              }
+            }
+          }
+
+          function renderWeek(date) {
+            const grid = document.getElementById('cal-week-view');
+            grid.innerHTML = '';
+            
+            const startOfWeek = new Date(date);
+            startOfWeek.setDate(date.getDate() - date.getDay());
+            const daysArr = ['일', '월', '화', '수', '목', '금', '토'];
+
+            for (let i = 0; i < 7; i++) {
+              const curr = new Date(startOfWeek);
+              curr.setDate(startOfWeek.getDate() + i);
+              const y = curr.getFullYear();
+              const m = curr.getMonth() + 1;
+              const d = curr.getDate();
+              const dateKey = y + '-' + m + '-' + d;
+
+              const dayEvents = mockEvents[dateKey] || [];
+              let eventHtml = '';
+              
+              dayEvents.forEach(ev => {
+                eventHtml += '<div class="event-pill pill-' + ev.color + '">' + ev.text + '</div>';
+              });
+              grid.innerHTML += '<div class="cal-week-card"><div class="cal-week-date">' + m + '/' + d + ' ' + daysArr[i] + '</div>' + eventHtml + '</div>';
+            }
+          }
+
+          function changeDate(dir) {
+            if (calView === 'month') {
+              currentDate.setMonth(currentDate.getMonth() + dir);
+            } else {
+              currentDate.setDate(currentDate.getDate() + (dir * 7));
+            }
+            renderCalendar();
+          }
+
+          function toggleCalendarView(view) {
+            calView = view;
+            document.getElementById('btn-month').classList.remove('active');
+            document.getElementById('btn-week').classList.remove('active');
+            document.getElementById('btn-' + view).classList.add('active');
+            renderCalendar();
+          }
+
+          /* ===== 구글 시트 연동 로직 (압축 해제 및 완벽 필터링 적용 버전) ===== */
+          async function loadSongs() {
+            const container = document.getElementById('songbook-list');
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
+            
+            try {
+              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
+              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
+              const grouped = {};
+              let globalSongIndex = 1;
+
+              const timestamp = new Date().getTime();
+              const fetchPromises = sheetNames.map(async (sheetName) => {
+                const url = \`https://docs.google.com/spreadsheets/d/\${sheetId}/gviz/tq?tqx=out:json&headers=0&sheet=\${encodeURIComponent(sheetName)}&_=\${timestamp}\`;
+                const response = await fetch(url);
+                let text = await response.text();
+                
+                text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(text);
+                return { sheetName, rows: data.table.rows };
+              });
+
+              const results = await Promise.all(fetchPromises);
+
+              results.forEach(({ sheetName, rows }) => {
+                let lastSinger = sheetName;
+
+                rows.forEach((row) => {
+                  if (!row || !row.c) return; 
+
+                  let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
+                  
+                  let rawSinger = cells[1] ? cells[1] : '';
+                  let title = cells[2] ? cells[2] : '';
+                  let diff = cells[3] ? cells[3] : '';
+                  let status = cells[4] ? cells[4] : '';
+
+                  // 데이터가 밀렸을 때 자동 보정
+                  if (!title && cells.filter(t=>t).length >= 2 && cells[0]) {
+                    rawSinger = cells[0];
+                    title = cells[1];
+                  }
+
+                  if (!rawSinger && !title) return;
+
+                  // 🔴 핵심 1: 하나의 칸에 Alt+Enter(\n)로 뭉친 여러 곡들을 배열로 분리! (60곡 누락 해결)
+                  let singersList = rawSinger.split(/\\r?\\n/).map(s => s.trim());
+                  let titlesList = title.split(/\\r?\\n/).map(t => t.trim());
+                  let diffsList = diff.split(/\\r?\\n/).map(d => d.trim());
+                  let statusList = status.split(/\\r?\\n/).map(s => s.trim());
+
+                  let maxLen = Math.max(titlesList.length, singersList.length);
+
+                  for (let i = 0; i < maxLen; i++) {
+                    let t = titlesList[i] || ''; 
+                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
+                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
+                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
+
+                    if (!t) continue;
+
+                    let lowerT = t.toLowerCase().replace(/\\s+/g, '');
+                    let lowerS = s.toLowerCase().replace(/\\s+/g, '');
+
+                    // 🔴 핵심 2: 노래가 아닌 잡다한 문구들을 아예 화면에 안 뜨게 컷트!
+                    if (
+                      lowerT.includes('송현노래책') || lowerT.includes('노래신청은') || lowerT === '제목' || lowerT === 'title' ||
+                      lowerS.includes('송현노래책') || lowerS === '가수' || lowerS === 'singer' ||
+                      lowerT.includes('노래책설명서') || lowerT.includes('컨트롤+f') || lowerT.includes('컨트롤f') ||
+                      lowerT.includes('별풍') || lowerT.includes('녹음음원') || lowerT.includes('불렀던곡') || lowerT.includes('재신청') ||
+                      lowerT.includes('이거불러죠') ||
+                      lowerT.includes('유료곡->') || lowerT.includes('유료곡→') ||
+                      (lowerT === 'original' && lowerS.includes('오리지널')) ||
+                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
+                      lowerT === '-error' || lowerT === 'error'
+                    ) {
+                      continue;
+                    }
+
+                    // 가수가 비어있다면 바로 윗줄의 가수를 상속받습니다.
+                    let singer = s ? s : lastSinger;
+                    lastSinger = singer;
+
+                    let no = String(globalSongIndex).padStart(2, '0');
+
+                    if (!grouped[singer]) grouped[singer] = [];
+                    grouped[singer].push({ 
+                      no, 
+                      title: t, 
+                      difficulty: d || 'ㅡ', 
+                      status: st || 'ㅡ', 
+                      sheetName 
+                    });
+                    globalSongIndex++;
+                  }
+                });
+              });
+              
+              if(Object.keys(grouped).length === 0) {
+                  container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">등록된 노래가 없습니다. 구글 시트 내용을 확인해주세요.</div>';
+                  return;
+              }
+              
+              renderSongbookTable(grouped);
+
+            } catch (err) {
+              console.error(err);
+              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
+            }
+          }
+
+          function renderSongbookTable(grouped) {
+            const container = document.getElementById('songbook-list');
+            container.innerHTML = \`
+              <table class="song-table">
+                <thead>
+                  <tr>
+                    <th style="width: 10%;">번호</th>
+                    <th style="width: 15%;">가수</th>
+                    <th style="width: 45%;">노래제목</th>
+                    <th style="width: 15%;">난이도</th>
+                    <th style="width: 15%; text-align:center;">상태</th>
+                  </tr>
+                </thead>
+                <tbody id="songbook-tbody"></tbody>
+              </table>
+            \`;
+            
+            const tbody = document.getElementById('songbook-tbody');
+            
+            for (const [singer, songs] of Object.entries(grouped)) {
+              const headerTr = document.createElement('tr');
+              headerTr.className = 'group-header-row';
+              headerTr.innerHTML = \`
+                <td colspan="5">
+                  <div class="group-header-box">
+                    <div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                      <span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>
+                      \${singer}
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">\${songs.length}곡</div>
+                  </div>
+                </td>
+              \`;
+              tbody.appendChild(headerTr);
+              
+              songs.forEach(song => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = \`
+                  <td style="color: var(--text-sub); font-size: 13px;">\${song.no}</td>
+                  <td style="color: var(--text-sub); font-size: 13px;">\${singer}</td>
+                  <td style="font-weight: 600;">\${song.title}</td>
+                  <td style="color: var(--point-color); font-size:12px;">\${song.difficulty}</td>
+                  <td style="text-align: center; color: var(--text-sub);">\${song.status}</td>
+                \`;
+                tbody.appendChild(tr);
+              });
+            }
+          }
+
+          function filterSongs() {
+            const query = document.getElementById('song-search-input').value.toLowerCase();
+            const tbody = document.getElementById('songbook-tbody');
+            if (!tbody) return;
+            
+            const rows = tbody.querySelectorAll('tr');
+            let currentGroupHeader = null;
+            let visibleCountInGroup = 0;
+            
+            rows.forEach(row => {
+              if (row.classList.contains('group-header-row')) {
+                if (currentGroupHeader) {
+                  currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
+                }
+                currentGroupHeader = row;
+                visibleCountInGroup = 0;
+              } else {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(query)) {
+                  row.style.display = '';
+                  visibleCountInGroup++;
+                } else {
+                  row.style.display = 'none';
+                }
+              }
+            });
+            if (currentGroupHeader) {
+              currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+            loadSongs();
+          });
+
+          const styleSheet = document.createElement("style");
+          styleSheet.innerText = "@keyframes spin { 100% { transform: rotate(360deg); } }";
+          document.head.appendChild(styleSheet);
+        </script>
+      </body>
+      </html>
     `;
-    
-    const tbody = document.getElementById('songbook-tbody');
-    
-    for (const [singer, songs] of Object.entries(grouped)) {
-      const headerTr = document.createElement('tr');
-      headerTr.className = 'group-header-row';
-      headerTr.innerHTML = `
-        <td colspan="5">
-          <div class="group-header-box">
-            <div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-              <span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>
-              ${singer}
-            </div>
-            <div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">${songs.length}곡</div>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(headerTr);
-      
-      songs.forEach(song => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="color: var(--text-sub); font-size: 13px;">${song.no}</td>
-          <td style="color: var(--text-sub); font-size: 13px;">${singer}</td>
-          <td style="font-weight: 600;">${song.title}</td>
-          <td style="color: var(--point-color); font-size:12px;">${song.difficulty}</td>
-          <td style="text-align: center; color: var(--text-sub);">${song.status}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-  }
 
-  function filterSongs() {
-    const query = document.getElementById('song-search-input').value.toLowerCase();
-    const tbody = document.getElementById('songbook-tbody');
-    if (!tbody) return;
-    
-    const rows = tbody.querySelectorAll('tr');
-    let currentGroupHeader = null;
-    let visibleCountInGroup = 0;
-    
-    rows.forEach(row => {
-      if (row.classList.contains('group-header-row')) {
-        if (currentGroupHeader) {
-          currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
-        }
-        currentGroupHeader = row;
-        visibleCountInGroup = 0;
-      } else {
-        const text = row.textContent.toLowerCase();
-        if (text.includes(query)) {
-          row.style.display = '';
-          visibleCountInGroup++;
-        } else {
-          row.style.display = 'none';
-        }
-      }
+    return new Response(html, {
+      headers: { "content-type": "text/html;charset=UTF-8" },
     });
-    if (currentGroupHeader) {
-      currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    renderCalendar();
-    loadSongs();
-  });
-
-  const styleSheet = document.createElement("style");
-  styleSheet.innerText = "@keyframes spin { 100% { transform: rotate(360deg); } }";
-  document.head.appendChild(styleSheet);
-</script>
+  },
+};
