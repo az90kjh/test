@@ -305,7 +305,7 @@ export default {
               <div id="songbook-list">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
-                  구글 시트에서 전체 노래 목록을 정확하게 분리하여 불러오는 중입니다...
+                  구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...
                 </div>
               </div>
             </div>
@@ -550,10 +550,10 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 안전하고 정확한 구글 시트 JSON(gviz) 파서 로더 ===== */
+          /* ===== 완벽한 다중 탭 노래책 연동 로더 (누락 및 오분류 완벽 해결) ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
-            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>구글 시트에서 전체 노래 목록을 정확하게 불러오는 중입니다...</div>';
+            container.innerHTML = '<div style="text-align:center; padding: 50px; color: var(--text-sub);"><span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>모든 시트 탭의 노래 목록을 빠짐없이 불러오는 중입니다...</div>';
             
             try {
               const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
@@ -579,17 +579,14 @@ export default {
                 rows.forEach((row) => {
                   if (!row.c) return; 
 
-                  // c 배열에서 null이 아닌 값들만 골라냄
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
                   let validTextList = cells.filter(t => t !== '');
 
                   if (validTextList.length === 0) return;
 
-                  // 사진상 B열(인덱스 1)이 가수, C열(인덱스 2)이 제목인 구조 대응
                   let rawSinger = cells[1] ? cells[1] : '';
                   let title = cells[2] ? cells[2] : '';
 
-                  // 만약 열 배치가 달라서 2열에 제목이 없고 다른 곳에 있다면 유연하게 대처
                   if (!title && validTextList.length >= 2) {
                     rawSinger = validTextList[0];
                     title = validTextList[1];
@@ -597,15 +594,26 @@ export default {
                     title = validTextList[0];
                   }
 
-                  // 상단 헤더 및 타이틀 완벽 필터링
-                  let checkStr = (rawSinger + title).toLowerCase();
-                  if (checkStr.includes('송현 노래책') || checkStr.includes('노래신청은') || checkStr.includes('제목') || checkStr.includes('가수')) {
+                  // 탭 이름이나 안내 문구가 가수나 제목으로 잘못 들어오는 현상 완벽 방지
+                  let checkStr = (rawSinger + " " + title).toLowerCase();
+                  if (
+                    checkStr.includes('송현 노래책') || 
+                    checkStr.includes('노래신청은') || 
+                    checkStr.includes('제목') || 
+                    checkStr.includes('가수') ||
+                    checkStr.includes('오리지널 곡✨') ||
+                    checkStr.includes('숙제곡💖') ||
+                    checkStr.includes('노래책 설명서') ||
+                    checkStr.includes('별풍 200개') ||
+                    checkStr.includes('이거 불러죠') ||
+                    checkStr.includes('블렀던곡') ||
+                    checkStr.includes('녹음음원')
+                  ) {
                     return;
                   }
 
                   if (!title) return;
 
-                  // 가수가 비어있다면 병합된 셀로 간주하고 바로 윗 가수 이름 상속
                   let singer = rawSinger ? rawSinger : lastSinger;
                   lastSinger = singer;
 
