@@ -314,7 +314,7 @@ export default {
             <div class="content-card">
               <div class="profile-grid">
                 <div>
-                  <img src="여기에_실제_이미지_주소를_넣으세요.jpg" class="profile-img" alt="프로필 이미지">
+                  <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="profile-img" alt="프로필 이미지">
                 </div>
                 <div>
                   <div class="profile-info">
