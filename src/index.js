@@ -6,7 +6,7 @@ export default {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Song Hyun | 스트리머 프로필</title>
+        <title>Song Hyun | 학생수첩</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
@@ -43,6 +43,54 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
+          /* ===== 🌟 학생수첩 표지 애니메이션 ===== */
+          #handbook-cover {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #1c2541 0%, #0b1021 100%);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: left center;
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1.3s ease-in;
+            transform-style: preserve-3d;
+            box-shadow: inset -15px 0 40px rgba(0,0,0,0.8);
+            cursor: pointer;
+          }
+          #handbook-cover::after {
+            content: ''; position: absolute; right: 0; top: 0; width: 30px; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05));
+            border-left: 1px solid rgba(0,0,0,0.5);
+          }
+          #handbook-cover.open {
+            transform: perspective(2000px) rotateY(-110deg);
+            opacity: 0;
+            pointer-events: none;
+          }
+          .cover-content {
+            text-align: center;
+            border: 2px solid #d4af37;
+            padding: 70px 60px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 20px rgba(212,175,55,0.15), 0 0 30px rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.3);
+          }
+          .cover-logo {
+            width: 60px; height: 60px; margin: 0 auto 25px;
+            border-radius: 50%; border: 2px dashed #d4af37;
+            display: flex; align-items: center; justify-content: center;
+            color: #d4af37; font-size: 26px; font-weight: 900; font-family: serif;
+          }
+          .cover-title {
+            font-size: 48px; font-weight: 900; color: #d4af37; letter-spacing: 12px; margin-bottom: 15px; margin-right:-12px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+          }
+          .cover-sub { color: #a98d3e; font-size: 14px; letter-spacing: 3px; margin-right:-3px; }
+          .cover-hint { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,0.5); animation: blink 1.5s infinite; letter-spacing: 1px;}
+          @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
           /* ===== 상단 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
@@ -61,12 +109,32 @@ export default {
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
-          /* ===== 메인 콘텐츠 영역 ===== */
+          /* ===== 메인 콘텐츠 영역 (학생수첩 내지 테마) ===== */
           .main-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
           .section-header-out { margin-bottom: 12px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
           .section-header-out span { font-size: 11px; color: var(--text-sub); }
-          .content-card { background-color: var(--bg-card); border-radius: 20px; padding: 40px; min-height: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: background-color 0.3s; }
+          
+          /* 카드 디자인에 책 제본 음영 효과 추가 */
+          .content-card { 
+            background-color: var(--bg-card); 
+            border-radius: 8px 24px 24px 8px; /* 오른쪽 모서리만 둥글게 */
+            padding: 40px 40px 40px 60px; /* 왼쪽 제본선 공간 확보 */
+            min-height: 700px; 
+            box-shadow: -10px 0 20px rgba(0,0,0,0.05), 15px 15px 40px rgba(0,0,0,0.1); 
+            transition: background-color 0.3s;
+            position: relative;
+          }
+          /* 수첩 접히는 음영 */
+          .content-card::before {
+            content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 35px;
+            background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
+            border-radius: 8px 0 0 8px; pointer-events: none;
+          }
+          [data-theme="dark"] .content-card::before {
+             background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
+          }
+
           .tab-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .tab-section.active { display: block; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -97,8 +165,6 @@ export default {
           .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
           .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
           [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
-          
-          /* 뱃지가 무조건 한 줄에 들어가게끔 크기 축소 및 스와이프 기능 적용 */
           .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
           .badge-container::-webkit-scrollbar { display: none; }
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
@@ -219,6 +285,16 @@ export default {
       </head>
       <body>
 
+        <!-- 🌟 학생수첩 커버 애니메이션 요소 -->
+        <div id="handbook-cover" onclick="openHandbook()">
+          <div class="cover-content">
+            <div class="cover-logo">SH</div>
+            <div class="cover-title">학생수첩</div>
+            <div class="cover-sub">Song Hyun Official</div>
+            <div class="cover-hint">클릭해서 펼치기</div>
+          </div>
+        </div>
+
         <!-- 상단 네비게이션 바 -->
         <nav class="nav-container">
           <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
@@ -328,11 +404,10 @@ export default {
                         </div>
                       </div>
 
-                      <!-- 뱃지 섹션 (크기 축소 & 1줄 고정 적용) -->
+                      <!-- 뱃지 섹션 (총 8개) -->
                       <div class="badge-section">
                         <h3>구독 뱃지</h3>
                         <div class="badge-container">
-                          <!-- 24개월 이미지 속성 sc 오타를 src로 수정했습니다 -->
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
@@ -348,12 +423,6 @@ export default {
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
                           <div class="badge-line"></div>
                           <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
                         </div>
                       </div>
                     </div>
@@ -414,7 +483,7 @@ export default {
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 (사진 디자인 및 서브 탭 완벽 적용) -->
+        <!-- 5. 의상실 탭 -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -585,6 +654,15 @@ export default {
 
         <!-- 기능 스크립트 모음 -->
         <script>
+          /* ===== 학생수첩 펴기 애니메이션 ===== */
+          function openHandbook() {
+            var cover = document.getElementById('handbook-cover');
+            cover.classList.add('open');
+            setTimeout(function() {
+              cover.style.display = 'none';
+            }, 1500); // 1.5초 후 완전히 숨김 처리
+          }
+
           /* ===== 탭 및 테마 전환 ===== */
           function switchTab(tabId, clickedBtn) {
             document.querySelectorAll('.tab-section').forEach(function(sec) { sec.classList.remove('active'); });
