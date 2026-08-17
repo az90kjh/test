@@ -459,7 +459,7 @@ export default {
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <!-- 👇 여기에 프로필 사진 이미지 주소를 넣어주세요 👇 -->
-                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/638269f25ca5210b1.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
                     <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
@@ -546,7 +546,7 @@ export default {
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <!-- 👇 OGQ 황숭티콘 이미지 👇 -->
-                        <img src="여기에_OGQ_황숭티콘_이미지_주소를_넣어주세요.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/18751786944817457.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
