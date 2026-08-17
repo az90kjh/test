@@ -112,11 +112,10 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 🌟 전체화면 레이아웃 & 페이지 넘김 애니메이션 ===== */
+          /* ===== 🌟 페이지 넘김 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; }
           .tab-section.active { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
-          /* 넘어가는 기존 페이지는 레이아웃에 영향 주지 않게 absolute로 띄움 */
           .tab-section.flipping-out { display: block; position: absolute; top: 0; left: 0; width: 100%; min-height: 100vh; z-index: 10; pointer-events: none; overflow: hidden; }
           
           .tab-section.flipping-in .main-wrapper {
@@ -137,13 +136,16 @@ export default {
               0% { opacity: 0; transform: translateX(30px); }
               100% { opacity: 1; transform: translateX(0); }
           }
+          @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* 🌟 모든 페이지를 전체화면 (100vw, 100vh) 으로 확장 */
+          /* ===== 🌟 메인 콘텐츠 영역 (크기 확장 및 네비게이션 겹침 방지) ===== */
           .main-wrapper { 
-            width: 100%; min-height: 100vh; margin: 0; padding: 0; 
+            width: 100%; min-height: 100vh; margin: 0; 
+            /* 👇 우측 네비게이션 공간(100px)을 비워두어 내용이 겹치지 않게 왼쪽으로 밀어줌 👇 */
+            padding: 0 100px 0 0; 
             background-color: var(--bg-card); position: relative; 
-            overflow-x: hidden;
+            overflow-x: hidden; box-sizing: border-box;
           }
           
           /* 수첩 제본선 그림자 효과 (왼쪽) */
@@ -156,24 +158,22 @@ export default {
             background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
           }
 
-          /* 홈 탭은 예외 (배경화면이 채워짐) */
-          #tab-home .main-wrapper { background-color: var(--bg-body); }
+          /* 홈 탭은 예외 (전체화면 배경 유지) */
+          #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
           #tab-home .main-wrapper::before { display: none; }
           .fullscreen-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
+            /* 👇 홈 화면 배경 이미지 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
           }
 
-          /* 배경은 전체화면이지만, 내부 콘텐츠는 가운데 정렬되도록 max-width 설정 */
           .content-card { 
             max-width: 1200px; margin: 0 auto; 
-            padding: 60px 40px 80px 80px; /* 제본선을 피해 좌측 패딩 80px 확보 */
+            padding: 60px 20px 80px 70px; /* 제본선을 피해 좌측 여백 추가 */
             min-height: 100vh; background: transparent; box-shadow: none; border-radius: 0; box-sizing: border-box;
           }
 
-          /* 헤더 타이틀 위치 및 여백 */
           .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 16px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
@@ -255,9 +255,7 @@ export default {
             box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
           }
 
-          /* =========================================
-             🌟 하단: 최근 게시글 & 서브 탭
-             ========================================= */
+          /* 하단: 최근 게시글 & 서브 탭 */
           .profile-bottom-grid {
             display: grid;
             grid-template-columns: 350px 1fr;
@@ -312,7 +310,7 @@ export default {
           }
           .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
-          /* 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 붙어서 나옴) */
+          /* 🌟 뮤직 팝업 */
           #music-popup {
             display: none; position: fixed; 
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
@@ -329,9 +327,17 @@ export default {
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* =========================================
-             🌟 8. VOD 다시보기 탭 (구글 시트 연동)
+             🌟 8. VOD 다시보기 탭 (바둑판 형식 수정)
              ========================================= */
-          .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+          .vod-grid { 
+            display: grid; 
+            /* 👇 4칸을 강제로 고정하여 확실한 바둑판 느낌 부여 */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; margin-bottom: 30px; 
+          }
+          @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
+          @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
+          @media (max-width: 500px) { .vod-grid { grid-template-columns: repeat(1, 1fr); } }
           
           .vod-card { 
             background: var(--bg-body); border-radius: 12px; overflow: hidden; 
@@ -340,7 +346,6 @@ export default {
           }
           .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
           
-          /* 고정 영상 테두리 스타일 */
           .vod-card.pinned { border: 2px solid var(--point-color); box-shadow: 0 4px 12px rgba(255,130,0,0.1); }
 
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
@@ -362,11 +367,12 @@ export default {
           .vod-info { padding: 15px; }
           .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
           
-          /* 날짜만 표시되도록 수정 */
           .vod-meta-stats {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 11px; color: var(--text-sub); margin-top: 8px;
           }
+          .vod-meta-stats .stats-group { display: flex; gap: 10px; }
+          .vod-meta-stats span { display: flex; align-items: center; gap: 3px; font-weight: 600;}
           
           .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
@@ -530,10 +536,8 @@ export default {
               
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
-                  
-                  <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -542,7 +546,6 @@ export default {
                     </div>
                   </div>
 
-                  <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
@@ -569,9 +572,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 상단 2번: 프로필 하단 영역 (좌측 최근글 + 우측 서브탭) -->
               <div class="profile-bottom-grid">
-                <!-- 좌측: 최근 작성글 -->
                 <div>
                   <div class="recent-posts" style="margin-top:0;">
                     <div class="recent-posts-header">
@@ -581,13 +582,10 @@ export default {
                       </div>
                       <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
-                    <div id="soop-posts-container" class="recent-posts-list">
-                      <!-- JS를 통해 게시글이 들어갑니다 -->
-                    </div>
+                    <div id="soop-posts-container" class="recent-posts-list"></div>
                   </div>
                 </div>
 
-                <!-- 우측: 새로운 서브 탭 (방송규칙, OGQ, 위키) -->
                 <div class="extra-tabs-area">
                   <div class="sub-tabs" style="margin-bottom: 15px;">
                     <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
@@ -595,7 +593,6 @@ export default {
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
                   </div>
                   
-                  <!-- 1. 방송규칙 -->
                   <div id="extra-rule" class="extra-sub-section active">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; overflow-y: auto;">
                       <div class="vn-panel-title">
@@ -610,21 +607,19 @@ export default {
                     </div>
                   </div>
                   
-                  <!-- 2. OGQ MARKET -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="여기에_OGQ_황숭티콘1_이미지_주소를_넣어주세요.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
                       <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="여기에_OGQ_황숭티콘2_이미지_주소를_넣어주세요.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
                     </div>
                   </div>
                   
-                  <!-- 3. 송현위키 -->
                   <div id="extra-wiki" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; flex-direction:column; padding:15px 25px;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
@@ -644,7 +639,6 @@ export default {
                 </div>
               </div>
 
-              <!-- 하단 맨 끝: 구독 뱃지 영역 -->
               <div class="badge-section">
                 <h3>구독 뱃지</h3>
                 <div class="badge-container">
@@ -781,7 +775,6 @@ export default {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
@@ -825,7 +818,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (구글 시트 연동) -->
+        <!-- 🌟 8. VOD 탭 -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -837,13 +830,12 @@ export default {
                 <p style="font-size: 13px; color: var(--text-sub);">SOOP에 올라온 노래 다시보기 영상들을 정리해 두었어요. 카드를 누르면 새 창으로 이동해 바로 재생됩니다!</p>
               </div>
               
-              <!-- VOD 검색 바 -->
               <div class="search-bar" style="margin-bottom: 30px;">
                 <input type="text" id="vod-search-input" onkeyup="filterVods()" placeholder="다시보기 영상 제목을 검색해보세요...">
                 <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
 
-              <!-- VOD 목록 컨테이너 (JS에서 이 부분을 채웁니다) -->
+              <!-- VOD 목록 컨테이너 -->
               <div id="vod-grid-container" class="vod-grid">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub); grid-column: 1 / -1;">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
@@ -1012,7 +1004,7 @@ export default {
             }
           }
 
-          /* ===== 🌟 뮤직 팝업 ===== */
+          /* ===== 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 위치) ===== */
           function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
             if (popup.style.display === 'block') {
