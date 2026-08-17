@@ -104,6 +104,7 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
@@ -137,117 +138,102 @@ export default {
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
           /* =========================================
-             🌟 비주얼 노벨 스타일 프로필 (새 디자인) 
+             🌟 비주얼 노벨 스타일 프로필 (주황 & 흰색) 
              ========================================= */
-          
           .vn-profile-wrapper {
-            /* 옅은 눈꽃 질감/하늘색 그라데이션 베이스 */
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 3px solid #bae6fd;
+            background: var(--bg-card);
+            border: 3px solid var(--point-color);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: inset 0 0 50px rgba(255,255,255,0.8), 0 10px 30px rgba(14, 165, 233, 0.1);
+            box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
             margin-bottom: 25px;
           }
           [data-theme="dark"] .vn-profile-wrapper {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            border-color: #0369a1;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
           }
           /* 텍스처 패턴 효과 */
           .vn-profile-wrapper::after {
             content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
-            background-image: radial-gradient(#bae6fd 1px, transparent 1px); background-size: 20px 20px;
-            opacity: 0.4; pointer-events: none; z-index: 1;
+            background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px;
+            opacity: 0.15; pointer-events: none; z-index: 1;
           }
-          [data-theme="dark"] .vn-profile-wrapper::after { background-image: radial-gradient(#0369a1 1px, transparent 1px); opacity: 0.2; }
+          [data-theme="dark"] .vn-profile-wrapper::after { opacity: 0.05; }
 
-          .vn-profile-inner { display: flex; position: relative; z-index: 2; gap: 30px; }
+          .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           
-          /* 좌측: 정보 영역 */
-          .vn-left { flex: 1; min-width: 350px; }
-          
-          /* 우측: 스탠딩 이미지 영역 */
-          .vn-right { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+          /* 좌측: 스탠딩 이미지 및 인사 영역 */
+          .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
           .vn-character-img {
             width: 100%; max-width: 450px; object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.9));
+            filter: drop-shadow(0 0 15px rgba(255,130,0,0.15));
             animation: floatChar 3s ease-in-out infinite;
           }
-          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(2, 132, 199, 0.5)); }
+          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
           @keyframes floatChar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
+          /* 명대사 / 인용구 박스 (사진 아래) */
+          .vn-quote-box {
+            background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
+            padding: 20px; position: relative; width: 100%; box-sizing: border-box;
+            backdrop-filter: blur(5px);
+          }
+          .vn-quote-icon {
+            position: absolute; top: -16px; left: -10px; width: 32px; height: 32px;
+            background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid var(--bg-card);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          }
+          .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
+
+          /* 우측: 정보 영역 */
+          .vn-right-col { flex: 1; min-width: 350px; }
+          
           /* 헤더 뱃지 (캐릭터 소개) */
           .vn-header-badge {
             display: inline-flex; align-items: center;
-            background: linear-gradient(90deg, #e0f2fe, #f0f9ff);
-            border: 2px solid #7dd3fc; border-radius: 30px;
-            padding: 6px 20px; color: #0284c7; font-size: 15px; font-weight: 800; letter-spacing: 2px;
-            margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(125, 211, 252, 0.4);
+            background: var(--bg-point-light);
+            border: 2px solid var(--point-color); border-radius: 30px;
+            padding: 6px 20px; color: var(--point-color); font-size: 15px; font-weight: 800; letter-spacing: 2px;
+            margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(255, 130, 0, 0.2);
           }
-          [data-theme="dark"] .vn-header-badge { background: linear-gradient(90deg, #0369a1, #0c4a6e); border-color: #38bdf8; color: #e0f2fe; box-shadow: 2px 2px 0 rgba(3, 105, 161, 0.4); }
-          .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: #38bdf8; margin: 0 8px; }
+          .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: var(--point-color); margin: 0 8px; }
 
           /* 이름 및 서브 타이틀 */
-          .vn-name-title { font-size: 42px; font-weight: 900; color: #0284c7; text-shadow: 2px 2px 0px #fff, -1px -1px 0px #bae6fd; margin-bottom: 5px; }
-          [data-theme="dark"] .vn-name-title { color: #e0f2fe; text-shadow: 2px 2px 0px #0f172a, -1px -1px 0px #0369a1; }
-          .vn-name-sub { font-size: 14px; font-weight: 700; color: #0ea5e9; margin-bottom: 30px; letter-spacing: 1px; }
+          .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
+          .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
 
           /* 스탯 텍스트 라인 */
           .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
           .vn-info-label { 
-            background: linear-gradient(90deg, #bae6fd, #e0f2fe); border: 1px solid #7dd3fc;
-            color: #0369a1; padding: 4px 12px; border-radius: 6px;
+            background: var(--bg-point-light); border: 1px solid var(--point-color);
+            color: var(--point-color); padding: 4px 12px; border-radius: 6px;
             font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px;
-            box-shadow: 1px 1px 0 rgba(125, 211, 252, 0.4);
+            box-shadow: 1px 1px 0 rgba(255, 130, 0, 0.2);
           }
-          [data-theme="dark"] .vn-info-label { background: linear-gradient(90deg, #0369a1, #0c4a6e); border-color: #0284c7; color: #e0f2fe; box-shadow: 1px 1px 0 rgba(3, 105, 161, 0.4);}
-          .vn-info-value { font-weight: 700; color: #334155; }
-          [data-theme="dark"] .vn-info-value { color: #cbd5e1; }
-
-          /* 명대사 / 인용구 박스 */
-          .vn-quote-box {
-            background: rgba(255,255,255,0.7); border: 2px solid #bae6fd; border-radius: 12px;
-            padding: 20px; position: relative; margin-top: 35px; margin-bottom: 25px;
-            backdrop-filter: blur(5px);
-          }
-          [data-theme="dark"] .vn-quote-box { background: rgba(15, 23, 42, 0.7); border-color: #0369a1; }
-          .vn-quote-icon {
-            position: absolute; top: -16px; left: -10px; width: 32px; height: 32px;
-            background: #38bdf8; color: #fff; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid #e0f2fe;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-          }
-          [data-theme="dark"] .vn-quote-icon { border-color: #0f172a; background: #0284c7; }
-          .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: #475569; padding-left: 10px; border-left: 3px solid #7dd3fc;}
-          [data-theme="dark"] .vn-quote-text { color: #cbd5e1; border-color: #0284c7; }
+          .vn-info-value { font-weight: 700; color: var(--text-main); }
 
           /* 좋아요 섹션 (비주얼 노벨풍) */
-          .vn-like-box { margin-top: 20px; }
-          .vn-like-title { font-size: 14px; font-weight: 800; color: #0284c7; margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
-          [data-theme="dark"] .vn-like-title { color: #38bdf8; }
+          .vn-like-box { margin-top: 30px; }
+          .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { 
-            background: rgba(255,255,255,0.8); border: 1px solid #7dd3fc; border-radius: 20px; 
-            padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: #0369a1; font-size: 12px; 
-            box-shadow: 0 2px 5px rgba(125,211,252,0.2);
+            background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; 
+            padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; 
+            box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
           }
-          [data-theme="dark"] .vn-like-item { background: rgba(15,23,42,0.8); border-color: #0369a1; color: #e0f2fe; }
 
           /* 바텀 패널 (뱃지 & 최근 게시글) */
           .vn-bottom-grid { display: grid; grid-template-columns: 1fr; gap: 20px; position: relative; z-index: 3; }
           .vn-panel { 
-            background: linear-gradient(to right, rgba(240, 249, 255, 0.8), rgba(255, 255, 255, 0.9)); 
-            border: 2px solid #bae6fd; border-radius: 16px; padding: 25px; 
+            background: var(--bg-card); 
+            border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; 
           }
-          [data-theme="dark"] .vn-panel { background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.9)); border-color: #0369a1; }
           .vn-panel-title { 
-            font-size: 15px; font-weight: 900; color: #0369a1; margin-bottom: 20px; 
-            border-bottom: 2px dashed #bae6fd; padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end;
+            font-size: 15px; font-weight: 900; color: var(--point-color); margin-bottom: 20px; 
+            border-bottom: 2px dashed rgba(255, 130, 0, 0.3); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end;
           }
-          [data-theme="dark"] .vn-panel-title { color: #38bdf8; border-bottom-color: #1e293b; }
 
           /* 구독 뱃지 */
           .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
@@ -255,22 +241,17 @@ export default {
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
           .badge-img { width: 32px; height: 32px; object-fit: contain; }
           .badge-label { font-size: 10px; color: var(--text-sub); font-weight: 600; text-align: center; white-space: nowrap; letter-spacing: -0.3px; }
-          .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 14px; min-width: 5px; }
-          [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
-
+          .badge-line { flex: 1; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 14px; min-width: 5px; }
+          
           /* 최근 게시글 목록 */
-          .recent-posts-more { font-size: 11px; font-weight: 700; color: #0284c7; transition: 0.2s; }
-          [data-theme="dark"] .recent-posts-more { color: #38bdf8; }
+          .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-more:hover { filter: brightness(0.8); }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
-          .post-item:hover .post-title { color: #0284c7; }
-          [data-theme="dark"] .post-item:hover .post-title { color: #38bdf8; }
+          .post-item:hover .post-title { color: var(--point-color); }
           .post-title-row { display: flex; align-items: center; gap: 8px; }
-          .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
-          [data-theme="dark"] .post-badge { background-color: rgba(255,255,255,0.1); color: var(--text-main); }
-          .post-badge.notice { background-color: #0284c7; color: #fff; }
-          [data-theme="dark"] .post-badge.notice { background-color: #0284c7; }
+          .post-badge { background-color: var(--bg-point-light); border: 1px solid var(--point-color); color: var(--point-color); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+          .post-badge.notice { background-color: var(--point-color); color: #fff; }
           .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
           .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
 
@@ -306,7 +287,7 @@ export default {
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* ===== 의상실 (CLOSET) 스타일 ===== */
+          /* ===== 5. 의상실 (CLOSET) 스타일 ===== */
           .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .closet-sub-section.active { display: block; }
           .closet-card-grid { display: flex; gap: 25px; flex-wrap: wrap; }
@@ -419,7 +400,7 @@ export default {
           <div class="fullscreen-bg"></div>
         </section>
 
-        <!-- 2. 프로필 탭 (비주얼 노벨 테마 전면 리뉴얼) -->
+        <!-- 2. 프로필 탭 (비주얼 노벨 테마 - 주황색/흰색 버전) -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -430,8 +411,22 @@ export default {
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
-                  <!-- 좌측 스탯 및 정보 영역 -->
-                  <div class="vn-left">
+                  <!-- 좌측 스탠딩 이미지 & 인사 영역 (사진과 인사 배치) -->
+                  <div class="vn-left-col">
+                    <!-- 👇 여기에 전신이나 반신 프로필 이미지 주소를 넣어주세요 👇 -->
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
+                    
+                    <!-- 명대사/인사말 (사진 밑에 배치) -->
+                    <div class="vn-quote-box">
+                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
+                      <div class="vn-quote-text">
+                        "반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 우측 정보 영역 (원래 왼쪽에 있던 텍스트) -->
+                  <div class="vn-right-col">
                     <div class="vn-header-badge">캐릭터 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
@@ -445,14 +440,6 @@ export default {
                     <div class="vn-info-row"><div class="vn-info-label">방송 시간</div><div class="vn-info-value">오후 6시 ~ 오전 12시</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">팬닉</div><div class="vn-info-value">OOOⓖ</div></div>
 
-                    <!-- 명대사/소개 문구 박스 -->
-                    <div class="vn-quote-box">
-                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
-                      <div class="vn-quote-text">
-                        "반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"
-                      </div>
-                    </div>
-
                     <!-- 좋아요 영역 -->
                     <div class="vn-like-box">
                       <div class="vn-like-title"><span class="material-symbols-rounded" style="font-size:16px;">favorite</span> LIKE</div>
@@ -463,13 +450,7 @@ export default {
                       </div>
                     </div>
                   </div>
-
-                  <!-- 우측 캐릭터 스탠딩 이미지 영역 -->
-                  <div class="vn-right">
-                    <!-- 👇 여기에 전신이나 반신 프로필(투명 배경 권장) 이미지 주소를 넣어주세요 👇 -->
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 전신">
-                  </div>
-
+                  
                 </div>
               </div>
 
@@ -521,7 +502,6 @@ export default {
                 </div>
 
               </div>
-
             </div>
           </div>
         </section>
@@ -575,7 +555,7 @@ export default {
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 -->
+        <!-- 5. 의상실 탭 (사진 디자인 및 서브 탭 완벽 적용) -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
