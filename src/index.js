@@ -43,54 +43,6 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 🌟 학생수첩 표지 애니메이션 ===== */
-          #handbook-cover {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #1c2541 0%, #0b1021 100%);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-origin: left center;
-            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1.3s ease-in;
-            transform-style: preserve-3d;
-            box-shadow: inset -15px 0 40px rgba(0,0,0,0.8);
-            cursor: pointer;
-          }
-          #handbook-cover::after {
-            content: ''; position: absolute; right: 0; top: 0; width: 30px; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05));
-            border-left: 1px solid rgba(0,0,0,0.5);
-          }
-          #handbook-cover.open {
-            transform: perspective(2000px) rotateY(-110deg);
-            opacity: 0;
-            pointer-events: none;
-          }
-          .cover-content {
-            text-align: center;
-            border: 2px solid #d4af37;
-            padding: 70px 60px;
-            border-radius: 12px;
-            box-shadow: inset 0 0 20px rgba(212,175,55,0.15), 0 0 30px rgba(0,0,0,0.8);
-            background: rgba(0,0,0,0.3);
-          }
-          .cover-logo {
-            width: 60px; height: 60px; margin: 0 auto 25px;
-            border-radius: 50%; border: 2px dashed #d4af37;
-            display: flex; align-items: center; justify-content: center;
-            color: #d4af37; font-size: 26px; font-weight: 900; font-family: serif;
-          }
-          .cover-title {
-            font-size: 48px; font-weight: 900; color: #d4af37; letter-spacing: 12px; margin-bottom: 15px; margin-right:-12px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
-          }
-          .cover-sub { color: #a98d3e; font-size: 14px; letter-spacing: 3px; margin-right:-3px; }
-          .cover-hint { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,0.5); animation: blink 1.5s infinite; letter-spacing: 1px;}
-          @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
           /* ===== 상단 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
@@ -109,152 +61,78 @@ export default {
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
-          /* ===== 메인 콘텐츠 영역 (학생수첩 내지 테마) ===== */
+          /* ===== 메인 콘텐츠 영역 ===== */
           .main-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
           .section-header-out { margin-bottom: 12px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
           .section-header-out span { font-size: 11px; color: var(--text-sub); }
-          
-          .content-card { 
-            background-color: var(--bg-card); 
-            border-radius: 8px 24px 24px 8px; 
-            padding: 40px 40px 40px 60px; 
-            min-height: 700px; 
-            box-shadow: -10px 0 20px rgba(0,0,0,0.05), 15px 15px 40px rgba(0,0,0,0.1); 
-            transition: background-color 0.3s;
-            position: relative;
-          }
-          .content-card::before {
-            content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 35px;
-            background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
-            border-radius: 8px 0 0 8px; pointer-events: none; z-index: 10;
-          }
-          [data-theme="dark"] .content-card::before {
-             background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
-          }
-
+          .content-card { background-color: var(--bg-card); border-radius: 20px; padding: 40px; min-height: 700px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: background-color 0.3s; }
           .tab-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .tab-section.active { display: block; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* =========================================
-             🌟 비주얼 노벨 스타일 프로필 (주황 & 흰색) 
-             ========================================= */
-          .vn-profile-wrapper {
-            background: var(--bg-card);
-            border: 3px solid var(--point-color);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 25px;
-          }
-          [data-theme="dark"] .vn-profile-wrapper {
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
-          }
-          /* 텍스처 패턴 효과 */
-          .vn-profile-wrapper::after {
-            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
-            background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px;
-            opacity: 0.15; pointer-events: none; z-index: 1;
-          }
-          [data-theme="dark"] .vn-profile-wrapper::after { opacity: 0.05; }
-
-          .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
+          /* ===== 2. 프로필 탭 ===== */
+          .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
+          .profile-img { width: 100%; height: 350px; border-radius: 12px; background-color: #eee; object-fit: cover; }
+          .profile-info h1 { font-size: 32px; margin-bottom: 5px; }
+          .profile-info p.sub { color: var(--text-sub); margin-bottom: 30px; font-size: 14px; }
+          .info-table { width: 100%; margin-bottom: 30px; border-collapse: collapse; }
+          .info-table th { text-align: left; font-size: 12px; color: var(--text-sub); padding-bottom: 5px; }
+          .info-table td { font-size: 15px; font-weight: 600; padding-bottom: 20px; }
+          .like-section h3, .about-section h3 { font-size: 16px; margin-bottom: 15px; }
+          .like-icons { display: flex; gap: 20px; margin-bottom: 40px; }
+          .like-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+          .like-item span.label { font-size: 13px; font-weight: 600; color: var(--text-main); }
+          .like-circle { width: 55px; height: 55px; border-radius: 50%; background-color: var(--bg-point-light); display: flex; align-items: center; justify-content: center; color: var(--point-color); }
           
-          /* 좌측: 스탠딩 이미지 및 인사 영역 */
-          .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-          .vn-character-img {
-            width: 100%; max-width: 450px; object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255,130,0,0.15));
-            animation: floatChar 3s ease-in-out infinite;
-          }
-          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
-          @keyframes floatChar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-          /* 명대사 / 인용구 박스 (사진 아래) */
-          .vn-quote-box {
-            background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
-            padding: 20px; position: relative; width: 100%; box-sizing: border-box;
-            backdrop-filter: blur(5px);
-          }
-          .vn-quote-icon {
-            position: absolute; top: -16px; left: -10px; width: 32px; height: 32px;
-            background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid var(--bg-card);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-          }
-          .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
-
-          /* 우측: 정보 영역 */
-          .vn-right-col { flex: 1; min-width: 350px; }
+          /* 어바웃(ABOUT) 박스 */
+          .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+          .about-box h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
+          [data-theme="dark"] .about-box h3 { border-bottom-color: rgba(255,255,255,0.2); }
+          .about-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          .about-divider { grid-column: span 2; border-top: 1px dashed rgba(0,0,0,0.1); margin: 0; }
+          [data-theme="dark"] .about-divider { border-top-color: rgba(255,255,255,0.2); }
           
-          /* 헤더 뱃지 (캐릭터 소개) */
-          .vn-header-badge {
-            display: inline-flex; align-items: center;
-            background: var(--bg-point-light);
-            border: 2px solid var(--point-color); border-radius: 30px;
-            padding: 6px 20px; color: var(--point-color); font-size: 15px; font-weight: 800; letter-spacing: 2px;
-            margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(255, 130, 0, 0.2);
-          }
-          .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: var(--point-color); margin: 0 8px; }
-
-          /* 이름 및 서브 타이틀 */
-          .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
-          .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
-
-          /* 스탯 텍스트 라인 */
-          .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
-          .vn-info-label { 
-            background: var(--bg-point-light); border: 1px solid var(--point-color);
-            color: var(--point-color); padding: 4px 12px; border-radius: 6px;
-            font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px;
-            box-shadow: 1px 1px 0 rgba(255, 130, 0, 0.2);
-          }
-          .vn-info-value { font-weight: 700; color: var(--text-main); }
-
-          /* 좋아요 섹션 (비주얼 노벨풍) */
-          .vn-like-box { margin-top: 30px; }
-          .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
-          .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
-          .vn-like-item { 
-            background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; 
-            padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; 
-            box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
-          }
-
-          /* 바텀 패널 (뱃지 & 최근 게시글) */
-          .vn-bottom-grid { display: grid; grid-template-columns: 1fr; gap: 20px; position: relative; z-index: 3; }
-          .vn-panel { 
-            background: var(--bg-card); 
-            border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; 
-          }
-          .vn-panel-title { 
-            font-size: 15px; font-weight: 900; color: var(--point-color); margin-bottom: 20px; 
-            border-bottom: 2px dashed rgba(255, 130, 0, 0.3); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end;
-          }
-
           /* 구독 뱃지 */
+          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
+          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
+          [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
           .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
           .badge-container::-webkit-scrollbar { display: none; }
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
           .badge-img { width: 32px; height: 32px; object-fit: contain; }
           .badge-label { font-size: 10px; color: var(--text-sub); font-weight: 600; text-align: center; white-space: nowrap; letter-spacing: -0.3px; }
-          .badge-line { flex: 1; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 14px; min-width: 5px; }
-          
-          /* 최근 게시글 목록 */
+          .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 14px; min-width: 5px; }
+          [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
+
+          /* ===== 프로필 하단 영역 (분할 레이아웃) ===== */
+          .profile-bottom-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr; /* 사진 폭과 동일하게 300px 지정 */
+            gap: 40px;
+            margin-top: 30px;
+          }
+
+          /* 최근 작성글 (SOOP POSTS) */
+          .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; }
+          .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
+          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
           .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-more:hover { filter: brightness(0.8); }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
           .post-item:hover .post-title { color: var(--point-color); }
           .post-title-row { display: flex; align-items: center; gap: 8px; }
-          .post-badge { background-color: var(--bg-point-light); border: 1px solid var(--point-color); color: var(--point-color); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+          .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+          [data-theme="dark"] .post-badge { background-color: rgba(255,255,255,0.1); color: var(--text-main); }
           .post-badge.notice { background-color: var(--point-color); color: #fff; }
-          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
           .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
 
+          /* 위키 및 기타 서브 탭 요소 */
+          .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+          .extra-sub-section.active { display: block; }
+          .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -323,7 +201,19 @@ export default {
           .counter-num { font-size: 24px; font-weight: bold; color: var(--point-color); }
           .btn-next { background-color: var(--text-main); color: var(--bg-card); padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
 
-          /* ===== 뮤직 팝업 ===== */
+          /* ===== 뮤직 팝업 & 위키 팝업 공통 ===== */
+          .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;
+            animation: fadeIn 0.2s;
+          }
+          .modal-content {
+            background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; 
+            padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;
+          }
+          .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+          
+          /* 뮤직 팝업 전용 */
           #music-popup {
             display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
@@ -352,16 +242,6 @@ export default {
       </head>
       <body>
 
-        <!-- 🌟 학생수첩 커버 애니메이션 요소 -->
-        <div id="handbook-cover" onclick="openHandbook()">
-          <div class="cover-content">
-            <div class="cover-logo">SH</div>
-            <div class="cover-title">학생수첩</div>
-            <div class="cover-sub">Song Hyun Official</div>
-            <div class="cover-hint">클릭해서 펼치기</div>
-          </div>
-        </div>
-
         <!-- 상단 네비게이션 바 -->
         <nav class="nav-container">
           <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
@@ -386,6 +266,7 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
+            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -395,113 +276,189 @@ export default {
           </div>
         </div>
 
+        <!-- 🌟 송현위키 작성 팝업창 (새로운 페이지 형태) -->
+        <div id="wiki-popup" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div style="font-size:15px; font-weight:800; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+                <span class="material-symbols-rounded" style="color:var(--point-color);">edit_document</span> 위키 새 문서 작성
+              </div>
+              <div style="display:flex; gap:8px;">
+                <!-- 저장 버튼 (우측 상단) -->
+                <button onclick="saveWiki()" style="background:var(--point-color); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer;">저장</button>
+                <button onclick="closeWikiPopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                  <span class="material-symbols-rounded" style="font-size:16px;">close</span>
+                </button>
+              </div>
+            </div>
+            <!-- 일반 이용자는 기존 글을 삭제하지 못하게 오직 백지만 띄워줍니다. -->
+            <textarea id="wiki-textarea" style="width:100%; height:200px; background:var(--bg-body); border:1px solid var(--border-color); border-radius:8px; padding:12px; font-size:13px; color:var(--text-main); font-family:inherit; resize:none; box-sizing:border-box;" placeholder="송현위키에 추가할 새로운 내용을 적어주세요. (기존 내용은 안전하게 보호되며, 아래에 누적됩니다.)"></textarea>
+          </div>
+        </div>
+
         <!-- 1. 홈 탭 -->
         <section id="tab-home" class="tab-section active">
           <div class="fullscreen-bg"></div>
         </section>
 
-        <!-- 2. 프로필 탭 (비주얼 노벨 테마 - 주황색/흰색 버전) -->
+        <!-- 2. 프로필 탭 -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
-              <h2>CHARACTER</h2><span>/ 캐릭터 소개</span>
+              <h2>PROFILE</h2><span>/ 프로필</span>
             </div>
-            
             <div class="content-card">
-              <div class="vn-profile-wrapper">
-                <div class="vn-profile-inner">
-                  
-                  <!-- 좌측 스탠딩 이미지 & 인사 영역 (사진과 인사 배치) -->
-                  <div class="vn-left-col">
-                    <!-- 👇 여기에 전신이나 반신 프로필 이미지 주소를 넣어주세요 👇 -->
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
+              
+              <!-- 상단 프로필 이미지 & 스탯 (기존 유지) -->
+              <div class="profile-grid">
+                <div>
+                  <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="profile-img" alt="프로필 이미지">
+                </div>
+                <div>
+                  <div class="profile-info">
+                    <h1>송현</h1>
+                    <p class="sub">Song Hyun | Virtual Streamer</p>
+                    <table class="info-table">
+                      <tr><th>AGE</th><th>DEBUT</th></tr>
+                      <tr><td>17</td><td>2024.02</td></tr>
+                      <tr><th>BIRTHDAY</th><th>FAN NAME</th></tr>
+                      <tr><td>06.08</td><td>황숭이</td></tr>
+                    </table>
+
+                    <div class="like-section">
+                      <h3>LIKE</h3>
+                      <div class="like-icons">
+                        <div class="like-item">
+                          <div class="like-circle"><span class="material-symbols-rounded">music_note</span></div>
+                          <span class="label">노래</span>
+                        </div>
+                        <div class="like-item">
+                          <div class="like-circle"><span class="material-symbols-rounded">tv</span></div>
+                          <span class="label">애니메이션</span>
+                        </div>
+                        <div class="like-item">
+                          <div class="like-circle"><span class="material-symbols-rounded">ramen_dining</span></div>
+                          <span class="label">국물 면요리</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 어바웃 섹션 -->
+                    <div class="about-section">
+                      <div class="about-box">
+                        <h3>ABOUT SONG HYUN 방송 & 캐릭터 정보</h3>
+                        <div class="about-box-grid">
+                          <div><span style="font-size:12px; color:var(--text-sub);">MBTI</span><br><strong>ISTP</strong></div>
+                          <div><span style="font-size:12px; color:var(--text-sub);">특이사항</span><br><strong>짱구</strong></div>
+                          
+                          <div class="about-divider"></div>
+                          
+                          <div><span style="font-size:12px; color:var(--text-sub);">방송 시간</span><br><strong>오후 6시 ~ 오전 12시</strong></div>
+                          <div><span style="font-size:12px; color:var(--text-sub);">팬닉</span><br><strong>OOOⓖ</strong></div>
+                        </div>
+                      </div>
+
+                      <!-- 뱃지 섹션 (총 8개) -->
+                      <div class="badge-section">
+                        <h3>구독 뱃지</h3>
+                        <div class="badge-container">
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
+                          <div class="badge-line"></div>
+                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                        </div>
+                      </div>
+                    </div>
                     
-                    <!-- 명대사/인사말 (사진 밑에 배치) -->
-                    <div class="vn-quote-box">
-                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
-                      <div class="vn-quote-text">
-                        "반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"
+                  </div>
+                </div>
+              </div> <!-- // profile-grid end -->
+
+              <!-- 🌟 프로필 하단 영역 (분할: 왼쪽 300px, 오른쪽 나머지) -->
+              <div class="profile-bottom-grid">
+                
+                <!-- 왼쪽 영역: 최근 게시글 (사진폭에 맞게 축소) -->
+                <div>
+                  <div class="recent-posts" style="margin-top:0;">
+                    <div class="recent-posts-header">
+                      <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--point-color);">SOOP POSTS</div>
+                        <h3 style="font-size: 16px; font-weight: 800; margin-top: 2px;">최근 게시글</h3>
                       </div>
+                      <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
+                    </div>
+                    <div id="soop-posts-container" class="recent-posts-list">
+                      <!-- JS를 통해 예시 게시글이 들어갑니다 -->
                     </div>
                   </div>
+                </div>
 
-                  <!-- 우측 정보 영역 (원래 왼쪽에 있던 텍스트) -->
-                  <div class="vn-right-col">
-                    <div class="vn-header-badge">캐릭터 소개</div>
-                    <div class="vn-name-title">송현</div>
-                    <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
-
-                    <div class="vn-info-row"><div class="vn-info-label">AGE</div><div class="vn-info-value">17</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">DEBUT</div><div class="vn-info-value">2024.02</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">BIRTHDAY</div><div class="vn-info-value">06.08</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">FAN NAME</div><div class="vn-info-value">황숭이</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">MBTI</div><div class="vn-info-value">ISTP</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">특이사항</div><div class="vn-info-value">짱구</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">방송 시간</div><div class="vn-info-value">오후 6시 ~ 오전 12시</div></div>
-                    <div class="vn-info-row"><div class="vn-info-label">팬닉</div><div class="vn-info-value">OOOⓖ</div></div>
-
-                    <!-- 좋아요 영역 -->
-                    <div class="vn-like-box">
-                      <div class="vn-like-title"><span class="material-symbols-rounded" style="font-size:16px;">favorite</span> LIKE</div>
-                      <div class="vn-like-icons">
-                        <div class="vn-like-item"><span class="material-symbols-rounded">music_note</span> 노래</div>
-                        <div class="vn-like-item"><span class="material-symbols-rounded">tv</span> 애니메이션</div>
-                        <div class="vn-like-item"><span class="material-symbols-rounded">ramen_dining</span> 국물 면요리</div>
-                      </div>
+                <!-- 오른쪽 영역: 남는 공간에 새로운 서브 탭 추가 -->
+                <div class="extra-tabs-area">
+                  <!-- 서브 탭 메뉴 -->
+                  <div class="sub-tabs" style="margin-bottom: 15px;">
+                    <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
+                    <button class="sub-tab-btn" onclick="switchExtraTab('extra-ogq', this)">OGQ MARKET</button>
+                    <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
+                  </div>
+                  
+                  <!-- 1. 방송규칙 -->
+                  <div id="extra-rule" class="extra-sub-section active">
+                    <div class="about-box" style="margin-bottom:0; height: 180px; overflow-y: auto;">
+                      <h3 style="border-bottom:none; margin-bottom:10px; font-size:14px;"><span class="material-symbols-rounded" style="font-size:16px; vertical-align:middle; margin-right:4px;">gavel</span>방송 규칙</h3>
+                      <ul style="font-size:13px; color:var(--text-main); line-height:1.6; padding-left:20px; margin:0;">
+                        <li style="margin-bottom:6px;">타 스트리머 관련 언급 금지</li>
+                        <li style="margin-bottom:6px;">시청자 간의 과도한 친목 금지</li>
+                        <li style="margin-bottom:6px;">게임 스포일러 및 선 넘는 훈수 금지</li>
+                        <li style="margin-bottom:6px;">욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
+                      </ul>
                     </div>
                   </div>
                   
-                </div>
-              </div>
-
-              <!-- 하단 배너형 패널 영역 (뱃지 & 최근게시물) -->
-              <div class="vn-bottom-grid">
-                
-                <!-- 구독 뱃지 패널 -->
-                <div class="vn-panel">
-                  <div class="vn-panel-title">
-                    <div><span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">verified</span>구독 뱃지</div>
-                  </div>
-                  <div class="badge-container">
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
-                    <div class="badge-line"></div>
-                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
-                  </div>
-                </div>
-
-                <!-- 최근 게시글 패널 -->
-                <div class="vn-panel">
-                  <div class="vn-panel-title">
-                    <div>
-                      <span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">article</span>SOOP POSTS
-                      <span style="font-size:12px; font-weight:600; color:var(--text-sub); margin-left:10px;">최근 게시글</span>
+                  <!-- 2. OGQ MARKET -->
+                  <div id="extra-ogq" class="extra-sub-section">
+                    <div class="about-box" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
+                      <span class="material-symbols-rounded" style="font-size:40px; color:var(--point-color); margin-bottom:10px;">storefront</span>
+                      <span style="font-size:15px; font-weight:700; color:var(--text-main);">OGQ MARKET 준비 중입니다!</span>
+                      <span style="font-size:12px; color:var(--text-sub); margin-top:5px;">멋진 굿즈들로 곧 찾아올게요 🧡</span>
                     </div>
-                    <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                   </div>
-                  <div id="soop-posts-container" class="recent-posts-list">
-                    <!-- JS를 통해 게시글이 들어가는 곳 -->
+                  
+                  <!-- 3. 송현위키 -->
+                  <div id="extra-wiki" class="extra-sub-section">
+                    <div class="about-box" style="margin-bottom:0; height: 180px; display:flex; flex-direction:column; padding:15px 25px;">
+                      <!-- 위키 상단 타이틀 & + 버튼 -->
+                      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
+                        <h3 style="margin:0; border:none; padding:0; display:flex; align-items:center; gap:5px;">
+                          <span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키 
+                          <span style="font-size:11px; color:var(--text-sub); font-weight:normal; margin-left:6px;">자유롭게 문서를 기여해주세요!</span>
+                        </h3>
+                        <button onclick="openWikiPopup()" title="새 내용 작성" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s;">
+                          <span class="material-symbols-rounded" style="font-size:18px;">add</span>
+                        </button>
+                      </div>
+                      <!-- 위키 내용 리스트 (작성된 글이 누적됨) -->
+                      <div id="wiki-content-list" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px; padding-right:5px;">
+                        <div class="wiki-item"><strong>[환영합니다]</strong> 송현위키에 오신 것을 환영합니다! 우측 상단의 <strong>+ 버튼</strong>을 눌러 나만이 알고 있는 송현님의 정보를 추가해 보세요!</div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
 
               </div>
+              
             </div>
           </div>
         </section>
@@ -555,7 +512,7 @@ export default {
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 (사진 디자인 및 서브 탭 완벽 적용) -->
+        <!-- 5. 의상실 탭 -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -664,7 +621,7 @@ export default {
           </div>
         </section>
 
-        <!-- 8. INFO 탭 -->
+        <!-- 8. INFO 탭 (9번째 메뉴 버튼) -->
         <section id="tab-info" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -721,13 +678,47 @@ export default {
 
         <!-- 기능 스크립트 모음 -->
         <script>
-          /* ===== 학생수첩 펴기 애니메이션 ===== */
-          function openHandbook() {
-            var cover = document.getElementById('handbook-cover');
-            cover.classList.add('open');
-            setTimeout(function() {
-              cover.style.display = 'none';
-            }, 1500); 
+          /* ===== 추가된 우측 하단 탭(위키,규칙 등) 전환 로직 ===== */
+          function switchExtraTab(subTabId, clickedBtn) {
+            document.querySelectorAll('.extra-sub-section').forEach(function(sec) { sec.style.display = 'none'; });
+            var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
+            parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
+            
+            document.getElementById(subTabId).style.display = 'block';
+            clickedBtn.classList.add('active');
+          }
+
+          /* ===== 송현위키 작성 팝업 로직 ===== */
+          function openWikiPopup() {
+            // 다른 사람 글 삭제 못하도록 열때마다 빈(흰) 페이지로 초기화합니다
+            document.getElementById('wiki-textarea').value = ''; 
+            document.getElementById('wiki-popup').style.display = 'flex';
+          }
+          
+          function closeWikiPopup() {
+            document.getElementById('wiki-popup').style.display = 'none';
+          }
+          
+          function saveWiki() {
+            var text = document.getElementById('wiki-textarea').value.trim();
+            if (!text) {
+              alert('내용을 적어주세요!');
+              return;
+            }
+            
+            var list = document.getElementById('wiki-content-list');
+            var newItem = document.createElement('div');
+            // 새롭게 추가되는 위키 항목의 디자인
+            newItem.className = 'wiki-item';
+            newItem.style.animation = 'fadeIn 0.3s ease-in-out';
+            
+            // XSS 공격 방지를 위해 innerText(textContent) 활용
+            newItem.textContent = text; 
+            
+            // 가장 위쪽에 새 내용을 추가합니다
+            list.insertBefore(newItem, list.firstChild);
+            
+            closeWikiPopup();
           }
 
           /* ===== 탭 및 테마 전환 ===== */
