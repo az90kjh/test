@@ -197,7 +197,6 @@ export default {
 
           .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           
-          /* 좌측: 스탠딩 이미지 및 인사 영역 */
           .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
           .vn-character-img {
             width: 100%; max-width: 350px; object-fit: contain;
@@ -205,7 +204,6 @@ export default {
           }
           [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
 
-          /* 명대사 / 인용구 박스 */
           .vn-quote-box {
             background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
             padding: 20px; position: relative; width: 100%; box-sizing: border-box;
@@ -219,7 +217,6 @@ export default {
           }
           .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
 
-          /* 우측: 정보 영역 */
           .vn-right-col { flex: 1; min-width: 350px; }
           
           .vn-header-badge {
@@ -234,7 +231,6 @@ export default {
           .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
           .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
 
-          /* 스탯 */
           .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
           .vn-info-label { 
             background: var(--bg-point-light); border: 1px solid var(--point-color);
@@ -244,7 +240,6 @@ export default {
           }
           .vn-info-value { font-weight: 700; color: var(--text-main); }
 
-          /* 좋아요 */
           .vn-like-box { margin-top: 30px; margin-bottom: 30px; }
           .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -268,7 +263,7 @@ export default {
             .profile-bottom-grid { grid-template-columns: 1fr; }
           }
 
-          /* 좌측: 최근 작성글 (SOOP POSTS) */
+          /* 좌측: 최근 작성글 */
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
           [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
@@ -315,7 +310,7 @@ export default {
           }
           .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
-          /* 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 붙어서 나옴) */
+          /* 🌟 뮤직 팝업 */
           #music-popup {
             display: none; position: fixed; 
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
@@ -332,18 +327,40 @@ export default {
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* =========================================
-             🌟 8. VOD 다시보기 탭 (복구 완료!)
+             🌟 8. VOD 다시보기 탭 (검색 & 재생 최적화)
              ========================================= */
-          .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-          .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
+          .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 15px;}
+          
+          /* 카드 전체가 클릭 가능한 링크 */
+          .vod-card { 
+            background: var(--bg-body); border-radius: 12px; overflow: hidden; 
+            border: 1px solid var(--border-color); transition: transform 0.2s, border-color 0.2s; 
+            text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; 
+          }
           .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+          
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
           [data-theme="dark"] .vod-thumb { background-color: #334155; }
           .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
+          
+          /* 🌟 재생 버튼 오버레이 효과 (마우스 올리면 나타남) */
+          .vod-play-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.2s;
+          }
+          .vod-play-overlay span {
+            font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+            transition: transform 0.2s, color 0.2s;
+          }
+          .vod-card:hover .vod-play-overlay { opacity: 1; }
+          .vod-card:hover .vod-play-overlay span { color: var(--point-color); transform: scale(1.1); }
+          
           .vod-info { padding: 15px; }
           .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
           .vod-date { font-size: 11px; color: var(--text-sub); }
-          .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; }
+          .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
+
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -501,7 +518,7 @@ export default {
             </div>
             
             <div class="content-card">
-              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 -->
+              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
@@ -591,13 +608,13 @@ export default {
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
                       
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
+                        <img src="여기에_OGQ_황숭티콘1_이미지_주소를_넣어주세요.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘</span>
                       </a>
 
                       <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
+                        <img src="여기에_OGQ_황숭티콘2_이미지_주소를_넣어주세요.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘</span>
                       </a>
 
                     </div>
@@ -805,7 +822,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 -->
+        <!-- 🌟 8. VOD 탭 (새로 추가 및 검색기능 연동) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -814,21 +831,29 @@ export default {
             <div class="content-card">
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">SOOP VOD</h1>
-                <p style="font-size: 13px; color: var(--text-sub);">SOOP에 올라온 노래 다시보기 영상들을 정리해 두었어요.</p>
+                <p style="font-size: 13px; color: var(--text-sub);">SOOP에 올라온 노래 다시보기 영상들을 정리해 두었어요. 클릭하면 영상이 재생됩니다.</p>
               </div>
               
-              <!-- 서브 탭 필터 영역 -->
+              <!-- 🌟 VOD 검색 바 추가 -->
+              <div class="search-bar" style="margin-bottom: 30px;">
+                <input type="text" id="vod-search-input" onkeyup="filterVods()" placeholder="다시보기 영상 제목을 검색해보세요...">
+                <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
+              </div>
+
+              <!-- 서브 탭 필터 (디자인용) -->
               <div class="sub-tabs">
                 <button class="sub-tab-btn active">전체 영상</button>
                 <button class="sub-tab-btn">커버곡</button>
                 <button class="sub-tab-btn">라이브 클립</button>
               </div>
 
-              <!-- VOD 갤러리 그리드 -->
-              <div class="vod-grid">
-                <a href="VOD_링크_1번을_넣어주세요" target="_blank" class="vod-card">
+              <div class="vod-grid" id="vod-grid-container">
+                <!-- 👇 실제 SOOP VOD 링크를 href에 적어주세요. 클릭 시 새 창에서 영상이 재생됩니다! 👇 -->
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
                   <div class="vod-thumb">
                     <img src="여기에_VOD_썸네일_이미지_1번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <!-- 🌟 썸네일 위에 재생버튼 레이어 추가 -->
+                    <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">03:45</span>
                   </div>
                   <div class="vod-info">
@@ -837,9 +862,10 @@ export default {
                   </div>
                 </a>
 
-                <a href="VOD_링크_2번을_넣어주세요" target="_blank" class="vod-card">
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
                   <div class="vod-thumb">
                     <img src="여기에_VOD_썸네일_이미지_2번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">04:12</span>
                   </div>
                   <div class="vod-info">
@@ -848,9 +874,10 @@ export default {
                   </div>
                 </a>
 
-                <a href="VOD_링크_3번을_넣어주세요" target="_blank" class="vod-card">
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
                   <div class="vod-thumb">
                     <img src="여기에_VOD_썸네일_이미지_3번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">02:50</span>
                   </div>
                   <div class="vod-info">
@@ -859,9 +886,10 @@ export default {
                   </div>
                 </a>
 
-                <a href="VOD_링크_4번을_넣어주세요" target="_blank" class="vod-card">
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
                   <div class="vod-thumb">
                     <img src="여기에_VOD_썸네일_이미지_4번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">05:10</span>
                   </div>
                   <div class="vod-info">
@@ -1171,6 +1199,21 @@ export default {
                 '</a>';
             });
             container.innerHTML = html;
+          }
+
+          /* ===== 🌟 VOD 페이지 검색 기능 로직 ===== */
+          function filterVods() {
+            const query = document.getElementById('vod-search-input').value.toLowerCase();
+            const vodCards = document.querySelectorAll('.vod-grid .vod-card');
+            
+            vodCards.forEach(function(card) {
+              const title = card.querySelector('.vod-title').textContent.toLowerCase();
+              if (title.indexOf(query) !== -1) {
+                card.style.display = 'flex';
+              } else {
+                card.style.display = 'none';
+              }
+            });
           }
 
           /* ===== 노래책 연동 로직 ===== */
