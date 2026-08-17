@@ -6,7 +6,7 @@ export default {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Song Hyun | 학생수첩</title>
+        <title>Song Hyun | 스트리머 프로필</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
@@ -104,7 +104,6 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
@@ -115,21 +114,19 @@ export default {
           .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
           .section-header-out span { font-size: 11px; color: var(--text-sub); }
           
-          /* 카드 디자인에 책 제본 음영 효과 추가 */
           .content-card { 
             background-color: var(--bg-card); 
-            border-radius: 8px 24px 24px 8px; /* 오른쪽 모서리만 둥글게 */
-            padding: 40px 40px 40px 60px; /* 왼쪽 제본선 공간 확보 */
+            border-radius: 8px 24px 24px 8px; 
+            padding: 40px 40px 40px 60px; 
             min-height: 700px; 
             box-shadow: -10px 0 20px rgba(0,0,0,0.05), 15px 15px 40px rgba(0,0,0,0.1); 
             transition: background-color 0.3s;
             position: relative;
           }
-          /* 수첩 접히는 음영 */
           .content-card::before {
             content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 35px;
             background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
-            border-radius: 8px 0 0 8px; pointer-events: none;
+            border-radius: 8px 0 0 8px; pointer-events: none; z-index: 10;
           }
           [data-theme="dark"] .content-card::before {
              background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
@@ -139,32 +136,120 @@ export default {
           .tab-section.active { display: block; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* ===== 2. 프로필 탭 ===== */
-          .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 40px; }
-          .profile-img { width: 100%; height: 350px; border-radius: 12px; background-color: #eee; object-fit: cover; }
-          .profile-info h1 { font-size: 32px; margin-bottom: 5px; }
-          .profile-info p.sub { color: var(--text-sub); margin-bottom: 30px; font-size: 14px; }
-          .info-table { width: 100%; margin-bottom: 30px; border-collapse: collapse; }
-          .info-table th { text-align: left; font-size: 12px; color: var(--text-sub); padding-bottom: 5px; }
-          .info-table td { font-size: 15px; font-weight: 600; padding-bottom: 20px; }
-          .like-section h3, .about-section h3 { font-size: 16px; margin-bottom: 15px; }
-          .like-icons { display: flex; gap: 20px; margin-bottom: 40px; }
-          .like-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-          .like-item span.label { font-size: 13px; font-weight: 600; color: var(--text-main); }
-          .like-circle { width: 55px; height: 55px; border-radius: 50%; background-color: var(--bg-point-light); display: flex; align-items: center; justify-content: center; color: var(--point-color); }
+          /* =========================================
+             🌟 비주얼 노벨 스타일 프로필 (새 디자인) 
+             ========================================= */
           
-          /* 어바웃(ABOUT) 박스 */
-          .about-box { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 30px; }
-          .about-box h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
-          [data-theme="dark"] .about-box h3 { border-bottom-color: rgba(255,255,255,0.2); }
-          .about-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-          .about-divider { grid-column: span 2; border-top: 1px dashed rgba(0,0,0,0.1); margin: 0; }
-          [data-theme="dark"] .about-divider { border-top-color: rgba(255,255,255,0.2); }
+          .vn-profile-wrapper {
+            /* 옅은 눈꽃 질감/하늘색 그라데이션 베이스 */
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 3px solid #bae6fd;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: inset 0 0 50px rgba(255,255,255,0.8), 0 10px 30px rgba(14, 165, 233, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+          }
+          [data-theme="dark"] .vn-profile-wrapper {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-color: #0369a1;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
+          }
+          /* 텍스처 패턴 효과 */
+          .vn-profile-wrapper::after {
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            background-image: radial-gradient(#bae6fd 1px, transparent 1px); background-size: 20px 20px;
+            opacity: 0.4; pointer-events: none; z-index: 1;
+          }
+          [data-theme="dark"] .vn-profile-wrapper::after { background-image: radial-gradient(#0369a1 1px, transparent 1px); opacity: 0.2; }
+
+          .vn-profile-inner { display: flex; position: relative; z-index: 2; gap: 30px; }
           
+          /* 좌측: 정보 영역 */
+          .vn-left { flex: 1; min-width: 350px; }
+          
+          /* 우측: 스탠딩 이미지 영역 */
+          .vn-right { flex: 1; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+          .vn-character-img {
+            width: 100%; max-width: 450px; object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.9));
+            animation: floatChar 3s ease-in-out infinite;
+          }
+          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(2, 132, 199, 0.5)); }
+          @keyframes floatChar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+          /* 헤더 뱃지 (캐릭터 소개) */
+          .vn-header-badge {
+            display: inline-flex; align-items: center;
+            background: linear-gradient(90deg, #e0f2fe, #f0f9ff);
+            border: 2px solid #7dd3fc; border-radius: 30px;
+            padding: 6px 20px; color: #0284c7; font-size: 15px; font-weight: 800; letter-spacing: 2px;
+            margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(125, 211, 252, 0.4);
+          }
+          [data-theme="dark"] .vn-header-badge { background: linear-gradient(90deg, #0369a1, #0c4a6e); border-color: #38bdf8; color: #e0f2fe; box-shadow: 2px 2px 0 rgba(3, 105, 161, 0.4); }
+          .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: #38bdf8; margin: 0 8px; }
+
+          /* 이름 및 서브 타이틀 */
+          .vn-name-title { font-size: 42px; font-weight: 900; color: #0284c7; text-shadow: 2px 2px 0px #fff, -1px -1px 0px #bae6fd; margin-bottom: 5px; }
+          [data-theme="dark"] .vn-name-title { color: #e0f2fe; text-shadow: 2px 2px 0px #0f172a, -1px -1px 0px #0369a1; }
+          .vn-name-sub { font-size: 14px; font-weight: 700; color: #0ea5e9; margin-bottom: 30px; letter-spacing: 1px; }
+
+          /* 스탯 텍스트 라인 */
+          .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
+          .vn-info-label { 
+            background: linear-gradient(90deg, #bae6fd, #e0f2fe); border: 1px solid #7dd3fc;
+            color: #0369a1; padding: 4px 12px; border-radius: 6px;
+            font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px;
+            box-shadow: 1px 1px 0 rgba(125, 211, 252, 0.4);
+          }
+          [data-theme="dark"] .vn-info-label { background: linear-gradient(90deg, #0369a1, #0c4a6e); border-color: #0284c7; color: #e0f2fe; box-shadow: 1px 1px 0 rgba(3, 105, 161, 0.4);}
+          .vn-info-value { font-weight: 700; color: #334155; }
+          [data-theme="dark"] .vn-info-value { color: #cbd5e1; }
+
+          /* 명대사 / 인용구 박스 */
+          .vn-quote-box {
+            background: rgba(255,255,255,0.7); border: 2px solid #bae6fd; border-radius: 12px;
+            padding: 20px; position: relative; margin-top: 35px; margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+          }
+          [data-theme="dark"] .vn-quote-box { background: rgba(15, 23, 42, 0.7); border-color: #0369a1; }
+          .vn-quote-icon {
+            position: absolute; top: -16px; left: -10px; width: 32px; height: 32px;
+            background: #38bdf8; color: #fff; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid #e0f2fe;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          }
+          [data-theme="dark"] .vn-quote-icon { border-color: #0f172a; background: #0284c7; }
+          .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: #475569; padding-left: 10px; border-left: 3px solid #7dd3fc;}
+          [data-theme="dark"] .vn-quote-text { color: #cbd5e1; border-color: #0284c7; }
+
+          /* 좋아요 섹션 (비주얼 노벨풍) */
+          .vn-like-box { margin-top: 20px; }
+          .vn-like-title { font-size: 14px; font-weight: 800; color: #0284c7; margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
+          [data-theme="dark"] .vn-like-title { color: #38bdf8; }
+          .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+          .vn-like-item { 
+            background: rgba(255,255,255,0.8); border: 1px solid #7dd3fc; border-radius: 20px; 
+            padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: #0369a1; font-size: 12px; 
+            box-shadow: 0 2px 5px rgba(125,211,252,0.2);
+          }
+          [data-theme="dark"] .vn-like-item { background: rgba(15,23,42,0.8); border-color: #0369a1; color: #e0f2fe; }
+
+          /* 바텀 패널 (뱃지 & 최근 게시글) */
+          .vn-bottom-grid { display: grid; grid-template-columns: 1fr; gap: 20px; position: relative; z-index: 3; }
+          .vn-panel { 
+            background: linear-gradient(to right, rgba(240, 249, 255, 0.8), rgba(255, 255, 255, 0.9)); 
+            border: 2px solid #bae6fd; border-radius: 16px; padding: 25px; 
+          }
+          [data-theme="dark"] .vn-panel { background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.9)); border-color: #0369a1; }
+          .vn-panel-title { 
+            font-size: 15px; font-weight: 900; color: #0369a1; margin-bottom: 20px; 
+            border-bottom: 2px dashed #bae6fd; padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end;
+          }
+          [data-theme="dark"] .vn-panel-title { color: #38bdf8; border-bottom-color: #1e293b; }
+
           /* 구독 뱃지 */
-          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 25px; }
-          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 20px; }
-          [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
           .badge-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding-bottom: 5px; -ms-overflow-style: none; scrollbar-width: none; }
           .badge-container::-webkit-scrollbar { display: none; }
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
@@ -173,21 +258,22 @@ export default {
           .badge-line { flex: 1; height: 1px; background-color: rgba(0,0,0,0.1); margin-bottom: 14px; min-width: 5px; }
           [data-theme="dark"] .badge-line { background-color: rgba(255,255,255,0.2); }
 
-          /* ===== 최근 작성글 (SOOP POSTS) ===== */
-          .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; margin-top: 20px; }
-          .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
-          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
-          .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
+          /* 최근 게시글 목록 */
+          .recent-posts-more { font-size: 11px; font-weight: 700; color: #0284c7; transition: 0.2s; }
+          [data-theme="dark"] .recent-posts-more { color: #38bdf8; }
           .recent-posts-more:hover { filter: brightness(0.8); }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
-          .post-item:hover .post-title { color: var(--point-color); }
+          .post-item:hover .post-title { color: #0284c7; }
+          [data-theme="dark"] .post-item:hover .post-title { color: #38bdf8; }
           .post-title-row { display: flex; align-items: center; gap: 8px; }
           .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
           [data-theme="dark"] .post-badge { background-color: rgba(255,255,255,0.1); color: var(--text-main); }
-          .post-badge.notice { background-color: var(--point-color); color: #fff; }
+          .post-badge.notice { background-color: #0284c7; color: #fff; }
+          [data-theme="dark"] .post-badge.notice { background-color: #0284c7; }
           .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
           .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
+
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -220,7 +306,7 @@ export default {
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* ===== 5. 의상실 (CLOSET) 스타일 ===== */
+          /* ===== 의상실 (CLOSET) 스타일 ===== */
           .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .closet-sub-section.active { display: block; }
           .closet-card-grid { display: flex; gap: 25px; flex-wrap: wrap; }
@@ -333,103 +419,109 @@ export default {
           <div class="fullscreen-bg"></div>
         </section>
 
-        <!-- 2. 프로필 탭 -->
+        <!-- 2. 프로필 탭 (비주얼 노벨 테마 전면 리뉴얼) -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
-              <h2>PROFILE</h2><span>/ 프로필</span>
+              <h2>CHARACTER</h2><span>/ 캐릭터 소개</span>
             </div>
+            
             <div class="content-card">
-              <div class="profile-grid">
-                <div>
-                  <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="profile-img" alt="프로필 이미지">
+              <div class="vn-profile-wrapper">
+                <div class="vn-profile-inner">
                   
-                  <!-- 최근 작성글 (SOOP POSTS) 추가된 영역 -->
-                  <div class="recent-posts">
-                    <div class="recent-posts-header">
-                      <div>
-                        <div style="font-size: 10px; font-weight: 800; color: var(--point-color);">SOOP POSTS</div>
-                        <h3 style="font-size: 16px; font-weight: 800; margin-top: 2px;">최근 게시글</h3>
+                  <!-- 좌측 스탯 및 정보 영역 -->
+                  <div class="vn-left">
+                    <div class="vn-header-badge">캐릭터 소개</div>
+                    <div class="vn-name-title">송현</div>
+                    <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
+
+                    <div class="vn-info-row"><div class="vn-info-label">AGE</div><div class="vn-info-value">17</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">DEBUT</div><div class="vn-info-value">2024.02</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">BIRTHDAY</div><div class="vn-info-value">06.08</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">FAN NAME</div><div class="vn-info-value">황숭이</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">MBTI</div><div class="vn-info-value">ISTP</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">특이사항</div><div class="vn-info-value">짱구</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">방송 시간</div><div class="vn-info-value">오후 6시 ~ 오전 12시</div></div>
+                    <div class="vn-info-row"><div class="vn-info-label">팬닉</div><div class="vn-info-value">OOOⓖ</div></div>
+
+                    <!-- 명대사/소개 문구 박스 -->
+                    <div class="vn-quote-box">
+                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
+                      <div class="vn-quote-text">
+                        "반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"
                       </div>
-                      <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
-                    <div id="soop-posts-container" class="recent-posts-list">
-                      <!-- JS를 통해 게시글이 들어가는 곳 -->
+
+                    <!-- 좋아요 영역 -->
+                    <div class="vn-like-box">
+                      <div class="vn-like-title"><span class="material-symbols-rounded" style="font-size:16px;">favorite</span> LIKE</div>
+                      <div class="vn-like-icons">
+                        <div class="vn-like-item"><span class="material-symbols-rounded">music_note</span> 노래</div>
+                        <div class="vn-like-item"><span class="material-symbols-rounded">tv</span> 애니메이션</div>
+                        <div class="vn-like-item"><span class="material-symbols-rounded">ramen_dining</span> 국물 면요리</div>
+                      </div>
                     </div>
                   </div>
 
-                </div>
-                <div>
-                  <div class="profile-info">
-                    <h1>송현</h1>
-                    <p class="sub">Song Hyun | Virtual Streamer</p>
-                    <table class="info-table">
-                      <tr><th>AGE</th><th>DEBUT</th></tr>
-                      <tr><td>17</td><td>2024.02</td></tr>
-                      <tr><th>BIRTHDAY</th><th>FAN NAME</th></tr>
-                      <tr><td>06.08</td><td>황숭이</td></tr>
-                    </table>
-
-                    <div class="like-section">
-                      <h3>LIKE</h3>
-                      <div class="like-icons">
-                        <div class="like-item">
-                          <div class="like-circle"><span class="material-symbols-rounded">music_note</span></div>
-                          <span class="label">노래</span>
-                        </div>
-                        <div class="like-item">
-                          <div class="like-circle"><span class="material-symbols-rounded">tv</span></div>
-                          <span class="label">애니메이션</span>
-                        </div>
-                        <div class="like-item">
-                          <div class="like-circle"><span class="material-symbols-rounded">ramen_dining</span></div>
-                          <span class="label">국물 면요리</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- 어바웃 섹션 -->
-                    <div class="about-section">
-                      <div class="about-box">
-                        <h3>ABOUT SONG HYUN 방송 & 캐릭터 정보</h3>
-                        <div class="about-box-grid">
-                          <div><span style="font-size:12px; color:var(--text-sub);">MBTI</span><br><strong>ISTP</strong></div>
-                          <div><span style="font-size:12px; color:var(--text-sub);">특이사항</span><br><strong>짱구</strong></div>
-                          
-                          <!-- 중간 점선 구분선 -->
-                          <div class="about-divider"></div>
-                          
-                          <div><span style="font-size:12px; color:var(--text-sub);">방송 시간</span><br><strong>오후 6시 ~ 오전 12시</strong></div>
-                          <div><span style="font-size:12px; color:var(--text-sub);">팬닉</span><br><strong>OOOⓖ</strong></div>
-                        </div>
-                      </div>
-
-                      <!-- 뱃지 섹션 (총 8개) -->
-                      <div class="badge-section">
-                        <h3>구독 뱃지</h3>
-                        <div class="badge-container">
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
-                          <div class="badge-line"></div>
-                          <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
-                        </div>
-                      </div>
-                    </div>
-                    
+                  <!-- 우측 캐릭터 스탠딩 이미지 영역 -->
+                  <div class="vn-right">
+                    <!-- 👇 여기에 전신이나 반신 프로필(투명 배경 권장) 이미지 주소를 넣어주세요 👇 -->
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 전신">
                   </div>
+
                 </div>
               </div>
+
+              <!-- 하단 배너형 패널 영역 (뱃지 & 최근게시물) -->
+              <div class="vn-bottom-grid">
+                
+                <!-- 구독 뱃지 패널 -->
+                <div class="vn-panel">
+                  <div class="vn-panel-title">
+                    <div><span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">verified</span>구독 뱃지</div>
+                  </div>
+                  <div class="badge-container">
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
+                    <div class="badge-line"></div>
+                    <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
+                  </div>
+                </div>
+
+                <!-- 최근 게시글 패널 -->
+                <div class="vn-panel">
+                  <div class="vn-panel-title">
+                    <div>
+                      <span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">article</span>SOOP POSTS
+                      <span style="font-size:12px; font-weight:600; color:var(--text-sub); margin-left:10px;">최근 게시글</span>
+                    </div>
+                    <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
+                  </div>
+                  <div id="soop-posts-container" class="recent-posts-list">
+                    <!-- JS를 통해 게시글이 들어가는 곳 -->
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </div>
         </section>
@@ -592,7 +684,7 @@ export default {
           </div>
         </section>
 
-        <!-- 8. INFO 탭 (9번째 메뉴 버튼) -->
+        <!-- 8. INFO 탭 -->
         <section id="tab-info" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -602,7 +694,6 @@ export default {
               <p style="font-size:14px; color:var(--text-sub);">Official contact, character credit and community links.</p>
               <div class="link-grid">
                 
-                <!-- 1. Contact Email -->
                 <a href="#" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#03C75A;">mail</span>
@@ -611,7 +702,6 @@ export default {
                   <div class="link-right">MAIL ↗</div>
                 </a>
                 
-                <!-- 2. Official Broadcasting -->
                 <a href="https://www.sooplive.com/station/songhy" class="link-card">
                   <div class="link-left">
                     <img src="https://res.sooplive.com/images/svg/soop_logo.svg" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="SOOP">
@@ -620,7 +710,6 @@ export default {
                   <div class="link-right">BROADCAST ↗</div>
                 </a>
                 
-                <!-- 3. YouTube -->
                 <a href="https://www.youtube.com/@songhy___/featured" target="_blank" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#FF0000;">smart_display</span>
@@ -629,7 +718,6 @@ export default {
                   <div class="link-right">VIDEO ↗</div>
                 </a>
                 
-                <!-- 4. 카페 커뮤니티 -->
                 <a href="https://cafe.naver.com/songhysonghy" target="_blank" class="link-card">
                   <div class="link-left">
                     <span class="material-symbols-rounded link-icon" style="color:#03C75A;">coffee</span>
@@ -638,7 +726,6 @@ export default {
                   <div class="link-right">CAFE ↗</div>
                 </a>
 
-                <!-- 5. 새롭게 추가된 다섯 번째 링크 (Fansim) -->
                 <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
                   <div class="link-left">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQywUtO7pfrtYaRIu5gWF82EkhKgZPQ2lZ2TJ8iCY6dImZnyBbdMI0GfQM&s=10" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim">
@@ -660,7 +747,7 @@ export default {
             cover.classList.add('open');
             setTimeout(function() {
               cover.style.display = 'none';
-            }, 1500); // 1.5초 후 완전히 숨김 처리
+            }, 1500); 
           }
 
           /* ===== 탭 및 테마 전환 ===== */
@@ -676,7 +763,6 @@ export default {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
 
-          /* ===== 의상실(CLOSET) 서브 탭 전환 ===== */
           function switchClosetTab(subTabId, clickedBtn) {
             document.querySelectorAll('.closet-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
             var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
@@ -811,7 +897,7 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 최근 작성글 연동(디자인 틀) 로직 ===== */
+          /* ===== 최근 작성글 연동 ===== */
           function loadRecentPosts() {
             const container = document.getElementById('soop-posts-container');
             const dummyPosts = [
@@ -832,7 +918,6 @@ export default {
                   '</div>' +
                 '</a>';
             });
-            
             container.innerHTML = html;
           }
 
@@ -860,6 +945,9 @@ export default {
 
               const results = await Promise.all(fetchPromises);
 
+              const LF = String.fromCharCode(10); 
+              const CR = String.fromCharCode(13);
+
               results.forEach(function(resultObj) {
                 let sheetName = resultObj.sheetName;
                 let rows = resultObj.rows;
@@ -884,37 +972,54 @@ export default {
                     title = cells[1];
                   }
 
-                  if (!title) return;
+                  if (!rawSinger && !title) return;
 
-                  let checkStr = (rawSinger + " " + title).toLowerCase();
-                  if (
-                    checkStr.indexOf('송현 노래책') !== -1 || 
-                    checkStr.indexOf('노래신청은') !== -1 || 
-                    checkStr.indexOf('제목') !== -1 || 
-                    checkStr.indexOf('가수') !== -1 ||
-                    checkStr.indexOf('노래책 설명서') !== -1 ||
-                    checkStr.indexOf('별풍 200개') !== -1 ||
-                    checkStr.indexOf('이거 불러죠') !== -1 ||
-                    checkStr.indexOf('블렀던곡') !== -1 ||
-                    checkStr.indexOf('녹음음원') !== -1
-                  ) {
-                    return;
+                  let singersList = rawSinger.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
+                  let titlesList = title.split(CR).join('').split(LF).map(function(t) { return t.trim(); });
+                  let diffsList = diff.split(CR).join('').split(LF).map(function(d) { return d.trim(); });
+                  let statusList = status.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
+
+                  let maxLen = Math.max(titlesList.length, singersList.length);
+
+                  for (let i = 0; i < maxLen; i++) {
+                    let t = titlesList[i] || ''; 
+                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
+                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
+                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
+
+                    if (!t) continue;
+
+                    let lowerT = t.toLowerCase().split(' ').join('');
+                    let lowerS = s.toLowerCase().split(' ').join('');
+
+                    if (
+                      lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
+                      lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
+                      lowerT.indexOf('노래책설명서') !== -1 || lowerT.indexOf('컨트롤+f') !== -1 || lowerT.indexOf('컨트롤f') !== -1 || lowerT.indexOf('노래검색') !== -1 ||
+                      lowerT.indexOf('별풍') !== -1 || lowerT.indexOf('녹음음원') !== -1 || lowerT.indexOf('불렀던곡') !== -1 || lowerT.indexOf('재신청') !== -1 ||
+                      lowerT.indexOf('이거불러죠') !== -1 || lowerT.indexOf('유료곡') !== -1 || lowerT.indexOf('미션풍') !== -1 ||
+                      (lowerT === 'original' && lowerS.indexOf('오리지널') !== -1) ||
+                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
+                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
+                    ) {
+                      continue;
+                    }
+
+                    let singer = s ? s : lastSinger;
+                    lastSinger = singer;
+
+                    let no = String(globalSongIndex).padStart(2, '0');
+
+                    if (!grouped[singer]) grouped[singer] = [];
+                    grouped[singer].push({ 
+                      no: no, 
+                      title: t, 
+                      difficulty: d || 'ㅡ', 
+                      status: st || 'ㅡ', 
+                      sheetName: sheetName 
+                    });
+                    globalSongIndex++;
                   }
-
-                  let singer = rawSinger ? rawSinger : lastSinger;
-                  lastSinger = singer;
-
-                  let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
-
-                  if (!grouped[singer]) grouped[singer] = [];
-                  grouped[singer].push({ 
-                    no: no, 
-                    title: title, 
-                    difficulty: diff || 'ㅡ', 
-                    status: status || 'ㅡ', 
-                    sheetName: sheetName 
-                  });
-                  globalSongIndex++;
                 });
               });
               
@@ -1008,7 +1113,7 @@ export default {
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
-            loadRecentPosts(); // 추가된 게시판 데이터 로드
+            loadRecentPosts(); 
           });
 
           const styleSheet = document.createElement("style");
