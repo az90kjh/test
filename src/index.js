@@ -119,29 +119,32 @@ export default {
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
-          /* ===== 🌟 페이지 넘김 애니메이션 ===== */
-          .tab-section { display: none; }
-          .tab-section.active { display: block; }
+          /* ===== 🌟 페이지 넘김(책장 넘기기) 애니메이션 ===== */
+          .tab-section { display: none; width: 100%; }
+          .tab-section.active { display: block; position: relative; z-index: 5; }
+          .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
+          .tab-section.flipping-out { display: block; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; pointer-events: none; }
           
-          .tab-section.active .main-wrapper {
-            animation: pageTurn 0.7s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
-            transform-origin: left center; 
+          /* 새 페이지가 등장하는 모션 (가볍게 나타남) */
+          .tab-section.flipping-in > div {
+              animation: pageTurnIn 0.7s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
+              transform-origin: left center;
           }
-          
-          .tab-section.active .fullscreen-bg {
-            animation: fadeInBg 0.8s ease-in-out forwards;
+          /* 기존 페이지가 왼쪽으로 입체적으로 넘어가는 모션 */
+          .tab-section.flipping-out > div {
+              animation: pageTurnOut 0.7s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+              transform-origin: left center;
           }
 
-          @keyframes pageTurn {
-            0% { opacity: 0; transform: perspective(2500px) rotateY(60deg) translateX(30px); }
-            100% { opacity: 1; transform: perspective(2500px) rotateY(0deg) translateX(0); }
+          @keyframes pageTurnOut {
+              0% { transform: perspective(2500px) rotateY(0deg); opacity: 1; filter: brightness(1); }
+              40% { opacity: 1; filter: brightness(0.9); }
+              100% { transform: perspective(2500px) rotateY(-110deg); opacity: 0; filter: brightness(0.6); }
           }
-          @keyframes fadeInBg {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+          @keyframes pageTurnIn {
+              0% { opacity: 0; transform: translateX(30px); }
+              100% { opacity: 1; transform: translateX(0); }
           }
-          
-          @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
           /* ===== 메인 콘텐츠 영역 ===== */
           .main-wrapper { max-width: 1100px; margin: 80px auto 40px; padding: 0 20px; }
@@ -311,13 +314,15 @@ export default {
           }
           .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
+          /* 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 붙어서 나옴) */
           #music-popup {
-            display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+            display: none; position: fixed; 
+            /* JS에서 top, right 속성을 동적으로 잡아줌 */
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color);
-            animation: popDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           }
-          @keyframes popDown { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+          @keyframes popLeft { from { opacity: 0; transform: translate(20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+          
           .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
           .popup-header span { font-size: 11px; font-weight: bold; color: var(--point-color); }
           .close-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; }
@@ -416,7 +421,7 @@ export default {
           </div>
         </div>
 
-        <!-- 상단 네비게이션 바 -->
+        <!-- 🌟 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
           <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
           <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
@@ -425,12 +430,12 @@ export default {
           <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
           <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
           <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <!-- 8 (이곳을 누르면 왼쪽에 팝업 생성) --> <button class="nav-btn" onclick="toggleMusicPopup(this)"><span class="material-symbols-rounded">music_note</span></button>
           <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
           <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 -->
+        <!-- 뮤직 플레이어 팝업 (자바스크립트로 버튼 옆에 달라붙음) -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -440,6 +445,7 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
+            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -480,15 +486,15 @@ export default {
             </div>
             
             <div class="content-card">
-              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 -->
+              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <!-- 👇 정상적인 이미지 주소로 교체 (기존 프로필 사진) 👇 -->
                     <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
+                    <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -567,12 +573,12 @@ export default {
                     </div>
                   </div>
                   
-                  <!-- 2. OGQ MARKET -->
+                  <!-- 2. OGQ MARKET (이미지 클릭 기능) -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <!-- 👇 인터넷에 업로드 후 이미지 링크를 넣어주셔야 사진이 안 깨집니다! (임시로 프로필 사진 연결) 👇 -->
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/18751786944817457.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <!-- 👇 인터넷에 업로드 후 이미지 링크를 넣어주셔야 사진이 안 깨집니다! 👇 -->
+                        <img src="여기에_OGQ_황숭티콘_이미지_주소를_넣어주세요.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
@@ -891,17 +897,40 @@ export default {
             closeWikiPopup();
           }
 
-          /* ===== 탭 및 테마 전환 ===== */
+          /* ===== 🌟 탭 및 책 페이지 넘김 애니메이션 로직 ===== */
           function switchTab(tabId, clickedBtn) {
-            document.querySelectorAll('.tab-section').forEach(function(sec) { sec.classList.remove('active'); });
+            var currentTab = document.querySelector('.tab-section.active') || document.querySelector('.tab-section.flipping-in');
+            var newTab = document.getElementById(tabId);
+            
+            if (currentTab === newTab) return;
+            
+            // 네비게이션 버튼 활성화 처리
             document.querySelectorAll('.nav-btn').forEach(function(btn) {
               if(btn.innerHTML.indexOf('music_note') === -1 && btn.innerHTML.indexOf('mode') === -1) {
                 btn.classList.remove('active');
               }
             });
-            document.getElementById(tabId).classList.add('active');
             if(clickedBtn) clickedBtn.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (currentTab) {
+              // 1. 기존 탭은 페이지가 왼쪽으로 넘어가는 모션 적용 (flipping-out)
+              currentTab.classList.remove('active', 'flipping-in');
+              currentTab.classList.add('flipping-out');
+              
+              // 2. 새 탭은 바로 아래에서 나타나는 모션 적용 (flipping-in)
+              newTab.classList.add('flipping-in');
+              
+              setTimeout(function() {
+                currentTab.classList.remove('flipping-out');
+                if(newTab.classList.contains('flipping-in')) {
+                  newTab.classList.remove('flipping-in');
+                  newTab.classList.add('active');
+                }
+              }, 700); // CSS 애니메이션 시간(0.7s)과 동일하게 설정
+            } else {
+              newTab.classList.add('active');
+            }
           }
 
           function switchClosetTab(subTabId, clickedBtn) {
@@ -925,17 +954,30 @@ export default {
             }
           }
 
-          function toggleMusicPopup() {
+          /* ===== 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 위치) ===== */
+          function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
-            popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+            if (popup.style.display === 'block') {
+              popup.style.display = 'none';
+            } else {
+              popup.style.display = 'block';
+              if(btnElement) {
+                // 버튼의 위치를 계산해서 팝업을 바로 왼쪽에 붙임
+                const rect = btnElement.getBoundingClientRect();
+                popup.style.top = (rect.top + rect.height / 2) + 'px';
+                popup.style.right = (window.innerWidth - rect.left + 15) + 'px';
+                popup.style.left = 'auto';
+                popup.style.transform = 'translateY(-50%)';
+                popup.style.animation = 'popLeft 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+              }
+            }
           }
 
-          /* ===== 동적 캘린더 로직 (일정 초기화 완료) ===== */
+          /* ===== 동적 캘린더 로직 ===== */
           let currentDate = new Date(); 
           let calView = 'month';
 
-          // 일정 데이터를 전부 지웠습니다.
-          const mockEvents = {};
+          const mockEvents = {}; // 일정 데이터 삭제됨
 
           function renderCalendar() {
             const year = currentDate.getFullYear();
@@ -1123,20 +1165,52 @@ export default {
                     return;
                   }
 
-                  let singer = rawSinger ? rawSinger : lastSinger;
-                  lastSinger = singer;
+                  let singersList = rawSinger.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
+                  let titlesList = title.split(CR).join('').split(LF).map(function(t) { return t.trim(); });
+                  let diffsList = diff.split(CR).join('').split(LF).map(function(d) { return d.trim(); });
+                  let statusList = status.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
 
-                  let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
+                  let maxLen = Math.max(titlesList.length, singersList.length);
 
-                  if (!grouped[singer]) grouped[singer] = [];
-                  grouped[singer].push({ 
-                    no: no, 
-                    title: title, 
-                    difficulty: diff || 'ㅡ', 
-                    status: status || 'ㅡ', 
-                    sheetName: sheetName 
-                  });
-                  globalSongIndex++;
+                  for (let i = 0; i < maxLen; i++) {
+                    let t = titlesList[i] || ''; 
+                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
+                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
+                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
+
+                    if (!t) continue;
+
+                    let lowerT = t.toLowerCase().split(' ').join('');
+                    let lowerS = s.toLowerCase().split(' ').join('');
+
+                    if (
+                      lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
+                      lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
+                      lowerT.indexOf('노래책설명서') !== -1 || lowerT.indexOf('컨트롤+f') !== -1 || lowerT.indexOf('컨트롤f') !== -1 || lowerT.indexOf('노래검색') !== -1 ||
+                      lowerT.indexOf('별풍') !== -1 || lowerT.indexOf('녹음음원') !== -1 || lowerT.indexOf('불렀던곡') !== -1 || lowerT.indexOf('재신청') !== -1 ||
+                      lowerT.indexOf('이거불러죠') !== -1 || lowerT.indexOf('유료곡') !== -1 || lowerT.indexOf('미션풍') !== -1 ||
+                      (lowerT === 'original' && lowerS.indexOf('오리지널') !== -1) ||
+                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
+                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
+                    ) {
+                      continue;
+                    }
+
+                    let singer = s ? s : lastSinger;
+                    lastSinger = singer;
+
+                    let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
+
+                    if (!grouped[singer]) grouped[singer] = [];
+                    grouped[singer].push({ 
+                      no: no, 
+                      title: t, 
+                      difficulty: d || 'ㅡ', 
+                      status: st || 'ㅡ', 
+                      sheetName: sheetName 
+                    });
+                    globalSongIndex++;
+                  }
                 });
               });
               
