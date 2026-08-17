@@ -263,7 +263,7 @@ export default {
             .profile-bottom-grid { grid-template-columns: 1fr; }
           }
 
-          /* 좌측: 최근 작성글 */
+          /* 좌측: 최근 작성글 (SOOP POSTS) */
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
           [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
@@ -327,27 +327,30 @@ export default {
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* =========================================
-             🌟 8. VOD 다시보기 탭 (검색 & 재생 최적화)
+             🌟 8. VOD 다시보기 탭 (고정영상 & 통계 UI 추가)
              ========================================= */
-          .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 15px;}
+          .vod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
           
-          /* 카드 전체가 클릭 가능한 링크 */
+          /* 카드 전체 링크 설정 및 애니메이션 */
           .vod-card { 
             background: var(--bg-body); border-radius: 12px; overflow: hidden; 
-            border: 1px solid var(--border-color); transition: transform 0.2s, border-color 0.2s; 
+            border: 1px solid var(--border-color); transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; 
             text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; 
           }
-          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
           
+          /* 고정된 영상 특별 테두리 효과 */
+          .vod-card.pinned { border: 2px solid var(--point-color); box-shadow: 0 4px 12px rgba(255,130,0,0.1); }
+
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
           [data-theme="dark"] .vod-thumb { background-color: #334155; }
           .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
           
-          /* 🌟 재생 버튼 오버레이 효과 (마우스 올리면 나타남) */
+          /* 🌟 재생 버튼 오버레이 효과 */
           .vod-play-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.2s;
+            opacity: 0; transition: opacity 0.2s; z-index: 1;
           }
           .vod-play-overlay span {
             font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); 
@@ -358,7 +361,15 @@ export default {
           
           .vod-info { padding: 15px; }
           .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-          .vod-date { font-size: 11px; color: var(--text-sub); }
+          
+          /* 조회수 & 좋아요 UI 레이아웃 */
+          .vod-meta-stats {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 11px; color: var(--text-sub); margin-top: 8px;
+          }
+          .vod-meta-stats .stats-group { display: flex; gap: 10px; }
+          .vod-meta-stats span { display: flex; align-items: center; gap: 3px; font-weight: 600;}
+          
           .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
 
@@ -422,7 +433,7 @@ export default {
           .counter-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 20px; cursor: pointer; color: var(--text-main); }
           .counter-num { font-size: 24px; font-weight: bold; color: var(--point-color); }
           .btn-next { background-color: var(--text-main); color: var(--bg-card); padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
-
+          
           /* ===== INFO 링크 ===== */
           .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
           .link-card { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid var(--border-color); border-radius: 12px; transition: border-color 0.2s; }
@@ -467,7 +478,7 @@ export default {
           <!-- 11 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 (네비게이션 버튼 왼쪽에 달라붙음) -->
+        <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -477,7 +488,6 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <!-- 👇 유튜브 재생목록 링크 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -518,13 +528,13 @@ export default {
             </div>
             
             <div class="content-card">
-              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
+              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -608,13 +618,14 @@ export default {
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
                       
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="여기에_OGQ_황숭티콘1_이미지_주소를_넣어주세요.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘</span>
+                        <!-- 👇 인터넷에 업로드 후 이미지 링크를 넣어주셔야 사진이 안 깨집니다! 👇 -->
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
 
-                      <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="여기에_OGQ_황숭티콘2_이미지_주소를_넣어주세요.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘</span>
+                      <a href="여기에_OGQ_황숭티콘2_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
 
                     </div>
@@ -700,7 +711,7 @@ export default {
           </div>
         </section>
 
-        <!-- 4. 노래책 탭 (구글 시트 연동) -->
+        <!-- 4. 노래책 탭 -->
         <section id="tab-songbook" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -822,7 +833,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (새로 추가 및 검색기능 연동) -->
+        <!-- 🌟 8. VOD 탭 (고정 영상 및 검색/조회수 디자인 완벽 추가) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -831,72 +842,134 @@ export default {
             <div class="content-card">
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">SOOP VOD</h1>
-                <p style="font-size: 13px; color: var(--text-sub);">SOOP에 올라온 노래 다시보기 영상들을 정리해 두었어요. 클릭하면 영상이 재생됩니다.</p>
+                <p style="font-size: 13px; color: var(--text-sub);">SOOP에 올라온 노래 다시보기 영상들을 정리해 두었어요. 카드를 누르면 새 창으로 이동해 바로 재생됩니다!</p>
               </div>
               
-              <!-- 🌟 VOD 검색 바 추가 -->
+              <!-- VOD 검색 바 -->
               <div class="search-bar" style="margin-bottom: 30px;">
                 <input type="text" id="vod-search-input" onkeyup="filterVods()" placeholder="다시보기 영상 제목을 검색해보세요...">
                 <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
 
-              <!-- 서브 탭 필터 (디자인용) -->
-              <div class="sub-tabs">
+              <!-- 서브 탭 필터 (장식용 디자인) -->
+              <div class="sub-tabs" style="margin-bottom: 10px;">
                 <button class="sub-tab-btn active">전체 영상</button>
                 <button class="sub-tab-btn">커버곡</button>
                 <button class="sub-tab-btn">라이브 클립</button>
               </div>
 
-              <div class="vod-grid" id="vod-grid-container">
-                <!-- 👇 실제 SOOP VOD 링크를 href에 적어주세요. 클릭 시 새 창에서 영상이 재생됩니다! 👇 -->
-                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
+              <!-- 📌 1. 상단 고정된 영상 영역 (3개) -->
+              <h3 style="font-size: 15px; font-weight: 800; margin-top: 25px; margin-bottom: 15px; color: var(--point-color); display: flex; align-items: center; gap: 6px;">
+                <span class="material-symbols-rounded" style="font-size:18px;">push_pin</span> 고정된 영상
+              </h3>
+              
+              <div class="vod-grid" style="margin-bottom: 35px;">
+                <!-- 고정 VOD 1 -->
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card pinned">
                   <div class="vod-thumb">
-                    <img src="여기에_VOD_썸네일_이미지_1번_주소를_넣어주세요.jpg" alt="썸네일">
-                    <!-- 🌟 썸네일 위에 재생버튼 레이어 추가 -->
+                    <img src="여기에_고정VOD_썸네일_이미지_1번_주소를_넣어주세요.jpg" alt="썸네일">
                     <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">03:45</span>
                   </div>
                   <div class="vod-info">
-                    <div class="vod-title">첫 번째 노래 커버 영상 제목을 여기에 적어주세요</div>
-                    <div class="vod-date">2026.08.15</div>
+                    <div class="vod-title">[고정] 첫 번째 노래 커버 영상 제목을 여기에 적어주세요</div>
+                    <div class="vod-meta-stats">
+                      <span>2026.08.15</span>
+                      <!-- 조회수 및 좋아요 숫자 수정하는 곳 -->
+                      <div class="stats-group">
+                        <span title="조회수"><span class="material-symbols-rounded" style="font-size:13px;">visibility</span> 1.2천</span>
+                        <span title="좋아요"><span class="material-symbols-rounded" style="font-size:13px;">favorite</span> 124</span>
+                      </div>
+                    </div>
                   </div>
                 </a>
 
-                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
+                <!-- 고정 VOD 2 -->
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card pinned">
                   <div class="vod-thumb">
-                    <img src="여기에_VOD_썸네일_이미지_2번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <img src="여기에_고정VOD_썸네일_이미지_2번_주소를_넣어주세요.jpg" alt="썸네일">
                     <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">04:12</span>
                   </div>
                   <div class="vod-info">
-                    <div class="vod-title">두 번째 라이브 영상 제목을 여기에 적어주세요</div>
-                    <div class="vod-date">2026.08.10</div>
+                    <div class="vod-title">[고정] 두 번째 라이브 영상 제목을 여기에 적어주세요</div>
+                    <div class="vod-meta-stats">
+                      <span>2026.08.10</span>
+                      <div class="stats-group">
+                        <span title="조회수"><span class="material-symbols-rounded" style="font-size:13px;">visibility</span> 890</span>
+                        <span title="좋아요"><span class="material-symbols-rounded" style="font-size:13px;">favorite</span> 98</span>
+                      </div>
+                    </div>
                   </div>
                 </a>
 
-                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
+                <!-- 고정 VOD 3 -->
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card pinned">
                   <div class="vod-thumb">
-                    <img src="여기에_VOD_썸네일_이미지_3번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <img src="여기에_고정VOD_썸네일_이미지_3번_주소를_넣어주세요.jpg" alt="썸네일">
                     <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">02:50</span>
                   </div>
                   <div class="vod-info">
-                    <div class="vod-title">세 번째 뱅송 하이라이트 영상 제목입니다</div>
-                    <div class="vod-date">2026.08.05</div>
+                    <div class="vod-title">[고정] 세 번째 뱅송 하이라이트 영상 제목입니다</div>
+                    <div class="vod-meta-stats">
+                      <span>2026.08.05</span>
+                      <div class="stats-group">
+                        <span title="조회수"><span class="material-symbols-rounded" style="font-size:13px;">visibility</span> 3.4천</span>
+                        <span title="좋아요"><span class="material-symbols-rounded" style="font-size:13px;">favorite</span> 312</span>
+                      </div>
+                    </div>
                   </div>
                 </a>
+              </div>
 
+              <!-- 중간 점선 구분선 -->
+              <hr style="border: 0; border-bottom: 1px dashed var(--border-color); margin: 25px 0;">
+
+              <!-- 📺 2. 일반 영상 목록 영역 -->
+              <h3 style="font-size: 15px; font-weight: 800; margin-top: 20px; margin-bottom: 15px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                <span class="material-symbols-rounded" style="font-size:18px;">video_library</span> 전체 영상 목록
+              </h3>
+              
+              <div class="vod-grid" id="vod-grid-container">
+                <!-- 일반 VOD 1 -->
                 <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
                   <div class="vod-thumb">
-                    <img src="여기에_VOD_썸네일_이미지_4번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <img src="여기에_일반VOD_썸네일_이미지_1번_주소를_넣어주세요.jpg" alt="썸네일">
                     <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
                     <span class="vod-badge">05:10</span>
                   </div>
                   <div class="vod-info">
-                    <div class="vod-title">네 번째 영상 제목을 여기에 적어주세요</div>
-                    <div class="vod-date">2026.08.01</div>
+                    <div class="vod-title">일반 영상 제목을 여기에 적어주세요</div>
+                    <div class="vod-meta-stats">
+                      <span>2026.08.01</span>
+                      <div class="stats-group">
+                        <span title="조회수"><span class="material-symbols-rounded" style="font-size:13px;">visibility</span> 530</span>
+                        <span title="좋아요"><span class="material-symbols-rounded" style="font-size:13px;">favorite</span> 45</span>
+                      </div>
+                    </div>
                   </div>
                 </a>
+                
+                <!-- 일반 VOD 2 -->
+                <a href="여기에_실제_SOOP_VOD_링크를_넣어주세요" target="_blank" class="vod-card">
+                  <div class="vod-thumb">
+                    <img src="여기에_일반VOD_썸네일_이미지_2번_주소를_넣어주세요.jpg" alt="썸네일">
+                    <div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>
+                    <span class="vod-badge">04:22</span>
+                  </div>
+                  <div class="vod-info">
+                    <div class="vod-title">또 다른 일반 영상 제목입니다</div>
+                    <div class="vod-meta-stats">
+                      <span>2026.07.28</span>
+                      <div class="stats-group">
+                        <span title="조회수"><span class="material-symbols-rounded" style="font-size:13px;">visibility</span> 820</span>
+                        <span title="좋아요"><span class="material-symbols-rounded" style="font-size:13px;">favorite</span> 76</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                
               </div>
             </div>
           </div>
@@ -1059,7 +1132,7 @@ export default {
             }
           }
 
-          /* ===== 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 위치) ===== */
+          /* ===== 🌟 뮤직 팝업 ===== */
           function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
             if (popup.style.display === 'block') {
@@ -1200,11 +1273,11 @@ export default {
             });
             container.innerHTML = html;
           }
-
-          /* ===== 🌟 VOD 페이지 검색 기능 로직 ===== */
+          
+          /* ===== 🌟 VOD 검색 기능 ===== */
           function filterVods() {
             const query = document.getElementById('vod-search-input').value.toLowerCase();
-            const vodCards = document.querySelectorAll('.vod-grid .vod-card');
+            const vodCards = document.querySelectorAll('#tab-vod .vod-card');
             
             vodCards.forEach(function(card) {
               const title = card.querySelector('.vod-title').textContent.toLowerCase();
