@@ -91,10 +91,21 @@ export default {
           .cover-hint { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,0.5); animation: blink 1.5s infinite; letter-spacing: 1px;}
           @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-          /* ===== 상단 네비게이션 ===== */
+          /* ===== 🌟 우측 세로형 네비게이션 ===== */
           .nav-container {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background-color: var(--bg-nav); border-radius: 30px; padding: 8px 15px; display: flex; gap: 12px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: fixed; 
+            top: 50%; 
+            right: 20px; 
+            left: auto; /* 기존 가운대 정렬 해제 */
+            transform: translateY(-50%);
+            background-color: var(--bg-nav); 
+            border-radius: 30px; 
+            padding: 15px 10px; /* 세로형에 맞게 패딩 조절 */
+            display: flex; 
+            flex-direction: column; /* 아이콘을 아래로 나열 */
+            gap: 12px; 
+            z-index: 100; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
           }
           .nav-btn { background: none; border: none; color: var(--nav-icon); cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
           .nav-btn:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
@@ -109,8 +120,33 @@ export default {
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
+          /* ===== 🌟 페이지 넘김 애니메이션 (책 넘기기 효과) ===== */
+          .tab-section { display: none; }
+          .tab-section.active { display: block; }
+          
+          .tab-section.active .main-wrapper {
+            animation: pageTurn 0.7s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
+            transform-origin: left center; /* 왼쪽 제본선을 축으로 설정 */
+          }
+          
+          .tab-section.active .fullscreen-bg {
+            animation: fadeInBg 0.8s ease-in-out forwards;
+          }
+
+          @keyframes pageTurn {
+            0% { opacity: 0; transform: perspective(2500px) rotateY(60deg) translateX(30px); }
+            100% { opacity: 1; transform: perspective(2500px) rotateY(0deg) translateX(0); }
+          }
+          @keyframes fadeInBg {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          
+          /* 추가 내부 애니메이션들 (서브 탭 등) */
+          @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
           /* ===== 메인 콘텐츠 영역 ===== */
-          .main-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
+          .main-wrapper { max-width: 1100px; margin: 80px auto 40px; padding: 0 20px; }
           .section-header-out { margin-bottom: 12px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
           .section-header-out span { font-size: 11px; color: var(--text-sub); }
@@ -133,9 +169,6 @@ export default {
              background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
           }
 
-          .tab-section { display: none; animation: fadeIn 0.3s ease-in-out; }
-          .tab-section.active { display: block; }
-          @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
           /* =========================================
              🌟 2. 프로필 (비주얼 노벨 테마 - 주황/흰색) 
@@ -167,11 +200,10 @@ export default {
           .vn-character-img {
             width: 100%; max-width: 350px; object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(255,130,0,0.15));
-            /* 모션 제거됨 */
           }
           [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
 
-          /* 명대사 / 인용구 박스 (사진 아래) */
+          /* 명대사 / 인용구 박스 */
           .vn-quote-box {
             background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
             padding: 20px; position: relative; width: 100%; box-sizing: border-box;
@@ -386,18 +418,18 @@ export default {
           </div>
         </div>
 
-        <!-- 상단 네비게이션 바 -->
+        <!-- 🌟 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
-          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
@@ -410,6 +442,7 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
+            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -447,19 +480,18 @@ export default {
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
-              <!-- 👇 텍스트 수정됨 👇 -->
               <h2>Profile</h2><span>/ 프로필</span>
             </div>
             
             <div class="content-card">
-              <!-- 🌟 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
+              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <!-- 👇 여기에 프로필 사진 이미지 주소를 넣어주세요 👇 -->
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
                     <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
@@ -472,7 +504,7 @@ export default {
 
                   <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
-                    <div class="vn-header-badge">스트리머 소개</div>
+                    <div class="vn-header-badge">캐릭터 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
 
@@ -499,7 +531,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 🌟 상단 2번: 프로필 하단 영역 (좌측 최근글 + 우측 서브탭) -->
+              <!-- 상단 2번: 프로필 하단 영역 (좌측 최근글 + 우측 서브탭) -->
               <div class="profile-bottom-grid">
                 
                 <!-- 좌측: 최근 작성글 -->
@@ -546,7 +578,7 @@ export default {
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <!-- 👇 OGQ 황숭티콘 이미지 👇 -->
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/18751786944817457.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="여기에_OGQ_황숭티콘_이미지_주소를_넣어주세요.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
@@ -573,7 +605,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 🌟 하단 맨 끝: 구독 뱃지 영역 -->
+              <!-- 하단 맨 끝: 구독 뱃지 영역 -->
               <div class="badge-section">
                 <h3>구독 뱃지</h3>
                 <div class="badge-container">
@@ -666,7 +698,6 @@ export default {
                 <p style="font-size: 13px; color: var(--text-sub);">의상을 누르면 전체 이미지와 ON/OFF 가능한 부위를 볼 수 있어요.</p>
               </div>
 
-              <!-- 서브 탭 메뉴 -->
               <div class="sub-tabs">
                 <button class="sub-tab-btn active" onclick="switchClosetTab('closet-default', this)">기본의상</button>
                 <button class="sub-tab-btn" onclick="switchClosetTab('closet-event', this)">이벤트의상</button>
