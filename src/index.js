@@ -141,12 +141,12 @@ export default {
 
           /* 🌟 모든 페이지를 전체화면 (100vw, 100vh) 으로 확장 */
           .main-wrapper { 
-            width: 100%; min-height: 100vh; margin: 0; 
-            padding: 0 100px 0 0; 
+            width: 100%; min-height: 100vh; margin: 0; padding: 0; 
             background-color: var(--bg-card); position: relative; 
-            overflow-x: hidden; box-sizing: border-box;
+            overflow-x: hidden; padding-right: 100px; box-sizing: border-box;
           }
           
+          /* 수첩 제본선 그림자 효과 (왼쪽) */
           .main-wrapper::before {
             content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px;
             background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
@@ -156,20 +156,24 @@ export default {
             background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
           }
 
-          #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
+          /* 홈 탭은 예외 (배경화면이 채워짐) */
+          #tab-home .main-wrapper { background-color: var(--bg-body); padding-right: 0; }
           #tab-home .main-wrapper::before { display: none; }
           .fullscreen-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
           }
 
+          /* 배경은 전체화면이지만, 내부 콘텐츠는 가운데 정렬되도록 max-width 설정 */
           .content-card { 
             max-width: 1200px; margin: 0 auto; 
-            padding: 60px 20px 80px 70px; 
+            padding: 60px 40px 80px 80px; /* 제본선을 피해 좌측 패딩 80px 확보 */
             min-height: 100vh; background: transparent; box-shadow: none; border-radius: 0; box-sizing: border-box;
           }
 
+          /* 헤더 타이틀 위치 및 여백 */
           .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 16px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
@@ -325,11 +329,10 @@ export default {
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* =========================================
-             🌟 8. VOD 다시보기 탭 (4열 바둑판 디자인)
+             🌟 8. VOD 다시보기 탭 (단일 4x5 바둑판 형식)
              ========================================= */
           .vod-grid { 
             display: grid; 
-            /* 강제로 가로 4칸 고정 */
             grid-template-columns: repeat(4, 1fr); 
             gap: 20px; margin-bottom: 30px; 
           }
@@ -467,20 +470,20 @@ export default {
 
         <!-- 🌟 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
-          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <!-- 8 (VOD) --> <button class="nav-btn" onclick="switchTab('tab-vod', this)"><span class="material-symbols-rounded">video_library</span></button>
-          <!-- 9 (음표 팝업) --> <button class="nav-btn" onclick="toggleMusicPopup(this)"><span class="material-symbols-rounded">music_note</span></button>
-          <!-- 10 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <!-- 11 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-vod', this)"><span class="material-symbols-rounded">video_library</span></button>
+          <button class="nav-btn" onclick="toggleMusicPopup(this)"><span class="material-symbols-rounded">music_note</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 (네비게이션 버튼 왼쪽에 달라붙음) -->
+        <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -536,9 +539,8 @@ export default {
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
-                  <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -547,7 +549,6 @@ export default {
                     </div>
                   </div>
 
-                  <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
@@ -620,17 +621,14 @@ export default {
                   <!-- 2. OGQ MARKET -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
-                      
-                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                      <a href="https://ogqmarket.sooplive.com/emoticon/64b81cdba4d55" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
-
-                      <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
-
                     </div>
                   </div>
                   
@@ -836,7 +834,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (고정 영상 4칸 적용 완료) -->
+        <!-- 🌟 8. VOD 탭 (고정 영상 4칸 적용 완료 및 단일 바둑판 배열) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -854,7 +852,7 @@ export default {
                 <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
 
-              <!-- VOD 목록 컨테이너 -->
+              <!-- VOD 목록 컨테이너 (JS에서 이 부분이 4x5 바둑판으로 채워집니다) -->
               <div id="vod-grid-container">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub);">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
@@ -1023,7 +1021,7 @@ export default {
             }
           }
 
-          /* ===== 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 위치) ===== */
+          /* ===== 🌟 뮤직 팝업 ===== */
           function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
             if (popup.style.display === 'block') {
@@ -1165,7 +1163,7 @@ export default {
             container.innerHTML = html;
           }
 
-          /* ===== 🌟 VOD 탭 검색 & 구글 시트 연동 기능 (단일 그리드 완성) ===== */
+          /* ===== 🌟 VOD 탭 검색 & 구글 시트 연동 기능 (단일 4x5 바둑판) ===== */
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             
@@ -1203,7 +1201,7 @@ export default {
                 if (!title) return; 
 
                 let pinnedClass = isPinned ? ' pinned' : '';
-                let pinnedTitle = isPinned ? '[고정] ' + title : title;
+                let pinnedTitle = isPinned ? '<span style="color:var(--point-color);">[고정]</span> ' + title : title;
                 let durationHtml = duration ? '<span class="vod-badge">' + duration + '</span>' : '';
 
                 let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '">' +
@@ -1227,9 +1225,9 @@ export default {
                 }
               });
               
-              // 고정 영상은 최대 4개까지만
+              // 고정 영상은 최대 4개로 제한
               let finalPinned = pinnedCards.slice(0, 4);
-              // 나머지 칸은 일반 영상으로 채움 (가로 4 x 세로 5 = 최대 20개 표시)
+              // 나머지 공간은 일반 영상으로 채워 총 20개가 넘지 않게 조절
               let remainingSlots = 20 - finalPinned.length;
               let finalNormal = normalCards.slice(0, remainingSlots);
               
@@ -1239,7 +1237,8 @@ export default {
               if(combinedCards.length === 0) {
                   container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub); grid-column: 1 / -1;">등록된 VOD 영상이 없습니다.</div>';
               } else {
-                  container.innerHTML = combinedCards.join('');
+                  // 구분선이나 중간 타이틀 없이 단일 그리드 컨테이너 생성
+                  container.innerHTML = '<div class="vod-grid">' + combinedCards.join('') + '</div>';
               }
             } catch (err) {
               console.error(err);
@@ -1468,7 +1467,7 @@ export default {
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
-            loadVods(); // 🌟 VOD 구글 시트 연동 스크립트 실행
+            loadVods(); 
             loadRecentPosts(); 
           });
 
