@@ -104,7 +104,6 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
@@ -115,7 +114,6 @@ export default {
           .section-header-out h2 { font-size: 13px; font-weight: 800; color: var(--text-main); }
           .section-header-out span { font-size: 11px; color: var(--text-sub); }
           
-          /* 카드 디자인에 책 제본 음영 효과 추가 */
           .content-card { 
             background-color: var(--bg-card); 
             border-radius: 8px 24px 24px 8px; 
@@ -149,11 +147,11 @@ export default {
             box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
+            margin-bottom: 30px;
           }
           [data-theme="dark"] .vn-profile-wrapper {
             box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
           }
-          /* 텍스처 패턴 효과 */
           .vn-profile-wrapper::after {
             content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
             background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px;
@@ -173,7 +171,7 @@ export default {
           [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
           @keyframes floatChar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-          /* 명대사 / 인용구 박스 (사진 아래) */
+          /* 명대사 / 인용구 박스 */
           .vn-quote-box {
             background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
             padding: 20px; position: relative; width: 100%; box-sizing: border-box;
@@ -190,7 +188,6 @@ export default {
           /* 우측: 정보 영역 */
           .vn-right-col { flex: 1; min-width: 350px; }
           
-          /* 헤더 뱃지 (캐릭터 소개) */
           .vn-header-badge {
             display: inline-flex; align-items: center;
             background: var(--bg-point-light);
@@ -200,11 +197,10 @@ export default {
           }
           .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: var(--point-color); margin: 0 8px; }
 
-          /* 이름 및 서브 타이틀 */
           .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
           .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
 
-          /* 스탯 텍스트 라인 */
+          /* 스탯 */
           .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
           .vn-info-label { 
             background: var(--bg-point-light); border: 1px solid var(--point-color);
@@ -214,8 +210,8 @@ export default {
           }
           .vn-info-value { font-weight: 700; color: var(--text-main); }
 
-          /* 좋아요 섹션 */
-          .vn-like-box { margin-top: 30px; margin-bottom: 30px; }
+          /* 좋아요 */
+          .vn-like-box { margin-top: 30px; }
           .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { 
@@ -224,27 +220,15 @@ export default {
             box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
           }
 
-          /* 구독 뱃지 (사이즈 축소하여 1줄에 꽉 채우기) */
-          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); }
-          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
-          [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
-          
-          /* 스크롤 없이 축소되어 한 줄에 배치되도록 수정 */
-          .badge-container { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 2px; }
-          .badge-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; min-width: 0; }
-          .badge-img { width: 100%; max-width: 26px; height: auto; aspect-ratio: 1/1; object-fit: contain; }
-          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
-          .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
-
           /* =========================================
-             🌟 부활한 프로필 하단 레이아웃 (최근글 + 엑스트라 탭) 
+             🌟 하단: 최근 게시글 & 서브 탭
              ========================================= */
           .profile-bottom-grid {
             display: grid;
-            grid-template-columns: 350px 1fr; /* 좌측 최근글 폭 고정, 우측 넓게 */
+            grid-template-columns: 350px 1fr;
             gap: 40px;
-            margin-top: 30px;
             position: relative; z-index: 3;
+            margin-bottom: 30px; /* 뱃지와의 간격 */
           }
           @media (max-width: 800px) {
             .profile-bottom-grid { grid-template-columns: 1fr; }
@@ -269,14 +253,21 @@ export default {
           /* 우측: 엑스트라 탭 (위키, 방송규칙 등) */
           .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
+          .vn-panel { background: var(--bg-card); border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; }
+          .vn-panel-title { font-size: 15px; font-weight: 900; color: var(--point-color); margin-bottom: 20px; border-bottom: 2px dashed rgba(255, 130, 0, 0.3); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end; }
           .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
 
-
-          /* ===== 서브 탭 버튼 공통 ===== */
-          .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-          .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
-          .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
-          .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
+          /* =========================================
+             🌟 맨 하단: 구독 뱃지 (주황박스 바깥쪽) 
+             ========================================= */
+          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); }
+          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
+          [data-theme="dark"] .badge-section h3 { border-bottom-color: rgba(255,255,255,0.2); }
+          .badge-container { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 2px; }
+          .badge-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; min-width: 0; }
+          .badge-img { width: 100%; max-width: 26px; height: auto; aspect-ratio: 1/1; object-fit: contain; }
+          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
+          .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
           /* ===== 뮤직 팝업 & 위키 팝업 공통 ===== */
           .modal-overlay {
@@ -305,6 +296,16 @@ export default {
           .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
+          /* ===== 기타 탭 ===== */
+          .empty-state { text-align: left; margin-top: 50px; font-size: 14px; color: var(--text-sub); }
+          .game-card { background-color: var(--bg-body); border-radius: 12px; padding: 40px; text-align: center; max-width: 400px; margin: 0 auto; }
+          .game-card .step { background-color: var(--text-main); color: var(--bg-card); font-size: 12px; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 15px; }
+          .game-card h3 { font-size: 20px; margin-bottom: 10px; }
+          .counter-box { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 30px 0; }
+          .counter-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 20px; cursor: pointer; color: var(--text-main); }
+          .counter-num { font-size: 24px; font-weight: bold; color: var(--point-color); }
+          .btn-next { background-color: var(--text-main); color: var(--bg-card); padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
+          
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
           .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
@@ -328,19 +329,7 @@ export default {
           .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
           .pill-blue { background-color: #8cd4f5; color: #000; } 
           .pill-pink { background-color: #ffd1dc; color: #000; } 
-          .pill-orange { background-color: #ffd8a8; color: #000; } 
-
-          /* ===== 노래책 ===== */
-          .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
-          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); }
-          .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-          .refresh-btn:hover { color: var(--point-color); }
-          .song-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-          .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
-          .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
-          .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
-          .group-header-row td { padding: 0 !important; border: none !important; }
-          .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
+          .pill-orange { background-color: #ffd8a8; color: #000; }
 
           /* ===== 의상실 (CLOSET) ===== */
           .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
@@ -356,15 +345,17 @@ export default {
           .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
           .closet-bottom-icons { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-size: 12px; }
 
-          /* ===== 기타 탭 ===== */
-          .empty-state { text-align: left; margin-top: 50px; font-size: 14px; color: var(--text-sub); }
-          .game-card { background-color: var(--bg-body); border-radius: 12px; padding: 40px; text-align: center; max-width: 400px; margin: 0 auto; }
-          .game-card .step { background-color: var(--text-main); color: var(--bg-card); font-size: 12px; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 15px; }
-          .game-card h3 { font-size: 20px; margin-bottom: 10px; }
-          .counter-box { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 30px 0; }
-          .counter-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 20px; cursor: pointer; color: var(--text-main); }
-          .counter-num { font-size: 24px; font-weight: bold; color: var(--point-color); }
-          .btn-next { background-color: var(--text-main); color: var(--bg-card); padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
+          /* ===== 노래책 ===== */
+          .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); }
+          .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+          .refresh-btn:hover { color: var(--point-color); }
+          .song-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+          .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
+          .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
+          .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
+          .group-header-row td { padding: 0 !important; border: none !important; }
+          .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
 
           /* ===== INFO 링크 ===== */
           .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
@@ -375,6 +366,12 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
+          
+          /* ===== 서브 탭 버튼 공통 ===== */
+          .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+          .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
+          .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
+          .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
         </style>
       </head>
       <body>
@@ -413,7 +410,6 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -447,7 +443,7 @@ export default {
           <div class="fullscreen-bg"></div>
         </section>
 
-        <!-- 2. 프로필 탭 (비주얼 노벨 테마 - 주황색/흰색, 사진 좌측/소개 우측) -->
+        <!-- 2. 프로필 탭 -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
@@ -455,16 +451,15 @@ export default {
             </div>
             
             <div class="content-card">
-              <!-- 상단: 캐릭터 전신 이미지 & 정보 박스 -->
+              <!-- 🌟 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <!-- 👇 여기에 전신이나 반신 프로필 이미지 주소를 넣어주세요 👇 -->
                     <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
                     
-                    <!-- 명대사/인사말 (사진 밑에 배치) -->
+                    <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -497,43 +492,15 @@ export default {
                         <div class="vn-like-item"><span class="material-symbols-rounded">ramen_dining</span> 국물 면요리</div>
                       </div>
                     </div>
-
-                    <!-- 구독 뱃지 (사이즈 축소하여 1줄에 꽉 채우기) -->
-                    <div class="badge-section">
-                      <h3>구독 뱃지</h3>
-                      <div class="badge-container">
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
-                        <div class="badge-line"></div>
-                        <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
-                      </div>
-                    </div>
                   </div>
                   
                 </div>
               </div>
 
-              <!-- 하단 배너형 패널 영역 (최근게시물 & 엑스트라 탭) -->
+              <!-- 🌟 상단 2번: 프로필 하단 영역 (좌측 최근글 + 우측 서브탭) -->
               <div class="profile-bottom-grid">
                 
-                <!-- 좌측: 최근 작성글 (SOOP POSTS) -->
+                <!-- 좌측: 최근 작성글 -->
                 <div>
                   <div class="recent-posts" style="margin-top:0;">
                     <div class="recent-posts-header">
@@ -544,12 +511,12 @@ export default {
                       <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
                     <div id="soop-posts-container" class="recent-posts-list">
-                      <!-- JS를 통해 예시 게시글이 들어갑니다 -->
+                      <!-- JS를 통해 게시글이 들어갑니다 -->
                     </div>
                   </div>
                 </div>
 
-                <!-- 우측: 남는 공간에 새로운 서브 탭 추가 -->
+                <!-- 우측: 새로운 서브 탭 (방송규칙, OGQ, 위키) -->
                 <div class="extra-tabs-area">
                   <div class="sub-tabs" style="margin-bottom: 15px;">
                     <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
@@ -572,12 +539,13 @@ export default {
                     </div>
                   </div>
                   
-                  <!-- 2. OGQ MARKET -->
+                  <!-- 2. OGQ MARKET (이미지 클릭 기능) -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
-                      <span class="material-symbols-rounded" style="font-size:40px; color:var(--point-color); margin-bottom:10px;">storefront</span>
-                      <span style="font-size:15px; font-weight:700; color:var(--text-main);">OGQ MARKET 준비 중입니다!</span>
-                      <span style="font-size:12px; color:var(--text-sub); margin-top:5px;">멋진 굿즈들로 곧 찾아올게요 🧡</span>
+                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="image_3324e4.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
+                      </a>
                     </div>
                   </div>
                   
@@ -600,9 +568,36 @@ export default {
                   </div>
 
                 </div>
-
               </div>
-              
+
+              <!-- 🌟 하단 맨 끝: 구독 뱃지 영역 (주황색 칸 바깥으로 분리됨) -->
+              <div class="badge-section">
+                <h3>구독 뱃지</h3>
+                <div class="badge-container">
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div>
+                  <div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
@@ -668,14 +663,13 @@ export default {
                 <p style="font-size: 13px; color: var(--text-sub);">의상을 누르면 전체 이미지와 ON/OFF 가능한 부위를 볼 수 있어요.</p>
               </div>
 
-              <!-- 서브 탭 메뉴 -->
               <div class="sub-tabs">
                 <button class="sub-tab-btn active" onclick="switchClosetTab('closet-default', this)">기본의상</button>
                 <button class="sub-tab-btn" onclick="switchClosetTab('closet-event', this)">이벤트의상</button>
                 <button class="sub-tab-btn" onclick="switchClosetTab('closet-hair', this)">헤어</button>
               </div>
 
-              <!-- 1) 기본의상 영역 -->
+              <!-- 기본의상 영역 -->
               <div id="closet-default" class="closet-sub-section active">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_기본의상_이미지_주소.jpg');">
@@ -692,7 +686,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 2) 이벤트의상 영역 -->
+              <!-- 이벤트의상 영역 -->
               <div id="closet-event" class="closet-sub-section">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_이벤트의상_이미지_주소.jpg');">
@@ -707,7 +701,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 3) 헤어 영역 -->
+              <!-- 헤어 영역 -->
               <div id="closet-hair" class="closet-sub-section">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_헤어_이미지_주소.jpg');">
