@@ -104,6 +104,7 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
@@ -166,12 +167,11 @@ export default {
           .vn-character-img {
             width: 100%; max-width: 350px; object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(255,130,0,0.15));
-            animation: floatChar 3s ease-in-out infinite;
+            /* 모션 제거됨 */
           }
           [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
-          @keyframes floatChar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-          /* 명대사 / 인용구 박스 */
+          /* 명대사 / 인용구 박스 (사진 아래) */
           .vn-quote-box {
             background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
             padding: 20px; position: relative; width: 100%; box-sizing: border-box;
@@ -211,7 +211,7 @@ export default {
           .vn-info-value { font-weight: 700; color: var(--text-main); }
 
           /* 좋아요 */
-          .vn-like-box { margin-top: 30px; }
+          .vn-like-box { margin-top: 30px; margin-bottom: 30px; }
           .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { 
@@ -447,7 +447,8 @@ export default {
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="section-header-out">
-              <h2>CHARACTER</h2><span>/ 캐릭터 소개</span>
+              <!-- 👇 텍스트 수정됨 👇 -->
+              <h2>Profile</h2><span>/ 프로필</span>
             </div>
             
             <div class="content-card">
@@ -457,7 +458,8 @@ export default {
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <!-- 👇 여기에 프로필 사진 이미지 주소를 넣어주세요 👇 -->
+                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
                     <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
@@ -543,7 +545,8 @@ export default {
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="image_3324e4.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <!-- 👇 OGQ 황숭티콘 이미지 👇 -->
+                        <img src="여기에_OGQ_황숭티콘_이미지_주소를_넣어주세요.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
@@ -570,7 +573,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 🌟 하단 맨 끝: 구독 뱃지 영역 (주황색 칸 바깥으로 분리됨) -->
+              <!-- 🌟 하단 맨 끝: 구독 뱃지 영역 -->
               <div class="badge-section">
                 <h3>구독 뱃지</h3>
                 <div class="badge-container">
@@ -663,13 +666,14 @@ export default {
                 <p style="font-size: 13px; color: var(--text-sub);">의상을 누르면 전체 이미지와 ON/OFF 가능한 부위를 볼 수 있어요.</p>
               </div>
 
+              <!-- 서브 탭 메뉴 -->
               <div class="sub-tabs">
                 <button class="sub-tab-btn active" onclick="switchClosetTab('closet-default', this)">기본의상</button>
                 <button class="sub-tab-btn" onclick="switchClosetTab('closet-event', this)">이벤트의상</button>
                 <button class="sub-tab-btn" onclick="switchClosetTab('closet-hair', this)">헤어</button>
               </div>
 
-              <!-- 기본의상 영역 -->
+              <!-- 1) 기본의상 영역 -->
               <div id="closet-default" class="closet-sub-section active">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_기본의상_이미지_주소.jpg');">
@@ -686,7 +690,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 이벤트의상 영역 -->
+              <!-- 2) 이벤트의상 영역 -->
               <div id="closet-event" class="closet-sub-section">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_이벤트의상_이미지_주소.jpg');">
@@ -701,7 +705,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 헤어 영역 -->
+              <!-- 3) 헤어 영역 -->
               <div id="closet-hair" class="closet-sub-section">
                 <div class="closet-card-grid">
                   <div class="closet-item-card" style="background-image: url('여기에_헤어_이미지_주소.jpg');">
@@ -1086,52 +1090,35 @@ export default {
 
                   if (!title) return;
 
-                  let singersList = rawSinger.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
-                  let titlesList = title.split(CR).join('').split(LF).map(function(t) { return t.trim(); });
-                  let diffsList = diff.split(CR).join('').split(LF).map(function(d) { return d.trim(); });
-                  let statusList = status.split(CR).join('').split(LF).map(function(s) { return s.trim(); });
-
-                  let maxLen = Math.max(titlesList.length, singersList.length);
-
-                  for (let i = 0; i < maxLen; i++) {
-                    let t = titlesList[i] || ''; 
-                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
-                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
-                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
-
-                    if (!t) continue;
-
-                    let lowerT = t.toLowerCase().split(' ').join('');
-                    let lowerS = s.toLowerCase().split(' ').join('');
-
-                    if (
-                      lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
-                      lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
-                      lowerT.indexOf('노래책설명서') !== -1 || lowerT.indexOf('컨트롤+f') !== -1 || lowerT.indexOf('컨트롤f') !== -1 || lowerT.indexOf('노래검색') !== -1 ||
-                      lowerT.indexOf('별풍') !== -1 || lowerT.indexOf('녹음음원') !== -1 || lowerT.indexOf('불렀던곡') !== -1 || lowerT.indexOf('재신청') !== -1 ||
-                      lowerT.indexOf('이거불러죠') !== -1 || lowerT.indexOf('유료곡') !== -1 || lowerT.indexOf('미션풍') !== -1 ||
-                      (lowerT === 'original' && lowerS.indexOf('오리지널') !== -1) ||
-                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
-                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
-                    ) {
-                      continue;
-                    }
-
-                    let singer = s ? s : lastSinger;
-                    lastSinger = singer;
-
-                    let no = String(globalSongIndex).padStart(2, '0');
-
-                    if (!grouped[singer]) grouped[singer] = [];
-                    grouped[singer].push({ 
-                      no: no, 
-                      title: t, 
-                      difficulty: d || 'ㅡ', 
-                      status: st || 'ㅡ', 
-                      sheetName: sheetName 
-                    });
-                    globalSongIndex++;
+                  let checkStr = (rawSinger + " " + title).toLowerCase();
+                  if (
+                    checkStr.indexOf('송현 노래책') !== -1 || 
+                    checkStr.indexOf('노래신청은') !== -1 || 
+                    checkStr.indexOf('제목') !== -1 || 
+                    checkStr.indexOf('가수') !== -1 ||
+                    checkStr.indexOf('노래책 설명서') !== -1 ||
+                    checkStr.indexOf('별풍 200개') !== -1 ||
+                    checkStr.indexOf('이거 불러죠') !== -1 ||
+                    checkStr.indexOf('블렀던곡') !== -1 ||
+                    checkStr.indexOf('녹음음원') !== -1
+                  ) {
+                    return;
                   }
+
+                  let singer = rawSinger ? rawSinger : lastSinger;
+                  lastSinger = singer;
+
+                  let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
+
+                  if (!grouped[singer]) grouped[singer] = [];
+                  grouped[singer].push({ 
+                    no: no, 
+                    title: title, 
+                    difficulty: diff || 'ㅡ', 
+                    status: status || 'ㅡ', 
+                    sheetName: sheetName 
+                  });
+                  globalSongIndex++;
                 });
               });
               
