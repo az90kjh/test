@@ -459,7 +459,7 @@ export default {
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <!-- 👇 여기에 프로필 사진 이미지 주소를 넣어주세요 👇 -->
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/638269f25ca5210b1.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
                     <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
@@ -472,7 +472,7 @@ export default {
 
                   <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
-                    <div class="vn-header-badge">캐릭터 소개</div>
+                    <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
 
