@@ -487,7 +487,7 @@ export default {
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <!-- 👇 정상적인 이미지 주소로 교체 (기존 프로필 사진) 👇 -->
-                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
@@ -499,7 +499,7 @@ export default {
 
                   <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
-                    <div class="vn-header-badge">캐릭터 소개</div>
+                    <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
 
@@ -572,7 +572,7 @@ export default {
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <!-- 👇 인터넷에 업로드 후 이미지 링크를 넣어주셔야 사진이 안 깨집니다! (임시로 프로필 사진 연결) 👇 -->
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/18751786944817457.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
