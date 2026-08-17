@@ -96,13 +96,13 @@ export default {
             position: fixed; 
             top: 50%; 
             right: 20px; 
-            left: auto; /* 기존 가운대 정렬 해제 */
+            left: auto;
             transform: translateY(-50%);
             background-color: var(--bg-nav); 
             border-radius: 30px; 
-            padding: 15px 10px; /* 세로형에 맞게 패딩 조절 */
+            padding: 15px 10px;
             display: flex; 
-            flex-direction: column; /* 아이콘을 아래로 나열 */
+            flex-direction: column;
             gap: 12px; 
             z-index: 100; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -115,18 +115,17 @@ export default {
           /* ===== 홈 탭 (전체화면) ===== */
           .fullscreen-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
           }
 
-          /* ===== 🌟 페이지 넘김 애니메이션 (책 넘기기 효과) ===== */
+          /* ===== 🌟 페이지 넘김 애니메이션 ===== */
           .tab-section { display: none; }
           .tab-section.active { display: block; }
           
           .tab-section.active .main-wrapper {
             animation: pageTurn 0.7s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
-            transform-origin: left center; /* 왼쪽 제본선을 축으로 설정 */
+            transform-origin: left center; 
           }
           
           .tab-section.active .fullscreen-bg {
@@ -142,7 +141,6 @@ export default {
             100% { opacity: 1; }
           }
           
-          /* 추가 내부 애니메이션들 (서브 탭 등) */
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
           /* ===== 메인 콘텐츠 영역 ===== */
@@ -260,7 +258,7 @@ export default {
             grid-template-columns: 350px 1fr;
             gap: 40px;
             position: relative; z-index: 3;
-            margin-bottom: 30px; /* 뱃지와의 간격 */
+            margin-bottom: 30px; 
           }
           @media (max-width: 800px) {
             .profile-bottom-grid { grid-template-columns: 1fr; }
@@ -418,18 +416,18 @@ export default {
           </div>
         </div>
 
-        <!-- 🌟 우측 세로형 네비게이션 바 -->
+        <!-- 상단 네비게이션 바 -->
         <nav class="nav-container">
-          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
+          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
+          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
+          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
+          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
+          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
+          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
+          <!-- 8 --> <button class="nav-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">music_note</span></button>
+          <!-- 9 --> <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
+          <!-- 10 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
@@ -442,7 +440,6 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <!-- 👇 아래 src 속성에 유튜브 동영상 또는 재생목록 주소를 넣어주세요 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -460,7 +457,6 @@ export default {
                 <span class="material-symbols-rounded" style="color:var(--point-color);">edit_document</span> 위키 새 문서 작성
               </div>
               <div style="display:flex; gap:8px;">
-                <!-- 저장 버튼 (우측 상단) -->
                 <button onclick="saveWiki()" style="background:var(--point-color); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer;">저장</button>
                 <button onclick="closeWikiPopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
                   <span class="material-symbols-rounded" style="font-size:16px;">close</span>
@@ -484,16 +480,15 @@ export default {
             </div>
             
             <div class="content-card">
-              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 (주황색 테두리) -->
+              <!-- 상단 1번: 캐릭터 전신 이미지 & 정보 박스 -->
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
                   <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
-                    <!-- 👇 여기에 프로필 사진 이미지 주소를 넣어주세요 👇 -->
-                    <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
+                    <!-- 👇 정상적인 이미지 주소로 교체 (기존 프로필 사진) 👇 -->
+                    <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" class="vn-character-img" alt="캐릭터 스탠딩">
                     
-                    <!-- 명대사/인사말 -->
                     <div class="vn-quote-box">
                       <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">
@@ -517,7 +512,6 @@ export default {
                     <div class="vn-info-row"><div class="vn-info-label">방송 시간</div><div class="vn-info-value">오후 6시 ~ 오전 12시</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">팬닉</div><div class="vn-info-value">OOOⓖ</div></div>
 
-                    <!-- 좋아요 영역 -->
                     <div class="vn-like-box">
                       <div class="vn-like-title"><span class="material-symbols-rounded" style="font-size:16px;">favorite</span> LIKE</div>
                       <div class="vn-like-icons">
@@ -573,12 +567,12 @@ export default {
                     </div>
                   </div>
                   
-                  <!-- 2. OGQ MARKET (이미지 클릭 기능) -->
+                  <!-- 2. OGQ MARKET -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <!-- 👇 OGQ 황숭티콘 이미지 👇 -->
-                        <img src="여기에_OGQ_황숭티콘_이미지_주소를_넣어주세요.png" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <!-- 👇 인터넷에 업로드 후 이미지 링크를 넣어주셔야 사진이 안 깨집니다! (임시로 프로필 사진 연결) 👇 -->
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/96146a6d1713126b1.gif" alt="황숭티콘" style="width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--point-color);">황숭티콘</span>
                       </a>
                     </div>
@@ -605,7 +599,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 하단 맨 끝: 구독 뱃지 영역 -->
+              <!-- 🌟 하단 맨 끝: 구독 뱃지 영역 -->
               <div class="badge-section">
                 <h3>구독 뱃지</h3>
                 <div class="badge-container">
@@ -936,19 +930,12 @@ export default {
             popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
           }
 
-          /* ===== 동적 캘린더 로직 ===== */
+          /* ===== 동적 캘린더 로직 (일정 초기화 완료) ===== */
           let currentDate = new Date(); 
           let calView = 'month';
 
-          const mockEvents = {
-            '2026-8-9': [{ text: '런닝크루 PEAK', color: 'blue' }],
-            '2026-8-11': [{ text: '소하님 웰드', color: 'yellow' }],
-            '2026-8-12': [{ text: '소하님 웰드', color: 'yellow' }],
-            '2026-8-13': [{ text: '소하님 웰드', color: 'pink' }],
-            '2026-8-14': [{ text: '옥독님 마크빙고', color: 'orange' }],
-            '2026-8-15': [{ text: '옥독님 마크빙고', color: 'orange' }, { text: '런닝크루 PEAK', color: 'blue' }],
-            '2026-8-16': [{ text: '옥독님 마크빙고', color: 'orange' }]
-          };
+          // 일정 데이터를 전부 지웠습니다.
+          const mockEvents = {};
 
           function renderCalendar() {
             const year = currentDate.getFullYear();
