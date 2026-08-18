@@ -43,53 +43,58 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 🌟 학생수첩 표지 애니메이션 ===== */
-          #handbook-cover {
+          /* ===== 🌟 스마트폰 잠금화면 (블러 오버레이) ===== */
+          #lock-screen {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #1c2541 0%, #0b1021 100%);
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 99999;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            transform-origin: left center;
-            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1.3s ease-in;
-            transform-style: preserve-3d;
-            box-shadow: inset -15px 0 40px rgba(0,0,0,0.8);
+            justify-content: flex-start;
+            padding-top: 15vh;
+            color: #ffffff;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
             cursor: pointer;
+            user-select: none;
           }
-          #handbook-cover::after {
-            content: ''; position: absolute; right: 0; top: 0; width: 30px; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05));
-            border-left: 1px solid rgba(0,0,0,0.5);
-          }
-          #handbook-cover.open {
-            transform: perspective(2000px) rotateY(-110deg);
+          #lock-screen.unlocked {
+            transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
           }
-          .cover-content {
-            text-align: center;
-            border: 2px solid #d4af37;
-            padding: 70px 60px;
-            border-radius: 12px;
-            box-shadow: inset 0 0 20px rgba(212,175,55,0.15), 0 0 30px rgba(0,0,0,0.8);
-            background: rgba(0,0,0,0.3);
+          .lock-time {
+            font-size: 80px;
+            font-weight: 200;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
           }
-          .cover-logo {
-            width: 60px; height: 60px; margin: 0 auto 25px;
-            border-radius: 50%; border: 2px dashed #d4af37;
-            display: flex; align-items: center; justify-content: center;
-            color: #d4af37; font-size: 26px; font-weight: 900; font-family: serif;
+          .lock-date {
+            font-size: 18px;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
           }
-          .cover-title {
-            font-size: 48px; font-weight: 900; color: #d4af37; letter-spacing: 12px; margin-bottom: 15px; margin-right:-12px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+          .lock-hint-container {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: bounceUp 2s infinite;
+            opacity: 0.9;
           }
-          .cover-sub { color: #a98d3e; font-size: 14px; letter-spacing: 3px; margin-right:-3px; }
-          .cover-hint { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,0.5); animation: blink 1.5s infinite; letter-spacing: 1px;}
-          @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+          .lock-hint-icon { font-size: 32px; }
+          .lock-hint-text { font-size: 13px; letter-spacing: 1px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+          @keyframes bounceUp {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(-10px); opacity: 1; }
+          }
 
           /* ===== 🌟 우측 세로형 네비게이션 ===== */
           .nav-container {
@@ -112,15 +117,7 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 홈 탭 (전체화면) ===== */
-          .fullscreen-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
-            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
-            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
-          }
-
-          /* ===== 🌟 스마트폰 스와이프 넘김 애니메이션 ===== */
+          /* ===== 🌟 탭 스와이프 화면 넘김 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; }
           .tab-section.active { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
@@ -132,7 +129,6 @@ export default {
           .tab-section.flipping-out .main-wrapper {
               animation: swipeOut 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
           }
-          .tab-section.active .fullscreen-bg { animation: fadeInBg 0.8s ease-in-out forwards; }
 
           @keyframes swipeOut {
               0% { transform: translateX(0); opacity: 1; }
@@ -145,7 +141,7 @@ export default {
           @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* ===== 메인 콘텐츠 영역 ===== */
+          /* ===== 🌟 메인 콘텐츠 영역 (크기 확장 및 네비게이션 겹침 방지) ===== */
           .main-wrapper { 
             width: 100%; min-height: 100vh; margin: 0; 
             padding: 0 100px 0 0; 
@@ -164,6 +160,12 @@ export default {
 
           #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
           #tab-home .main-wrapper::before { display: none; }
+          .fullscreen-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
+            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
+            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
+          }
 
           .content-card { 
             max-width: 1200px; margin: 0 auto; 
@@ -176,7 +178,7 @@ export default {
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
           /* =========================================
-             🌟 2. 프로필 (비주얼 노벨 테마) 
+             🌟 2. 프로필
              ========================================= */
           .vn-profile-wrapper {
             background: var(--bg-card);
@@ -188,9 +190,7 @@ export default {
             overflow: hidden;
             margin-bottom: 30px;
           }
-          [data-theme="dark"] .vn-profile-wrapper {
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
-          }
+          [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
           .vn-profile-wrapper::after {
             content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
             background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px;
@@ -201,45 +201,34 @@ export default {
           .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           
           .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-          .vn-character-img {
-            width: 100%; max-width: 350px; object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255,130,0,0.15));
-          }
+          .vn-character-img { width: 100%; max-width: 350px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,130,0,0.15)); }
           [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
 
           .vn-quote-box {
             background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px;
-            padding: 20px; position: relative; width: 100%; box-sizing: border-box;
-            backdrop-filter: blur(5px);
+            padding: 20px; position: relative; width: 100%; box-sizing: border-box; backdrop-filter: blur(5px);
           }
           .vn-quote-icon {
             position: absolute; top: -16px; left: -10px; width: 32px; height: 32px;
             background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid var(--bg-card);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 50%; font-size: 18px; font-weight: bold; border: 3px solid var(--bg-card); box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           }
           .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
 
           .vn-right-col { flex: 1; min-width: 350px; }
           
           .vn-header-badge {
-            display: inline-flex; align-items: center;
-            background: var(--bg-point-light);
-            border: 2px solid var(--point-color); border-radius: 30px;
-            padding: 6px 20px; color: var(--point-color); font-size: 15px; font-weight: 800; letter-spacing: 2px;
-            margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(255, 130, 0, 0.2);
+            display: inline-flex; align-items: center; background: var(--bg-point-light); border: 2px solid var(--point-color); border-radius: 30px;
+            padding: 6px 20px; color: var(--point-color); font-size: 15px; font-weight: 800; letter-spacing: 2px; margin-bottom: 20px; box-shadow: 2px 2px 0 rgba(255, 130, 0, 0.2);
           }
           .vn-header-badge::before, .vn-header-badge::after { content: '◈'; font-size: 10px; color: var(--point-color); margin: 0 8px; }
-
           .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
           .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
 
           .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
           .vn-info-label { 
-            background: var(--bg-point-light); border: 1px solid var(--point-color);
-            color: var(--point-color); padding: 4px 12px; border-radius: 6px;
-            font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px;
-            box-shadow: 1px 1px 0 rgba(255, 130, 0, 0.2);
+            background: var(--bg-point-light); border: 1px solid var(--point-color); color: var(--point-color); padding: 4px 12px; border-radius: 6px;
+            font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px; box-shadow: 1px 1px 0 rgba(255, 130, 0, 0.2);
           }
           .vn-info-value { font-weight: 700; color: var(--text-main); }
 
@@ -247,22 +236,12 @@ export default {
           .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { 
-            background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; 
-            padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; 
-            box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
+            background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
           }
 
           /* 하단: 최근 게시글 & 서브 탭 */
-          .profile-bottom-grid {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 40px;
-            position: relative; z-index: 3;
-            margin-bottom: 30px; 
-          }
-          @media (max-width: 800px) {
-            .profile-bottom-grid { grid-template-columns: 1fr; }
-          }
+          .profile-bottom-grid { display: grid; grid-template-columns: 350px 1fr; gap: 40px; position: relative; z-index: 3; margin-bottom: 30px; }
+          @media (max-width: 800px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
 
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
@@ -371,8 +350,6 @@ export default {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 11px; color: var(--text-sub); margin-top: 8px;
           }
-          .vod-meta-stats .stats-group { display: flex; gap: 10px; }
-          .vod-meta-stats span { display: flex; align-items: center; gap: 3px; font-weight: 600;}
           
           .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
@@ -459,13 +436,13 @@ export default {
       </head>
       <body>
 
-        <!-- 🌟 학생수첩 커버 애니메이션 요소 -->
-        <div id="handbook-cover" onclick="openHandbook()">
-          <div class="cover-content">
-            <div class="cover-logo">SH</div>
-            <div class="cover-title">학생수첩</div>
-            <div class="cover-sub">Song Hyun Official</div>
-            <div class="cover-hint">클릭해서 펼치기</div>
+        <!-- 🌟 스마트폰 잠금화면 오버레이 (블러 처리) -->
+        <div id="lock-screen" onclick="unlockScreen()">
+          <div class="lock-time" id="lock-time">00:00</div>
+          <div class="lock-date" id="lock-date">1월 1일 월요일</div>
+          <div class="lock-hint-container">
+            <span class="material-symbols-rounded lock-hint-icon">keyboard_double_arrow_up</span>
+            <div class="lock-hint-text">화면을 위로 쓸어올리거나 클릭해서 잠금 해제</div>
           </div>
         </div>
 
@@ -568,7 +545,7 @@ export default {
           </div>
         </div>
 
-        <!-- 1. 홈 탭 (전체화면, 흰색 여백 없음) -->
+        <!-- 1. 홈 탭 -->
         <section id="tab-home" class="tab-section active">
           <div class="main-wrapper">
             <div class="fullscreen-bg"></div>
@@ -586,7 +563,6 @@ export default {
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
-                  <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
@@ -597,7 +573,6 @@ export default {
                     </div>
                   </div>
 
-                  <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
@@ -726,7 +701,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 3. 일정표 탭 (UI 레이아웃 및 팝업 적용 완료) -->
+        <!-- 3. 일정표 탭 -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -734,7 +709,6 @@ export default {
                 <h2>SCHEDULE</h2><span>/ 일정</span>
               </div>
               
-              <!-- 상단 일정표 타이틀 & 기능 묶음 -->
               <div class="calendar-header-new" style="margin-bottom: 15px;">
                 <div class="cal-title-left">
                   <h1 style="margin-bottom: 10px;">SCHEDULE</h1>
@@ -983,13 +957,31 @@ export default {
 
         <!-- 기능 스크립트 모음 -->
         <script>
-          /* ===== 학생수첩 펴기 애니메이션 ===== */
-          function openHandbook() {
-            var cover = document.getElementById('handbook-cover');
-            cover.classList.add('open');
-            setTimeout(function() {
-              cover.style.display = 'none';
-            }, 1500); 
+          /* ===== 🌟 잠금화면 (스와이프 및 클릭 해제) ===== */
+          function unlockScreen() {
+            var lock = document.getElementById('lock-screen');
+            if(lock) {
+              lock.classList.add('unlocked');
+              setTimeout(function() {
+                lock.style.display = 'none';
+              }, 600); 
+            }
+          }
+
+          function updateLockTime() {
+            const now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            const timeStr = h + ':' + m;
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const dateStr = (now.getMonth() + 1) + '월 ' + now.getDate() + '일 ' + days[now.getDay()] + '요일';
+            
+            const timeEl = document.getElementById('lock-time');
+            const dateEl = document.getElementById('lock-date');
+            if (timeEl) timeEl.innerText = timeStr;
+            if (dateEl) dateEl.innerText = dateStr;
           }
 
           /* ===== 추가된 우측 하단 탭(위키,규칙 등) 전환 로직 ===== */
@@ -1252,7 +1244,7 @@ export default {
           }
 
           /* ===== 🌟 VOD 탭 관련 전역 변수 및 함수 ===== */
-          let currentVodCategory = 'all'; 
+          let currentVodCategory = 'all'; // 현재 선택된 탭 카테고리
 
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
@@ -1301,6 +1293,7 @@ export default {
                 let pinnedTitle = isPinned ? '<span style="color:var(--point-color);">[고정]</span> ' + title : title;
                 let durationHtml = duration ? '<span class="vod-badge">' + duration + '</span>' : '';
 
+                // 카테고리 속성을 HTML 요소에 심어줌 (data-category)
                 let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '" data-category="' + category + '">' +
                           '<div class="vod-thumb">' +
                             '<img src="' + thumb + '" alt="썸네일">' +
@@ -1344,10 +1337,12 @@ export default {
           function filterVodsByCategory(cat, btnElement) {
             currentVodCategory = cat;
             
+            // 탭 디자인 변경
             var parentTabs = btnElement.parentElement.querySelectorAll('.sub-tab-btn');
             parentTabs.forEach(function(b) { b.classList.remove('active'); });
             btnElement.classList.add('active');
             
+            // 검색 필터 재실행 (선택된 카테고리 + 입력된 검색어 동시 적용)
             filterVods();
           }
 
@@ -1575,11 +1570,28 @@ export default {
             }
           }
 
+          let lockStartY = 0;
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
-            loadVods(); // 🌟 VOD 구글 시트 연동 스크립트 실행
+            loadVods(); 
             loadRecentPosts(); 
+            
+            updateLockTime();
+            setInterval(updateLockTime, 1000);
+
+            const lockScreen = document.getElementById('lock-screen');
+            if(lockScreen) {
+              lockScreen.addEventListener('touchstart', e => {
+                lockStartY = e.touches[0].clientY;
+              });
+              lockScreen.addEventListener('touchmove', e => {
+                let moveY = e.touches[0].clientY;
+                if (lockStartY - moveY > 50) { 
+                  unlockScreen();
+                }
+              });
+            }
           });
 
           const styleSheet = document.createElement("style");
