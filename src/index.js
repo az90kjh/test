@@ -141,12 +141,12 @@ export default {
 
           /* 🌟 모든 페이지를 전체화면 (100vw, 100vh) 으로 확장 */
           .main-wrapper { 
-            width: 100%; min-height: 100vh; margin: 0; padding: 0; 
+            width: 100%; min-height: 100vh; margin: 0; 
+            padding: 0 100px 0 0; 
             background-color: var(--bg-card); position: relative; 
-            overflow-x: hidden; padding-right: 100px; box-sizing: border-box;
+            overflow-x: hidden; box-sizing: border-box;
           }
           
-          /* 수첩 제본선 그림자 효과 (왼쪽) */
           .main-wrapper::before {
             content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px;
             background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
@@ -156,24 +156,20 @@ export default {
             background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%);
           }
 
-          /* 홈 탭은 예외 (배경화면이 채워짐) */
-          #tab-home .main-wrapper { background-color: var(--bg-body); padding-right: 0; }
+          #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
           #tab-home .main-wrapper::before { display: none; }
           .fullscreen-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
             background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
             background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
           }
 
-          /* 배경은 전체화면이지만, 내부 콘텐츠는 가운데 정렬되도록 max-width 설정 */
           .content-card { 
             max-width: 1200px; margin: 0 auto; 
-            padding: 60px 40px 80px 80px; /* 제본선을 피해 좌측 패딩 80px 확보 */
+            padding: 60px 20px 80px 70px; 
             min-height: 100vh; background: transparent; box-shadow: none; border-radius: 0; box-sizing: border-box;
           }
 
-          /* 헤더 타이틀 위치 및 여백 */
           .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 16px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
@@ -255,9 +251,7 @@ export default {
             box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1);
           }
 
-          /* =========================================
-             🌟 하단: 최근 게시글 & 서브 탭
-             ========================================= */
+          /* 하단: 최근 게시글 & 서브 탭 */
           .profile-bottom-grid {
             display: grid;
             grid-template-columns: 350px 1fr;
@@ -300,7 +294,7 @@ export default {
           .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
           .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
-          /* ===== 뮤직 팝업 & 위키 팝업 공통 ===== */
+          /* ===== 🌟 팝업 및 공용 Input 디자인 ===== */
           .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;
@@ -311,8 +305,12 @@ export default {
             padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative;
           }
           .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+          .modal-input {
+            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s;
+          }
+          .modal-input:focus { border-color: var(--point-color); }
 
-          /* 🌟 뮤직 팝업 (네비게이션 버튼 왼쪽에 붙어서 나옴) */
+          /* 뮤직 팝업 */
           #music-popup {
             display: none; position: fixed; 
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
@@ -333,6 +331,7 @@ export default {
              ========================================= */
           .vod-grid { 
             display: grid; 
+            /* 강제로 가로 4칸 고정 */
             grid-template-columns: repeat(4, 1fr); 
             gap: 20px; margin-bottom: 30px; 
           }
@@ -380,7 +379,7 @@ export default {
 
           /* ===== 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; display:flex; align-items:center; gap:10px; }
           .cal-nav { display: flex; align-items: center; gap: 15px; }
           .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
           .nav-arrow:hover { color: var(--point-color); }
@@ -389,19 +388,21 @@ export default {
           .cal-day-head { text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
           .cal-cell { height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px; box-sizing: border-box; }
           .cal-cell.empty { background-color: transparent; }
-          .cal-cell.bg-orange { background-color: var(--bg-point-light); }
-          .cal-cell.bg-yellow { background-color: #fff9e6; }
-          .cal-cell.bg-blue { background-color: #e6f4ff; }
-          .cal-cell.bg-pink { background-color: #fff0f5; }
+          .cal-cell.bg-orange { background-color: var(--bg-point-light); border-left:3px solid var(--point-color);}
+          .cal-cell.bg-yellow { background-color: #fff9e6; border-left:3px solid #facc15;}
+          .cal-cell.bg-blue { background-color: #e6f4ff; border-left:3px solid #38bdf8;}
+          .cal-cell.bg-pink { background-color: #fff0f5; border-left:3px solid #f472b6;}
           .cal-cell .date { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
-          .cal-cell .sch-txt { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-main); }
+          .cal-cell .sch-txt { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-main); margin-bottom:4px; background:rgba(255,255,255,0.6); padding:4px 6px; border-radius:4px; word-break:keep-all;}
+          
           #cal-week-view { display: none; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px; }
           .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
           .cal-week-date { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 15px; }
           .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
-          .pill-blue { background-color: #8cd4f5; color: #000; } 
-          .pill-pink { background-color: #ffd1dc; color: #000; } 
-          .pill-orange { background-color: #ffd8a8; color: #000; }
+          .pill-blue { background-color: #e6f4ff; color: #0284c7; border:1px solid #38bdf8; } 
+          .pill-pink { background-color: #fff0f5; color: #db2777; border:1px solid #f472b6; } 
+          .pill-orange { background-color: var(--bg-point-light); color: var(--point-color); border:1px solid var(--point-color); }
+          .pill-yellow { background-color: #fff9e6; color: #ca8a04; border:1px solid #facc15; }
 
           /* ===== 의상실 (CLOSET) ===== */
           .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
@@ -419,9 +420,9 @@ export default {
 
           /* ===== 노래책 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
-          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); }
+          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); font-family:inherit;}
           .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-          .refresh-btn:hover { color: var(--point-color); }
+          .refresh-btn:hover { color: var(--point-color); border-color:var(--point-color); }
           .song-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
           .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
           .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
@@ -451,7 +452,7 @@ export default {
           
           /* ===== 서브 탭 버튼 공통 ===== */
           .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-          .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
+          .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
         </style>
@@ -470,20 +471,20 @@ export default {
 
         <!-- 🌟 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
-          <button class="nav-btn active" onclick="switchTab('tab-home', this)"><span class="material-symbols-rounded">home</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-profile', this)"><span class="material-symbols-rounded">person</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-schedule', this)"><span class="material-symbols-rounded">calendar_today</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-songbook', this)"><span class="material-symbols-rounded">lyrics</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-closet', this)"><span class="material-symbols-rounded">checkroom</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-upbo', this)"><span class="material-symbols-rounded">receipt_long</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-game', this)"><span class="material-symbols-rounded">sports_esports</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-vod', this)"><span class="material-symbols-rounded">video_library</span></button>
-          <button class="nav-btn" onclick="toggleMusicPopup(this)"><span class="material-symbols-rounded">music_note</span></button>
-          <button class="nav-btn" onclick="switchTab('tab-info', this)"><span class="material-symbols-rounded">info</span></button>
-          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"><span class="material-symbols-rounded">dark_mode</span></button>
+          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)" title="홈"><span class="material-symbols-rounded">home</span></button>
+          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)" title="프로필"><span class="material-symbols-rounded">person</span></button>
+          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)" title="일정"><span class="material-symbols-rounded">calendar_today</span></button>
+          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)" title="노래책"><span class="material-symbols-rounded">lyrics</span></button>
+          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)" title="의상실"><span class="material-symbols-rounded">checkroom</span></button>
+          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)" title="업보리스트"><span class="material-symbols-rounded">receipt_long</span></button>
+          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)" title="미니게임"><span class="material-symbols-rounded">sports_esports</span></button>
+          <!-- 8 (VOD) --> <button class="nav-btn" onclick="switchTab('tab-vod', this)" title="VOD 다시보기"><span class="material-symbols-rounded">video_library</span></button>
+          <!-- 9 (음표 팝업) --> <button class="nav-btn" onclick="toggleMusicPopup(this)" title="배경음악"><span class="material-symbols-rounded">music_note</span></button>
+          <!-- 10 --> <button class="nav-btn" onclick="switchTab('tab-info', this)" title="정보 및 링크"><span class="material-symbols-rounded">info</span></button>
+          <!-- 11 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 -->
+        <!-- 뮤직 플레이어 팝업 (네비게이션 버튼 왼쪽에 달라붙음) -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -493,7 +494,6 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <!-- 👇 유튜브 재생목록 링크 👇 -->
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
@@ -517,7 +517,54 @@ export default {
                 </button>
               </div>
             </div>
-            <textarea id="wiki-textarea" style="width:100%; height:200px; background:var(--bg-body); border:1px solid var(--border-color); border-radius:8px; padding:12px; font-size:13px; color:var(--text-main); font-family:inherit; resize:none; box-sizing:border-box;" placeholder="송현위키에 추가할 새로운 내용을 적어주세요. (기존 내용은 안전하게 보호되며, 아래에 누적됩니다.)"></textarea>
+            <textarea id="wiki-textarea" class="modal-input" style="height:200px; resize:none;" placeholder="송현위키에 추가할 새로운 내용을 적어주세요. (기존 내용은 안전하게 보호되며, 아래에 누적됩니다.)"></textarea>
+          </div>
+        </div>
+
+        <!-- 🌟 일정 추가 팝업창 (NEW) -->
+        <div id="schedule-popup" class="modal-overlay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div style="font-size:15px; font-weight:800; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+                <span class="material-symbols-rounded" style="color:var(--point-color);">calendar_add_on</span> 새 일정 추가
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button onclick="saveSchedule()" style="background:var(--point-color); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer;">저장</button>
+                <button onclick="closeSchedulePopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                  <span class="material-symbols-rounded" style="font-size:16px;">close</span>
+                </button>
+              </div>
+            </div>
+            
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                  <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">날짜지정 (필수)</div>
+                  <input type="date" id="sch-date" class="modal-input">
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">시간입력 (선택)</div>
+                  <input type="time" id="sch-time" class="modal-input">
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">색상지정</div>
+                <select id="sch-color" class="modal-input">
+                  <option value="orange">주황색 (기본)</option>
+                  <option value="blue">파란색</option>
+                  <option value="pink">분홍색</option>
+                  <option value="yellow">노란색</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">제목 (필수)</div>
+                <input type="text" id="sch-title" class="modal-input" placeholder="일정 제목을 적어주세요">
+              </div>
+              <div>
+                <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">내용입력 (선택)</div>
+                <textarea id="sch-desc" class="modal-input" placeholder="상세 내용 입력..." style="height:80px; resize:none;"></textarea>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -579,7 +626,6 @@ export default {
               <!-- 상단 2번: 프로필 하단 영역 (좌측 최근글 + 우측 서브탭) -->
               <div class="profile-bottom-grid">
                 
-                <!-- 좌측: 최근 작성글 -->
                 <div>
                   <div class="recent-posts" style="margin-top:0;">
                     <div class="recent-posts-header">
@@ -589,13 +635,10 @@ export default {
                       </div>
                       <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
-                    <div id="soop-posts-container" class="recent-posts-list">
-                      <!-- JS를 통해 게시글이 들어갑니다 -->
-                    </div>
+                    <div id="soop-posts-container" class="recent-posts-list"></div>
                   </div>
                 </div>
 
-                <!-- 우측: 새로운 서브 탭 (방송규칙, OGQ, 위키) -->
                 <div class="extra-tabs-area">
                   <div class="sub-tabs" style="margin-bottom: 15px;">
                     <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
@@ -603,7 +646,6 @@ export default {
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
                   </div>
                   
-                  <!-- 1. 방송규칙 -->
                   <div id="extra-rule" class="extra-sub-section active">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; overflow-y: auto;">
                       <div class="vn-panel-title">
@@ -618,21 +660,19 @@ export default {
                     </div>
                   </div>
                   
-                  <!-- 2. OGQ MARKET -->
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
-                      <a href="https://ogqmarket.sooplive.com/emoticon/64b81cdba4d55" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="여기에_OGQ_황숭티콘1_이미지_주소를_넣어주세요.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
-                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                      <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="여기에_OGQ_황숭티콘2_이미지_주소를_넣어주세요.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
                     </div>
                   </div>
                   
-                  <!-- 3. 송현위키 -->
                   <div id="extra-wiki" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; flex-direction:column; padding:15px 25px;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
@@ -649,7 +689,6 @@ export default {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
 
@@ -685,7 +724,7 @@ export default {
           </div>
         </section>
 
-        <!-- 3. 일정표 탭 -->
+        <!-- 3. 일정표 탭 (일정 추가 기능 포함) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -694,7 +733,13 @@ export default {
               </div>
               <div class="calendar-header-new">
                 <div class="cal-title-left">
-                  <h1>SCHEDULE</h1>
+                  <!-- 👇 SCHEDULE 타이틀 옆에 일정 추가(+) 버튼 구현 👇 -->
+                  <h1 style="display:flex; align-items:center; gap:10px;">
+                    SCHEDULE
+                    <button onclick="openSchedulePopup()" title="새 일정 추가" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s; margin-bottom: 4px;">
+                      <span class="material-symbols-rounded" style="font-size:20px;">add</span>
+                    </button>
+                  </h1>
                   <div class="cal-nav">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year">2026년 8월</span>
@@ -834,7 +879,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (고정 영상 4칸 적용 완료 및 단일 바둑판 배열) -->
+        <!-- 🌟 8. VOD 탭 (통합 바둑판 & 카테고리 탭 구현) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -847,14 +892,21 @@ export default {
               </div>
               
               <!-- VOD 검색 바 -->
-              <div class="search-bar" style="margin-bottom: 30px;">
+              <div class="search-bar" style="margin-bottom: 20px;">
                 <input type="text" id="vod-search-input" onkeyup="filterVods()" placeholder="다시보기 영상 제목을 검색해보세요...">
                 <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
 
-              <!-- VOD 목록 컨테이너 (JS에서 이 부분이 4x5 바둑판으로 채워집니다) -->
-              <div id="vod-grid-container">
-                <div style="text-align:center; padding: 50px; color: var(--text-sub);">
+              <!-- 🌟 영상 필터 카테고리 탭 (기능 연동 완료) -->
+              <div class="sub-tabs" id="vod-category-tabs" style="margin-bottom: 25px;">
+                <button class="sub-tab-btn active" onclick="filterVodsByCategory('all', this)">전체 동영상</button>
+                <button class="sub-tab-btn" onclick="filterVodsByCategory('live', this)">라이브</button>
+                <button class="sub-tab-btn" onclick="filterVodsByCategory('cover', this)">노래커버</button>
+              </div>
+
+              <!-- VOD 목록 (단일 바둑판 형식) -->
+              <div id="vod-grid-container" class="vod-grid">
+                <div style="text-align:center; padding: 50px; color: var(--text-sub); grid-column: 1 / -1;">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
                   VOD 목록을 불러오는 중입니다...
                 </div>
@@ -945,26 +997,56 @@ export default {
             document.getElementById('wiki-textarea').value = ''; 
             document.getElementById('wiki-popup').style.display = 'flex';
           }
-          
           function closeWikiPopup() {
             document.getElementById('wiki-popup').style.display = 'none';
           }
-          
           function saveWiki() {
             var text = document.getElementById('wiki-textarea').value.trim();
-            if (!text) {
-              alert('내용을 적어주세요!');
-              return;
-            }
-            
+            if (!text) { alert('내용을 적어주세요!'); return; }
             var list = document.getElementById('wiki-content-list');
             var newItem = document.createElement('div');
             newItem.className = 'wiki-item';
             newItem.style.animation = 'fadeIn 0.3s ease-in-out';
             newItem.textContent = text; 
-            
             list.insertBefore(newItem, list.firstChild);
             closeWikiPopup();
+          }
+
+          /* ===== 🌟 캘린더 일정 추가 팝업 로직 ===== */
+          function openSchedulePopup() {
+            document.getElementById('sch-date').value = '';
+            document.getElementById('sch-time').value = '';
+            document.getElementById('sch-title').value = '';
+            document.getElementById('sch-desc').value = '';
+            document.getElementById('sch-color').value = 'orange'; // 기본값
+            document.getElementById('schedule-popup').style.display = 'flex';
+          }
+          function closeSchedulePopup() {
+            document.getElementById('schedule-popup').style.display = 'none';
+          }
+          function saveSchedule() {
+            var dateVal = document.getElementById('sch-date').value;
+            var timeVal = document.getElementById('sch-time').value;
+            var colorVal = document.getElementById('sch-color').value;
+            var titleVal = document.getElementById('sch-title').value.trim();
+            
+            if(!dateVal || !titleVal) {
+              alert('날짜와 일정 제목은 필수로 입력해주세요!');
+              return;
+            }
+            
+            // 날짜 파싱 (YYYY-MM-DD -> YYYY-M-D 형식)
+            var d = new Date(dateVal);
+            var dateKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+            
+            if(!mockEvents[dateKey]) mockEvents[dateKey] = [];
+            
+            var displayStr = titleVal;
+            if(timeVal) displayStr = timeVal + ' ' + titleVal;
+            
+            mockEvents[dateKey].push({ text: displayStr, color: colorVal });
+            renderCalendar(); // 달력 다시 그리기
+            closeSchedulePopup();
           }
 
           /* ===== 🌟 탭 및 책 페이지 넘김 애니메이션 로직 ===== */
@@ -1021,7 +1103,6 @@ export default {
             }
           }
 
-          /* ===== 🌟 뮤직 팝업 ===== */
           function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
             if (popup.style.display === 'block') {
@@ -1042,7 +1123,6 @@ export default {
           /* ===== 동적 캘린더 로직 ===== */
           let currentDate = new Date(); 
           let calView = 'month';
-
           const mockEvents = {}; 
 
           function renderCalendar() {
@@ -1139,7 +1219,6 @@ export default {
             renderCalendar();
           }
 
-          /* ===== 최근 작성글 연동 ===== */
           function loadRecentPosts() {
             const container = document.getElementById('soop-posts-container');
             const dummyPosts = [
@@ -1163,7 +1242,9 @@ export default {
             container.innerHTML = html;
           }
 
-          /* ===== 🌟 VOD 탭 검색 & 구글 시트 연동 기능 (단일 4x5 바둑판) ===== */
+          /* ===== 🌟 VOD 탭 관련 전역 변수 및 함수 ===== */
+          let currentVodCategory = 'all'; // 현재 선택된 탭 카테고리
+
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             
@@ -1197,6 +1278,13 @@ export default {
                 let duration = cells[3] || '';
                 let date = cells[4] || '';
                 let isPinned = (cells[5] === '고정');
+                
+                // 🌟 카테고리 추출 (G열[6번째] 또는 제목 키워드 감지)
+                let catText = cells[6] || '';
+                let category = 'live'; // 기본값: 라이브
+                if (catText === '노래커버') { category = 'cover'; }
+                else if (catText === '라이브') { category = 'live'; }
+                else if (title.indexOf('커버') !== -1 || title.toLowerCase().indexOf('cover') !== -1) { category = 'cover'; }
 
                 if (!title) return; 
 
@@ -1204,7 +1292,8 @@ export default {
                 let pinnedTitle = isPinned ? '<span style="color:var(--point-color);">[고정]</span> ' + title : title;
                 let durationHtml = duration ? '<span class="vod-badge">' + duration + '</span>' : '';
 
-                let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '">' +
+                // 카테고리 속성을 HTML 요소에 심어줌 (data-category)
+                let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '" data-category="' + category + '">' +
                           '<div class="vod-thumb">' +
                             '<img src="' + thumb + '" alt="썸네일">' +
                             '<div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>' +
@@ -1225,20 +1314,17 @@ export default {
                 }
               });
               
-              // 고정 영상은 최대 4개로 제한
+              // 고정 영상은 4칸까지만 채움
               let finalPinned = pinnedCards.slice(0, 4);
-              // 나머지 공간은 일반 영상으로 채워 총 20개가 넘지 않게 조절
               let remainingSlots = 20 - finalPinned.length;
               let finalNormal = normalCards.slice(0, remainingSlots);
               
-              // 하나로 합치기
               let combinedCards = finalPinned.concat(finalNormal);
 
               if(combinedCards.length === 0) {
                   container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub); grid-column: 1 / -1;">등록된 VOD 영상이 없습니다.</div>';
               } else {
-                  // 구분선이나 중간 타이틀 없이 단일 그리드 컨테이너 생성
-                  container.innerHTML = '<div class="vod-grid">' + combinedCards.join('') + '</div>';
+                  container.innerHTML = combinedCards.join('');
               }
             } catch (err) {
               console.error(err);
@@ -1246,13 +1332,32 @@ export default {
             }
           }
 
+          /* 🌟 카테고리 탭 변경 시 발동하는 필터 함수 */
+          function filterVodsByCategory(cat, btnElement) {
+            currentVodCategory = cat;
+            
+            // 탭 디자인 변경
+            var parentTabs = btnElement.parentElement.querySelectorAll('.sub-tab-btn');
+            parentTabs.forEach(function(b) { b.classList.remove('active'); });
+            btnElement.classList.add('active');
+            
+            // 검색 필터 재실행 (선택된 카테고리 + 입력된 검색어 동시 적용)
+            filterVods();
+          }
+
+          /* 🌟 텍스트 검색 및 카테고리 필터링 통합 로직 */
           function filterVods() {
             const query = document.getElementById('vod-search-input').value.toLowerCase();
             const vodCards = document.querySelectorAll('#tab-vod .vod-card');
             
             vodCards.forEach(function(card) {
               const title = card.querySelector('.vod-title').textContent.toLowerCase();
-              if (title.indexOf(query) !== -1) {
+              const cat = card.getAttribute('data-category');
+              
+              const matchQuery = title.indexOf(query) !== -1;
+              const matchCat = (currentVodCategory === 'all' || cat === currentVodCategory);
+              
+              if (matchQuery && matchCat) {
                 card.style.display = 'flex';
               } else {
                 card.style.display = 'none';
