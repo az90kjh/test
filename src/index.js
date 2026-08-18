@@ -112,34 +112,40 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 🌟 전체화면 레이아웃 & 페이지 넘김 애니메이션 ===== */
+          /* ===== 홈 탭 (전체화면) ===== */
+          .fullscreen-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* 👇 여기에 첫번째 페이지(홈) 배경 이미지 주소를 넣어주세요 👇 */
+            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
+            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
+          }
+
+          /* ===== 🌟 스마트폰 스와이프 넘김 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; }
           .tab-section.active { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-out { display: block; position: absolute; top: 0; left: 0; width: 100%; min-height: 100vh; z-index: 10; pointer-events: none; overflow: hidden; }
           
           .tab-section.flipping-in .main-wrapper {
-              animation: pageTurnIn 0.7s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
-              transform-origin: left center;
+              animation: swipeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
           }
           .tab-section.flipping-out .main-wrapper {
-              animation: pageTurnOut 0.7s cubic-bezier(0.3, 0, 0.2, 1) forwards;
-              transform-origin: left center;
+              animation: swipeOut 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
           }
+          .tab-section.active .fullscreen-bg { animation: fadeInBg 0.8s ease-in-out forwards; }
 
-          @keyframes pageTurnOut {
-              0% { transform: perspective(3000px) rotateY(0deg); opacity: 1; filter: brightness(1); }
-              40% { opacity: 1; filter: brightness(0.9); }
-              100% { transform: perspective(3000px) rotateY(-110deg); opacity: 0; filter: brightness(0.6); }
+          @keyframes swipeOut {
+              0% { transform: translateX(0); opacity: 1; }
+              100% { transform: translateX(-20%); opacity: 0; }
           }
-          @keyframes pageTurnIn {
-              0% { opacity: 0; transform: translateX(30px); }
-              100% { opacity: 1; transform: translateX(0); }
+          @keyframes swipeIn {
+              0% { transform: translateX(100%); opacity: 0; }
+              100% { transform: translateX(0); opacity: 1; }
           }
           @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* 🌟 모든 페이지를 전체화면 (100vw, 100vh) 으로 확장 */
+          /* ===== 메인 콘텐츠 영역 ===== */
           .main-wrapper { 
             width: 100%; min-height: 100vh; margin: 0; 
             padding: 0 100px 0 0; 
@@ -158,11 +164,6 @@ export default {
 
           #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
           #tab-home .main-wrapper::before { display: none; }
-          .fullscreen-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
-            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
-          }
 
           .content-card { 
             max-width: 1200px; margin: 0 auto; 
@@ -175,7 +176,7 @@ export default {
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
           /* =========================================
-             🌟 2. 프로필 (비주얼 노벨 테마 - 주황/흰색) 
+             🌟 2. 프로필 (비주얼 노벨 테마) 
              ========================================= */
           .vn-profile-wrapper {
             background: var(--bg-card);
@@ -294,7 +295,7 @@ export default {
           .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
           .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
-          /* ===== 🌟 팝업 및 공용 Input 디자인 ===== */
+          /* ===== 🌟 공통 팝업 및 Input 디자인 ===== */
           .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;
@@ -310,7 +311,7 @@ export default {
           }
           .modal-input:focus { border-color: var(--point-color); }
 
-          /* 뮤직 팝업 */
+          /* 🌟 뮤직 팝업 */
           #music-popup {
             display: none; position: fixed; 
             width: 320px; background-color: var(--bg-card); border-radius: 16px;
@@ -331,7 +332,6 @@ export default {
              ========================================= */
           .vod-grid { 
             display: grid; 
-            /* 강제로 가로 4칸 고정 */
             grid-template-columns: repeat(4, 1fr); 
             gap: 20px; margin-bottom: 30px; 
           }
@@ -378,13 +378,13 @@ export default {
 
 
           /* ===== 일정표 탭 ===== */
-          .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+          .calendar-header-new { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
           .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; display:flex; align-items:center; gap:10px; }
           .cal-nav { display: flex; align-items: center; gap: 15px; }
           .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
           .nav-arrow:hover { color: var(--point-color); }
           #current-month-year { font-size: 15px; font-weight: 600; color: var(--text-sub); }
-          #cal-month-view { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+          #cal-month-view { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: var(--bg-card); }
           .cal-day-head { text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
           .cal-cell { height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px; box-sizing: border-box; }
           .cal-cell.empty { background-color: transparent; }
@@ -392,7 +392,7 @@ export default {
           .cal-cell.bg-yellow { background-color: #fff9e6; border-left:3px solid #facc15;}
           .cal-cell.bg-blue { background-color: #e6f4ff; border-left:3px solid #38bdf8;}
           .cal-cell.bg-pink { background-color: #fff0f5; border-left:3px solid #f472b6;}
-          .cal-cell .date { font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+          .cal-cell .date { font-weight: bold; font-size: 14px; margin-bottom: 5px; color: var(--text-main); }
           .cal-cell .sch-txt { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-main); margin-bottom:4px; background:rgba(255,255,255,0.6); padding:4px 6px; border-radius:4px; word-break:keep-all;}
           
           #cal-week-view { display: none; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px; }
@@ -471,20 +471,20 @@ export default {
 
         <!-- 🌟 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
-          <!-- 1 --> <button class="nav-btn active" onclick="switchTab('tab-home', this)" title="홈"><span class="material-symbols-rounded">home</span></button>
-          <!-- 2 --> <button class="nav-btn" onclick="switchTab('tab-profile', this)" title="프로필"><span class="material-symbols-rounded">person</span></button>
-          <!-- 3 --> <button class="nav-btn" onclick="switchTab('tab-schedule', this)" title="일정"><span class="material-symbols-rounded">calendar_today</span></button>
-          <!-- 4 --> <button class="nav-btn" onclick="switchTab('tab-songbook', this)" title="노래책"><span class="material-symbols-rounded">lyrics</span></button>
-          <!-- 5 --> <button class="nav-btn" onclick="switchTab('tab-closet', this)" title="의상실"><span class="material-symbols-rounded">checkroom</span></button>
-          <!-- 6 --> <button class="nav-btn" onclick="switchTab('tab-upbo', this)" title="업보리스트"><span class="material-symbols-rounded">receipt_long</span></button>
-          <!-- 7 --> <button class="nav-btn" onclick="switchTab('tab-game', this)" title="미니게임"><span class="material-symbols-rounded">sports_esports</span></button>
-          <!-- 8 (VOD) --> <button class="nav-btn" onclick="switchTab('tab-vod', this)" title="VOD 다시보기"><span class="material-symbols-rounded">video_library</span></button>
-          <!-- 9 (음표 팝업) --> <button class="nav-btn" onclick="toggleMusicPopup(this)" title="배경음악"><span class="material-symbols-rounded">music_note</span></button>
-          <!-- 10 --> <button class="nav-btn" onclick="switchTab('tab-info', this)" title="정보 및 링크"><span class="material-symbols-rounded">info</span></button>
-          <!-- 11 --><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
+          <button class="nav-btn active" onclick="switchTab('tab-home', this)" title="홈"><span class="material-symbols-rounded">home</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-profile', this)" title="프로필"><span class="material-symbols-rounded">person</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-schedule', this)" title="일정"><span class="material-symbols-rounded">calendar_today</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-songbook', this)" title="노래책"><span class="material-symbols-rounded">lyrics</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-closet', this)" title="의상실"><span class="material-symbols-rounded">checkroom</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-upbo', this)" title="업보리스트"><span class="material-symbols-rounded">receipt_long</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-game', this)" title="미니게임"><span class="material-symbols-rounded">sports_esports</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-vod', this)" title="VOD 다시보기"><span class="material-symbols-rounded">video_library</span></button>
+          <button class="nav-btn" onclick="toggleMusicPopup(this)" title="배경음악"><span class="material-symbols-rounded">music_note</span></button>
+          <button class="nav-btn" onclick="switchTab('tab-info', this)" title="정보 및 링크"><span class="material-symbols-rounded">info</span></button>
+          <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 (네비게이션 버튼 왼쪽에 달라붙음) -->
+        <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -586,6 +586,7 @@ export default {
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   
+                  <!-- 좌측: 스탠딩 이미지 및 인사 영역 -->
                   <div class="vn-left-col">
                     <img src="여기에_프로필_이미지_주소를_넣어주세요.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
@@ -596,6 +597,7 @@ export default {
                     </div>
                   </div>
 
+                  <!-- 우측: 정보 영역 -->
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
@@ -724,33 +726,41 @@ export default {
           </div>
         </section>
 
-        <!-- 3. 일정표 탭 (일정 추가 기능 포함) -->
+        <!-- 🌟 3. 일정표 탭 (UI 레이아웃 및 팝업 적용 완료) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out">
                 <h2>SCHEDULE</h2><span>/ 일정</span>
               </div>
-              <div class="calendar-header-new">
+              
+              <!-- 상단 일정표 타이틀 & 기능 묶음 -->
+              <div class="calendar-header-new" style="margin-bottom: 15px;">
                 <div class="cal-title-left">
-                  <!-- 👇 SCHEDULE 타이틀 옆에 일정 추가(+) 버튼 구현 👇 -->
-                  <h1 style="display:flex; align-items:center; gap:10px;">
-                    SCHEDULE
-                    <button onclick="openSchedulePopup()" title="새 일정 추가" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s; margin-bottom: 4px;">
-                      <span class="material-symbols-rounded" style="font-size:20px;">add</span>
-                    </button>
-                  </h1>
+                  <h1 style="margin-bottom: 10px;">SCHEDULE</h1>
                   <div class="cal-nav">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year">2026년 8월</span>
                     <button class="nav-arrow" onclick="changeDate(1)"><span class="material-symbols-rounded">chevron_right</span></button>
                   </div>
                 </div>
-                <div class="sub-tabs" style="margin-bottom:0;">
+                <!-- 오른쪽: 일정 추가 버튼 -->
+                <div class="cal-title-right">
+                  <button onclick="openSchedulePopup()" title="새 일정 추가" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s;">
+                    <span class="material-symbols-rounded" style="font-size:24px;">add</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- 주간/월간 서브탭을 달력 바로 위로 밀착 -->
+              <div style="display:flex; justify-content:flex-end; margin-bottom: 8px;">
+                <div class="sub-tabs" style="margin-bottom:0; gap:8px;">
                   <button class="sub-tab-btn" id="btn-week" onclick="toggleCalendarView('week')">주간</button>
                   <button class="sub-tab-btn active" id="btn-month" onclick="toggleCalendarView('month')">월간</button>
                 </div>
               </div>
+
+              <!-- 달력 -->
               <div id="cal-month-view"></div>
               <div id="cal-week-view"></div>
             </div>
@@ -879,7 +889,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (통합 바둑판 & 카테고리 탭 구현) -->
+        <!-- 🌟 8. VOD 탭 (고정 영상 4칸 우선 정렬 및 카테고리 필터) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -897,14 +907,14 @@ export default {
                 <button class="refresh-btn" onclick="document.getElementById('vod-search-input').value=''; filterVods();" title="검색 초기화"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
 
-              <!-- 🌟 영상 필터 카테고리 탭 (기능 연동 완료) -->
+              <!-- 🌟 VOD 카테고리 필터 탭 -->
               <div class="sub-tabs" id="vod-category-tabs" style="margin-bottom: 25px;">
                 <button class="sub-tab-btn active" onclick="filterVodsByCategory('all', this)">전체 동영상</button>
                 <button class="sub-tab-btn" onclick="filterVodsByCategory('live', this)">라이브</button>
                 <button class="sub-tab-btn" onclick="filterVodsByCategory('cover', this)">노래커버</button>
               </div>
 
-              <!-- VOD 목록 (단일 바둑판 형식) -->
+              <!-- VOD 목록 컨테이너 -->
               <div id="vod-grid-container" class="vod-grid">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub); grid-column: 1 / -1;">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
@@ -1018,7 +1028,7 @@ export default {
             document.getElementById('sch-time').value = '';
             document.getElementById('sch-title').value = '';
             document.getElementById('sch-desc').value = '';
-            document.getElementById('sch-color').value = 'orange'; // 기본값
+            document.getElementById('sch-color').value = 'orange';
             document.getElementById('schedule-popup').style.display = 'flex';
           }
           function closeSchedulePopup() {
@@ -1035,7 +1045,6 @@ export default {
               return;
             }
             
-            // 날짜 파싱 (YYYY-MM-DD -> YYYY-M-D 형식)
             var d = new Date(dateVal);
             var dateKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
             
@@ -1045,11 +1054,11 @@ export default {
             if(timeVal) displayStr = timeVal + ' ' + titleVal;
             
             mockEvents[dateKey].push({ text: displayStr, color: colorVal });
-            renderCalendar(); // 달력 다시 그리기
+            renderCalendar(); 
             closeSchedulePopup();
           }
 
-          /* ===== 🌟 탭 및 책 페이지 넘김 애니메이션 로직 ===== */
+          /* ===== 🌟 탭 및 책 페이지 넘김(스와이프) 애니메이션 로직 ===== */
           function switchTab(tabId, clickedBtn) {
             var currentTab = document.querySelector('.tab-section.active') || document.querySelector('.tab-section.flipping-in');
             var newTab = document.getElementById(tabId);
@@ -1076,7 +1085,7 @@ export default {
                   newTab.classList.remove('flipping-in');
                   newTab.classList.add('active');
                 }
-              }, 700); 
+              }, 400); // 0.4초 스와이프
             } else {
               newTab.classList.add('active');
             }
@@ -1243,7 +1252,7 @@ export default {
           }
 
           /* ===== 🌟 VOD 탭 관련 전역 변수 및 함수 ===== */
-          let currentVodCategory = 'all'; // 현재 선택된 탭 카테고리
+          let currentVodCategory = 'all'; 
 
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
@@ -1292,7 +1301,6 @@ export default {
                 let pinnedTitle = isPinned ? '<span style="color:var(--point-color);">[고정]</span> ' + title : title;
                 let durationHtml = duration ? '<span class="vod-badge">' + duration + '</span>' : '';
 
-                // 카테고리 속성을 HTML 요소에 심어줌 (data-category)
                 let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '" data-category="' + category + '">' +
                           '<div class="vod-thumb">' +
                             '<img src="' + thumb + '" alt="썸네일">' +
@@ -1336,12 +1344,10 @@ export default {
           function filterVodsByCategory(cat, btnElement) {
             currentVodCategory = cat;
             
-            // 탭 디자인 변경
             var parentTabs = btnElement.parentElement.querySelectorAll('.sub-tab-btn');
             parentTabs.forEach(function(b) { b.classList.remove('active'); });
             btnElement.classList.add('active');
             
-            // 검색 필터 재실행 (선택된 카테고리 + 입력된 검색어 동시 적용)
             filterVods();
           }
 
@@ -1572,7 +1578,7 @@ export default {
           document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
             loadSongs();
-            loadVods(); 
+            loadVods(); // 🌟 VOD 구글 시트 연동 스크립트 실행
             loadRecentPosts(); 
           });
 
