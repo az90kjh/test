@@ -11,7 +11,7 @@ export default {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
         <style>
-          /* ===== CSS 변수 ===== */
+          /* ===== CSS 변수 (주황색 테마) ===== */
           :root {
             --bg-body: #f4f5f7; --bg-card: #ffffff; --bg-nav: #222222;
             --text-main: #111111; --text-sub: #666666; --border-color: #eeeeee;
@@ -30,7 +30,7 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 스마트폰 잠금화면 ===== */
+          /* ===== 스마트폰 잠금화면 (블러 오버레이) ===== */
           #lock-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -46,7 +46,7 @@ export default {
           .lock-hint-text { font-size: 13px; letter-spacing: 1px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
           @keyframes bounceUp { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-10px); opacity: 1; } }
 
-          /* ===== 우측 네비게이션 ===== */
+          /* ===== 우측 세로형 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%);
             background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px;
@@ -55,85 +55,108 @@ export default {
           .nav-btn { background: none; border: none; color: var(--nav-icon); cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
           .nav-btn:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+          .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 스와이프 애니메이션 ===== */
-          .tab-section { display: none; width: 100%; min-height: 100vh; }
-          .tab-section.active { display: block; position: relative; z-index: 5; }
-          .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
-          .tab-section.flipping-out { display: block; position: absolute; top: 0; left: 0; width: 100%; min-height: 100vh; z-index: 10; pointer-events: none; overflow: hidden; }
-          .tab-section.flipping-in .main-wrapper { animation: swipeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-          .tab-section.flipping-out .main-wrapper { animation: swipeOut 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+          /* ===== 🌟 탭 스와이프 화면 넘김 (전체화면 기준) ===== */
+          .tab-section { display: none; width: 100%; min-height: 100vh; position: absolute; top:0; left:0; }
+          .tab-section.active { display: block; z-index: 5; }
+          .tab-section.flipping-in { display: block; z-index: 5; animation: swipeIn 0.4s forwards cubic-bezier(0.25, 1, 0.5, 1); }
+          .tab-section.flipping-out { display: block; z-index: 4; animation: swipeOut 0.4s forwards cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none; }
           @keyframes swipeOut { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(-20%); opacity: 0; } }
           @keyframes swipeIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-          @keyframes fadeInBg { 0% { opacity: 0; } 100% { opacity: 1; } }
-          @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          /* ===== 메인 레이아웃 ===== */
-          .main-wrapper { width: 100%; min-height: 100vh; margin: 0; padding: 0 100px 0 0; background-color: var(--bg-card); position: relative; overflow-x: hidden; box-sizing: border-box; }
-          .main-wrapper::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px; background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%); z-index: 10; pointer-events: none; }
-          [data-theme="dark"] .main-wrapper::before { background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%); }
-          
-          #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
-          #tab-home .main-wrapper::before { display: none; }
-          .fullscreen-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
-          
-          .content-card { max-width: 1200px; margin: 0 auto; padding: 60px 20px 80px 70px; min-height: 100vh; background: transparent; box-sizing: border-box; }
-          .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
-          .section-header-out h2 { font-size: 16px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
+          /* ===== 🌟 전체화면 레이아웃 (크기 꽉 채움) ===== */
+          .main-wrapper { 
+            width: 100%; min-height: 100vh; margin: 0; 
+            padding: 0 80px 0 0; /* 네비게이션 바와 겹치지 않게 우측 80px 여백 */
+            background-color: var(--bg-card); 
+            box-sizing: border-box; 
+          }
+          #tab-home .main-wrapper { padding: 0; background-color: transparent; }
+          .fullscreen-bg {
+            position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
+            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
+          }
+
+          /* 하얀색 배경 카드가 이제 화면 전체를 덮습니다 */
+          .content-card { 
+            width: 100%; max-width: 1600px; margin: 0 auto; 
+            padding: 60px 40px 100px 60px;
+            min-height: 100vh; box-sizing: border-box;
+          }
+
+          .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+          .section-header-out h2 { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
-          /* ===== 서브탭 및 버튼 공통 ===== */
-          .sub-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+          /* ===== 서브 탭 버튼 공통 ===== */
+          .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
           .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* ===== 팝업 공통 ===== */
-          .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
-          .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
-          .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
-          .modal-input:focus { border-color: var(--point-color); }
-          #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
-          @keyframes popLeft { from { opacity: 0; transform: translate(20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
-
-          /* ===== 그 외 프로필, 캘린더, 미니게임 등 디자인은 기존 유지 (중복 제거) ===== */
-          /* Profile */
-          .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; position: relative; overflow: hidden; margin-bottom: 30px; }
+          /* ===== 2. 프로필 탭 복구 ===== */
+          .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
+          [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
           .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
           .vn-character-img { width: 100%; max-width: 350px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,130,0,0.15)); }
+          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
           .vn-quote-box { background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px; padding: 20px; position: relative; width: 100%; box-sizing: border-box; }
           .vn-quote-icon { position: absolute; top: -16px; left: -10px; width: 32px; height: 32px; background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; font-weight: bold; }
-          .vn-quote-text { font-size: 14px; font-weight: 600; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
+          .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
           .vn-right-col { flex: 1; min-width: 350px; }
           .vn-header-badge { display: inline-flex; align-items: center; background: var(--bg-point-light); border: 2px solid var(--point-color); border-radius: 30px; padding: 6px 20px; color: var(--point-color); font-size: 15px; font-weight: 800; margin-bottom: 20px; }
           .vn-name-title { font-size: 42px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
-          .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; }
+          .vn-name-sub { font-size: 14px; font-weight: 700; color: var(--point-color); margin-bottom: 30px; letter-spacing: 1px; }
           .vn-info-row { display: flex; margin-bottom: 12px; font-size: 14px; align-items: center; }
           .vn-info-label { background: var(--bg-point-light); border: 1px solid var(--point-color); color: var(--point-color); padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 12px; width: 85px; text-align: center; margin-right: 15px; }
           .vn-info-value { font-weight: 700; color: var(--text-main); }
+          .vn-like-box { margin-top: 30px; margin-bottom: 30px; }
+          .vn-like-title { font-size: 14px; font-weight: 800; color: var(--point-color); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
+          .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+          .vn-like-item { background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; }
+
+          /* 최근게시글 & 위키 (레이아웃 복구) */
           .profile-bottom-grid { display: grid; grid-template-columns: 350px 1fr; gap: 40px; margin-bottom: 30px; }
-          @media (max-width: 800px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
-          
+          @media (max-width: 900px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
+          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
+          .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
-          .post-item { display: flex; flex-direction: column; gap: 6px; color: var(--text-main); }
-          .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; }
+          .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
+          .post-item:hover .post-title { color: var(--point-color); }
+          .post-title-row { display: flex; align-items: center; gap: 8px; }
+          .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
           .post-badge.notice { background-color: var(--point-color); color: #fff; }
-          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-          .extra-sub-section { display: none; animation: fadeIn 0.3s; height: 100%; }
+          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
+
+          .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
           .vn-panel { background: var(--bg-card); border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; }
-          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); margin-top:20px; }
+          .vn-panel-title { font-size: 15px; font-weight: 900; color: var(--point-color); margin-bottom: 20px; border-bottom: 2px dashed rgba(255, 130, 0, 0.3); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end; }
+          .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
+
+          /* 구독 뱃지 */
+          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); }
+          .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
           .badge-container { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 2px; }
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; min-width: 0; }
-          .badge-img { width: 100%; max-width: 26px; object-fit: contain; }
-          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; transform: scale(0.9); }
+          .badge-img { width: 100%; max-width: 26px; height: auto; object-fit: contain; }
+          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
+          .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
-          /* Calendar */
-          .cal-nav button { background: none; border: none; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; }
-          .cal-nav button:hover { color: var(--point-color); }
+          /* ===== 3. 일정표 탭 ===== */
+          .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+          .cal-nav { display: flex; align-items: center; gap: 15px; }
+          .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
+          .nav-arrow:hover { color: var(--point-color); }
+          #current-month-year { font-size: 15px; font-weight: 600; color: var(--text-main); }
+          
           #cal-month-view { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: var(--bg-card); }
           .cal-day-head { text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
           .cal-cell { height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px; box-sizing: border-box; }
@@ -144,44 +167,51 @@ export default {
           .cal-cell .date { font-weight: bold; font-size: 14px; margin-bottom: 5px; color: var(--text-main); }
           .cal-cell .sch-txt { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-main); margin-bottom:4px; background:rgba(255,255,255,0.6); padding:4px 6px; border-radius:4px; word-break:keep-all;}
           #cal-week-view { display: none; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px; }
-          .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; }
+          .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px; }
+          .cal-week-date { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 15px; }
+          .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
 
-          /* Closet / Songbook / Upbo */
-          .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px; background: transparent; color: var(--text-main); font-family:inherit;}
-          .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); }
+          /* ===== 4. 노래책 탭 ===== */
+          .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+          .search-bar input { padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 300px; background: transparent; color: var(--text-main); font-family:inherit;}
+          .refresh-btn { background: var(--bg-body); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; justify-content: center; }
+          .refresh-btn:hover { color: var(--point-color); border-color:var(--point-color); }
           .song-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
           .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
+          .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
+          .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
+          .group-header-row td { padding: 0 !important; border: none !important; }
           .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
 
-          .closet-sub-section { display: none; animation: fadeIn 0.3s; }
+          /* ===== 5. 의상실 (CLOSET) ===== */
+          .closet-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .closet-sub-section.active { display: block; }
           .closet-card-grid { display: flex; gap: 25px; flex-wrap: wrap; }
-          .closet-item-card { position: relative; width: 320px; height: 480px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
-          
-          /* Upbo */
-          .upbo-grid { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
-          .upbo-card { background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.02); }
+          .closet-item-card { position: relative; width: 300px; height: 450px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
+          .closet-tag-name { position: absolute; top: 15px; left: 15px; color: #ffffff; font-size: 14px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.6); z-index: 2; }
+          .closet-tag-badge { position: absolute; top: 12px; right: 12px; background: #ff478e; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
+          .closet-item-card::before, .closet-item-card::after { content: ''; position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 2; }
+          .closet-item-card::before { top: 8px; left: 8px; border-top: 2px solid rgba(255,255,255,0.6); border-left: 2px solid rgba(255,255,255,0.6); }
+          .closet-item-card::after { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(255,255,255,0.6); border-right: 2px solid rgba(255,255,255,0.6); }
+          .closet-card-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; z-index: 2; }
+          .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+          .closet-bottom-icons { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-size: 12px; }
 
-          /* VOD */
-          .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
-          @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
-          @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
-          .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; transition: 0.2s; }
-          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
-          .vod-card.pinned { border: 2px solid var(--point-color); }
-          .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
-          .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
-          .vod-play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; z-index: 1; }
-          .vod-card:hover .vod-play-overlay { opacity: 1; }
-          .vod-info { padding: 15px; }
-          .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+          /* ===== 6. 업보 탭 (복구 및 초기화) ===== */
+          .empty-state { text-align: center; padding: 50px; color: var(--text-sub); font-size: 15px; }
 
-          /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) UI ===== */
+          /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) ===== */
           .game-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .game-sub-section.active { display: block; }
           
-          /* 사다리게임 */
+          /* 공통 컨트롤 버튼 */
+          .counter-box { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
+          .counter-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 18px; cursor: pointer; color: var(--text-main); display:flex; align-items:center; justify-content:center;}
+          .counter-num { font-size: 18px; font-weight: bold; color: var(--point-color); min-width: 20px; text-align: center; }
+          .action-btn { background-color: var(--point-color); color: #fff; padding: 10px 25px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; box-shadow:0 2px 8px rgba(255,130,0,0.3);}
+          .action-btn:hover { filter: brightness(0.9); }
+
+          /* 🌟 사다리게임 */
           .ladder-setup { background: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px dashed rgba(255,130,0,0.3); }
           .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
@@ -190,36 +220,29 @@ export default {
           .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
           .ladder-btn-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; min-width: 600px; }
-          .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--point-color); color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
+          .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 블루델 스타일 핀볼(Plinko) 네온 레이아웃 */
+          /* 🌟 핀볼게임 (마블룰렛 스타일) */
           .pb-game-wrapper {
-             display: flex; gap: 0; width: 100%; height: 600px; 
-             background: #000000; border-radius: 12px; overflow: hidden;
+             display: flex; width: 100%; height: 600px; 
+             background: #000; border-radius: 12px; overflow: hidden;
              box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;
           }
-          @media (max-width: 800px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important;} }
+          @media (max-width: 800px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
-          /* 좌측 캔버스(트랙) 영역 (좁고 길게 설정, 네온 감성) */
-          .pb-canvas-container {
-             width: 300px; height: 100%; background: #080808; 
-             border-right: 1px solid #333; position: relative;
-             flex-shrink: 0;
-          }
+          /* 좌측 네온 맵 (Canvas) */
+          .pb-canvas-container { width: 300px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
-          /* 우측 리더보드 및 설정 영역 */
-          .pb-side-panel {
-             flex: 1; display: flex; flex-direction: column; position: relative; background: #111;
-          }
-          
+          /* 우측 패널 (순위 + 설정) */
+          .pb-side-panel { flex: 1; display: flex; flex-direction: column; background: #111; }
           .pb-leaderboard {
              flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-             color: #fff; padding: 20px; overflow: hidden; position: relative;
+             color: #fff; padding: 20px; overflow-y: auto; position: relative;
           }
           .pb-rank-title { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.2); margin-bottom: 20px; letter-spacing: 5px; }
-          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 350px; }
+          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 400px; }
           .pb-rank-item { 
              display: flex; justify-content: space-between; align-items: center; 
              background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px;
@@ -229,41 +252,69 @@ export default {
           @keyframes popIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
 
           .pb-controls {
-             background: #2a2a2a; padding: 15px 20px;
-             display: flex; gap: 20px; align-items: flex-end; border-top: 1px solid #444;
+             background: #222; padding: 20px; display: flex; gap: 20px; align-items: flex-end; border-top: 1px solid #333;
           }
           .pb-input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
           .pb-input-group label { color: #aaa; font-size: 11px; font-weight: 700; }
           .pb-input-group textarea { 
              width: 100%; height: 60px; background: #111; border: 1px solid #444; color: #fff;
-             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit;
+             border-radius: 6px; padding: 10px; font-size: 12px; resize: none; font-family: inherit;
           }
-          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 200px; }
-          .pb-settings-row { display: flex; align-items: center; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 700; }
-          .pb-settings-row select { 
-             background: #444; color:#fff; border: none; border-radius: 4px; padding: 4px 8px; 
-             font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 130px;
-          }
-          .pb-start-btn { 
-             background: var(--point-color); color: #fff; border: none; border-radius: 6px;
-             padding: 15px 25px; font-size: 16px; font-weight: 900; cursor: pointer; 
-             display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
-          }
-          .pb-start-btn:hover { filter: brightness(0.8); }
+          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 150px; }
+          .pb-settings-row select { background: #444; color:#fff; border: none; border-radius: 6px; padding: 6px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 100%; }
 
-          /* 공통 카운터 */
-          .counter-box { display: flex; align-items: center; gap: 15px; }
-          .counter-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 18px; cursor: pointer; color: var(--text-main); display:flex; align-items:center; justify-content:center;}
-          .counter-num { font-size: 18px; font-weight: bold; color: var(--point-color); min-width: 20px; text-align: center; }
-          .action-btn { background-color: var(--text-main); color: var(--bg-card); padding: 10px 25px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; }
+          /* ===== 8. VOD 다시보기 ===== */
+          .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+          @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
+          @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
+          @media (max-width: 500px) { .vod-grid { grid-template-columns: repeat(1, 1fr); } }
           
-          .empty-state { text-align: center; padding: 40px; color: var(--text-sub); }
+          .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
+          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
+          .vod-card.pinned { border: 2px solid var(--point-color); }
+          .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
+          .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
+          .vod-play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 1; }
+          .vod-play-overlay span { font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: transform 0.2s, color 0.2s; }
+          .vod-card:hover .vod-play-overlay { opacity: 1; }
+          .vod-card:hover .vod-play-overlay span { color: var(--point-color); transform: scale(1.1); }
+          .vod-info { padding: 15px; }
+          .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+          .vod-meta-stats { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); margin-top: 8px; }
+          .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
+          /* ===== 9. INFO 링크 ===== */
+          .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+          @media (max-width: 600px) { .link-grid { grid-template-columns: 1fr; } }
+          .link-card { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid var(--border-color); border-radius: 12px; transition: border-color 0.2s; }
+          .link-card:hover { border-color: var(--point-color); }
+          .link-left { display: flex; align-items: center; gap: 15px; }
+          .link-icon { font-size: 24px; color: var(--point-color); }
+          .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
+          .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
+          .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
+
+          /* 공통 팝업 모달 창들 */
+          .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
+          .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
+          .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+          .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
+          .modal-input:focus { border-color: var(--point-color); }
+          
+          /* 음악 팝업 */
+          #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
+          .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+          .popup-header span { font-size: 11px; font-weight: bold; color: var(--point-color); }
+          .close-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; }
+          .video-container { width: 100%; height: 180px; background-color: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+          .music-controls { display: flex; align-items: center; gap: 10px; }
+          .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
+          .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
         </style>
       </head>
       <body>
 
-        <!-- 🌟 스마트폰 잠금화면 오버레이 -->
+        <!-- 🌟 스마트폰 잠금화면 -->
         <div id="lock-screen" onclick="unlockScreen()">
           <div class="lock-time" id="lock-time">00:00</div>
           <div class="lock-date" id="lock-date">1월 1일 월요일</div>
@@ -273,7 +324,7 @@ export default {
           </div>
         </div>
 
-        <!-- 우측 세로형 네비게이션 바 -->
+        <!-- 우측 네비게이션 -->
         <nav class="nav-container">
           <button class="nav-btn active" onclick="switchTab('tab-home', this)" title="홈"><span class="material-symbols-rounded">home</span></button>
           <button class="nav-btn" onclick="switchTab('tab-profile', this)" title="프로필"><span class="material-symbols-rounded">person</span></button>
@@ -291,19 +342,11 @@ export default {
         <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
-            <div>
-              <span>NOW PLAYING</span><br>
-              <strong style="font-size:14px;">Song Hyun BGM</strong>
-            </div>
+            <div><span>NOW PLAYING</span><br><strong style="font-size:14px;">Song Hyun BGM</strong></div>
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-          <div class="music-controls">
-            <span class="material-symbols-rounded" style="font-size:16px;">volume_up</span>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-            <span style="font-size:11px; font-weight:bold;">70%</span>
           </div>
         </div>
 
@@ -315,17 +358,15 @@ export default {
                 <span class="material-symbols-rounded" style="color:var(--point-color);">edit_document</span> 위키 새 문서 작성
               </div>
               <div style="display:flex; gap:8px;">
-                <button onclick="saveWiki()" style="background:var(--point-color); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer;">저장</button>
-                <button onclick="closeWikiPopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                  <span class="material-symbols-rounded" style="font-size:16px;">close</span>
-                </button>
+                <button onclick="saveWiki()" class="action-btn" style="padding:6px 14px;">저장</button>
+                <button onclick="closeWikiPopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer;"><span class="material-symbols-rounded" style="font-size:16px;">close</span></button>
               </div>
             </div>
-            <textarea id="wiki-textarea" class="modal-input" style="height:200px; resize:none;" placeholder="송현위키에 추가할 새로운 내용을 적어주세요."></textarea>
+            <textarea id="wiki-textarea" class="modal-input" style="height:200px; resize:none;" placeholder="송현위키에 추가할 내용을 적어주세요."></textarea>
           </div>
         </div>
 
-        <!-- 일정 추가 팝업 -->
+        <!-- 🌟 일정 추가 팝업 -->
         <div id="schedule-popup" class="modal-overlay">
           <div class="modal-content">
             <div class="modal-header">
@@ -333,10 +374,8 @@ export default {
                 <span class="material-symbols-rounded" style="color:var(--point-color);">calendar_add_on</span> 새 일정 추가
               </div>
               <div style="display:flex; gap:8px;">
-                <button onclick="saveSchedule()" style="background:var(--point-color); color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer;">저장</button>
-                <button onclick="closeSchedulePopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                  <span class="material-symbols-rounded" style="font-size:16px;">close</span>
-                </button>
+                <button onclick="saveSchedule()" class="action-btn" style="padding:6px 14px;">저장</button>
+                <button onclick="closeSchedulePopup()" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); border-radius:6px; padding:6px; cursor:pointer;"><span class="material-symbols-rounded" style="font-size:16px;">close</span></button>
               </div>
             </div>
             <div style="display:flex; flex-direction:column; gap:12px;">
@@ -344,43 +383,43 @@ export default {
                 <div style="flex:1;"><div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">날짜 (필수)</div><input type="date" id="sch-date" class="modal-input"></div>
                 <div style="flex:1;"><div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">시간 (선택)</div><input type="time" id="sch-time" class="modal-input"></div>
               </div>
-              <div>
-                <div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">색상</div>
-                <select id="sch-color" class="modal-input">
-                  <option value="orange">주황색 (기본)</option><option value="blue">파란색</option><option value="pink">분홍색</option><option value="yellow">노란색</option>
-                </select>
+              <div><div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">색상</div>
+                <select id="sch-color" class="modal-input"><option value="orange">주황색</option><option value="blue">파란색</option><option value="pink">분홍색</option><option value="yellow">노란색</option></select>
               </div>
               <div><div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">제목 (필수)</div><input type="text" id="sch-title" class="modal-input" placeholder="일정 제목"></div>
-              <div><div style="font-size:11px; color:var(--text-sub); margin-bottom:4px;">내용 (선택)</div><textarea id="sch-desc" class="modal-input" placeholder="상세 내용..." style="height:80px; resize:none;"></textarea></div>
             </div>
           </div>
         </div>
 
-        <!-- =========================
-             🌟 전체 페이지 (9개 탭)
-             ========================= -->
+        <!-- 1. 홈 탭 (전체화면, 흰색카드 없음) -->
+        <section id="tab-home" class="tab-section active">
+          <div class="main-wrapper">
+            <div class="fullscreen-bg"></div>
+          </div>
+        </section>
 
-        <!-- 1. 홈 탭 -->
-        <section id="tab-home" class="tab-section active"><div class="main-wrapper"><div class="fullscreen-bg"></div></div></section>
-
-        <!-- 2. 프로필 탭 -->
+        <!-- 2. 프로필 탭 (복구 완료) -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>Profile</h2><span>/ 프로필</span></div>
+              
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   <div class="vn-left-col">
+                    <!-- 👇 프로필 사진 주소 👇 -->
                     <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
-                      <div class="vn-quote-icon"><span class="material-symbols-rounded">format_quote</span></div>
+                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
                       <div class="vn-quote-text">"반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"</div>
                     </div>
                   </div>
+
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
+
                     <div class="vn-info-row"><div class="vn-info-label">AGE</div><div class="vn-info-value">17</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">DEBUT</div><div class="vn-info-value">2024.02</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">BIRTHDAY</div><div class="vn-info-value">06.08</div></div>
@@ -393,11 +432,12 @@ export default {
                 </div>
               </div>
 
+              <!-- 하단 구역 -->
               <div class="profile-bottom-grid">
                 <div>
                   <div class="recent-posts">
                     <div class="recent-posts-header">
-                      <div><div style="font-size:10px; font-weight:800; color:var(--point-color);">SOOP POSTS</div><h3 style="font-size:16px; font-weight:800;">최근 게시글</h3></div>
+                      <div><div style="font-size: 10px; font-weight: 800; color: var(--point-color);">SOOP POSTS</div><h3 style="font-size: 16px; font-weight: 800; margin-top: 2px;">최근 게시글</h3></div>
                       <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
                     <div id="soop-posts-container" class="recent-posts-list"></div>
@@ -405,61 +445,82 @@ export default {
                 </div>
 
                 <div class="extra-tabs-area">
-                  <div class="sub-tabs" style="margin-bottom: 15px;">
+                  <div class="sub-tabs">
                     <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-ogq', this)">OGQ MARKET</button>
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
                   </div>
                   
                   <div id="extra-rule" class="extra-sub-section active">
-                    <div class="vn-panel" style="margin-bottom:0; height: 180px; overflow-y: auto;">
+                    <div class="vn-panel" style="height:180px; overflow-y:auto; margin:0;">
                       <div class="vn-panel-title"><div><span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">gavel</span>방송 규칙</div></div>
                       <ul style="font-size:13px; color:var(--text-main); line-height:1.6; padding-left:20px; margin:0;">
-                        <li>타 스트리머 관련 언급 금지</li><li>시청자 간의 과도한 친목 금지</li><li>게임 스포일러 및 선 넘는 훈수 금지</li><li>욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
+                        <li style="margin-bottom:6px;">타 스트리머 관련 언급 금지</li>
+                        <li style="margin-bottom:6px;">시청자 간의 과도한 친목 금지</li>
+                        <li style="margin-bottom:6px;">게임 스포일러 및 선 넘는 훈수 금지</li>
+                        <li style="margin-bottom:6px;">욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
                       </ul>
                     </div>
                   </div>
                   
                   <div id="extra-ogq" class="extra-sub-section">
-                    <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
-                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display:flex; flex-direction:column; align-items:center;">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="vn-panel" style="height:180px; display:flex; align-items:center; justify-content:center; gap:40px; margin:0;">
+                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display:flex; flex-direction:column; align-items:center; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="SOOP" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
-                      <a href="#" target="_blank" style="display:flex; flex-direction:column; align-items:center;">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                      <a href="#" target="_blank" style="display:flex; flex-direction:column; align-items:center; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="Naver" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
                     </div>
                   </div>
                   
                   <div id="extra-wiki" class="extra-sub-section">
-                    <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; flex-direction:column; padding:15px 25px;">
+                    <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
-                        <h3 style="margin:0; font-size:14px; color:var(--point-color);"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
-                        <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded">add</span></button>
+                        <h3 style="font-size:14px; color:var(--point-color); display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
+                        <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded" style="font-size:18px;">add</span></button>
                       </div>
                       <div id="wiki-content-list" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px;">
-                        <div class="wiki-item"><strong>[환영합니다]</strong> 송현위키에 오신 것을 환영합니다!</div>
+                        <div class="wiki-item"><strong>[환영합니다]</strong> 우측 상단의 + 버튼을 눌러 송현님의 정보를 추가해 보세요!</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- 구독 뱃지 -->
+              <div class="badge-section">
+                <h3>구독 뱃지</h3>
+                <div class="badge-container">
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/712167750e1c89765.png?_=1735785281" class="badge-img" alt="1개월"><span class="badge-label">1개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/881767750e2d3027d.png?_=1735785621" class="badge-img" alt="2개월"><span class="badge-label">2개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/858167750e3bac1d0.png?_=1735785281" class="badge-img" alt="3개월"><span class="badge-label">3개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/586567750e4d033ea.png?_=1735785281" class="badge-img" alt="6개월"><span class="badge-label">6개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/633267750e5a56209.png?_=1735785281" class="badge-img" alt="9개월"><span class="badge-label">9개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/453267750e691eeb1.png?_=1735785281" class="badge-img" alt="12개월"><span class="badge-label">12개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/933867750e78402f8.png?_=1735785281" class="badge-img" alt="18개월"><span class="badge-label">18개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/562567750e855a507.png?_=1735785281" class="badge-img" alt="24개월"><span class="badge-label">24개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/376367750e90e348c.png?_=1735785621" class="badge-img" alt="36개월"><span class="badge-label">36개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/619967750e9c129f8.png?_=1735785312" class="badge-img" alt="48개월"><span class="badge-label">48개월</span></div><div class="badge-line"></div>
+                  <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
 
-        <!-- 3. 일정표 탭 -->
+        <!-- 🌟 3. 일정표 탭 (버튼 우측 상단으로 이동) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>SCHEDULE</h2><span>/ 일정</span></div>
               
-              <!-- 🌟 달력 상단 헤더 & +버튼을 주간/월간 탭 우측 상단으로 분리 -->
-              <div class="calendar-header-new">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
                 <div class="cal-title-left">
-                  <h1 style="margin-bottom: 10px;">SCHEDULE</h1>
+                  <h1 style="font-size:32px; font-weight:900; margin-bottom:10px;">SCHEDULE</h1>
                   <div class="cal-nav">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year">2026년 8월</span>
@@ -468,8 +529,7 @@ export default {
                 </div>
                 
                 <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
-                  <!-- 👇 버튼 위치 우측 상단으로 이동 완료 👇 -->
-                  <button onclick="openSchedulePopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:20px; padding:6px 14px; font-weight:bold; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:4px; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s;">
+                  <button class="action-btn" onclick="openSchedulePopup()" style="display:flex; align-items:center; gap:4px; padding:8px 16px;">
                     <span class="material-symbols-rounded" style="font-size:16px;">add</span> 새 일정
                   </button>
                   <div class="sub-tabs" style="margin-bottom:0; gap:8px;">
@@ -492,22 +552,23 @@ export default {
               <div class="section-header-out"><h2>SONG BOOK ♫</h2><span>/ 노래책</span></div>
               <div class="search-bar">
                 <input type="text" id="song-search-input" onkeyup="filterSongs()" placeholder="노래 제목이나 가수를 검색해보세요...">
-                <button class="refresh-btn" onclick="loadSongs()"><span class="material-symbols-rounded">refresh</span></button>
+                <button class="refresh-btn" onclick="loadSongs()" title="새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
               <div id="songbook-list">
-                <div class="empty-state">로딩 중...</div>
+                <div class="empty-state">모든 시트 탭의 노래 목록을 불러오는 중입니다...</div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 (오류 복구 완료) -->
+        <!-- 5. 의상실 탭 (클래스 오류 복구 완료) -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>CLOSET</h2><span>/ 의상 리스트</span></div>
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">CLOSET</h1>
+                <p style="font-size: 13px; color: var(--text-sub);">의상을 누르면 전체 이미지와 ON/OFF 가능한 부위를 볼 수 있어요.</p>
               </div>
 
               <div class="sub-tabs">
@@ -542,11 +603,12 @@ export default {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (구글 시트 연동 복구 완료!) -->
+        <!-- 🌟 6. 업보 탭 (구글 시트 'UPBO' 탭 자동 연동) -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -555,14 +617,14 @@ export default {
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">업보 청산소</h1>
                 <p style="font-size: 13px; color: var(--text-sub);">시청자 룰렛 당첨으로 쌓인 업보 목록입니다! (구글 시트 'UPBO' 탭 자동 연동)</p>
               </div>
-              <div id="upbo-list-container" class="upbo-grid">
-                <div class="empty-state">업보 데이터를 불러오는 중...</div>
+              <div id="upbo-list-container">
+                <div class="empty-state">등록된 업보가 없습니다. 구글 시트 'UPBO' 탭을 확인해주세요.</div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델 스타일 네온 핀볼) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -570,7 +632,7 @@ export default {
               
               <div class="sub-tabs" style="margin-bottom:20px;">
                 <button class="sub-tab-btn active" onclick="switchGameTab('game-ladder', this)">사다리게임</button>
-                <button class="sub-tab-btn" onclick="switchGameTab('game-pinball', this)">핀볼 뽑기 (Plinko)</button>
+                <button class="sub-tab-btn" onclick="switchGameTab('game-pinball', this)">핀볼 뽑기 (마블 룰렛)</button>
               </div>
 
               <!-- 🎮 사다리게임 영역 -->
@@ -596,7 +658,7 @@ export default {
                 </div>
               </div>
 
-              <!-- 🎮 블루델 스타일 핀볼게임 영역 (네온/물리엔진 최적화) -->
+              <!-- 🎮 블루델 스타일 핀볼게임 영역 (네온/물리엔진) -->
               <div id="game-pinball" class="game-sub-section">
                 <div class="pb-game-wrapper">
                   
@@ -618,16 +680,15 @@ export default {
                     <!-- 하단 컨트롤 영역 -->
                     <div class="pb-controls">
                       <div class="pb-input-group">
-                        <label>이름 입력 (예: 수박*2, 귤*1)</label>
+                        <label>이름 입력 (엔터 구분, 예: 수박*2)</label>
                         <textarea id="pb-participants">수박*2\n키위*2\n귤*2</textarea>
                       </div>
                       <div class="pb-input-group">
-                        <label>보상 목록 (엔터로 구분)</label>
+                        <label>보상 목록 (엔터 구분)</label>
                         <textarea id="pb-rewards">꽝\n노래 1곡\n꽝\n리액션\n꽝</textarea>
                       </div>
                       <div class="pb-settings-group">
                         <div class="pb-settings-row">
-                          <span>🗺️ 맵 종류</span>
                           <select id="pb-map-select" onchange="initPinballBoard()">
                             <option value="map1">운명의 수레바퀴</option>
                             <option value="map2">지그재그 협곡</option>
@@ -683,7 +744,26 @@ export default {
             <div class="content-card">
               <div class="section-header-out"><h2>Song Hyun Links</h2><span>/ INFO / LINKS</span></div>
               <div class="link-grid">
-                <a href="#" class="link-card"><div class="link-left"><span class="material-symbols-rounded link-icon">mail</span><div class="link-txt"><h4>Contact Email</h4></div></div></a>
+                <a href="#" class="link-card">
+                  <div class="link-left"><span class="material-symbols-rounded link-icon">mail</span><div class="link-txt"><h4>Contact Email</h4><p>songhy___@naver.com</p></div></div>
+                  <div class="link-right">MAIL ↗</div>
+                </a>
+                <a href="https://www.sooplive.com/station/songhy" class="link-card">
+                  <div class="link-left"><img src="https://res.sooplive.com/images/svg/soop_logo.svg" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="SOOP"><div class="link-txt"><h4>Official Broadcasting</h4><p>SOOP 방송국</p></div></div>
+                  <div class="link-right">BROADCAST ↗</div>
+                </a>
+                <a href="https://www.youtube.com/@songhy___/featured" target="_blank" class="link-card">
+                  <div class="link-left"><span class="material-symbols-rounded link-icon" style="color:#FF0000;">smart_display</span><div class="link-txt"><h4>YouTube</h4><p>Song Hyun Channel</p></div></div>
+                  <div class="link-right">VIDEO ↗</div>
+                </a>
+                <a href="https://cafe.naver.com/songhysonghy" target="_blank" class="link-card">
+                  <div class="link-left"><span class="material-symbols-rounded link-icon" style="color:#03C75A;">coffee</span><div class="link-txt"><h4>COMMUNITY</h4><p>황숭이 수용소</p></div></div>
+                  <div class="link-right">CAFE ↗</div>
+                </a>
+                <a href="https://fancim.me/celeb/profile.aspx?cu_id=iM+/awzH7YMmAi0xh2mppg==" target="_blank" class="link-card">
+                  <div class="link-left"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQywUtO7pfrtYaRIu5gWF82EkhKgZPQ2lZ2TJ8iCY6dImZnyBbdMI0GfQM&s=10" style="width:24px; height:24px; object-fit:contain; margin-right:5px;" alt="Fansim"><div class="link-txt"><h4>Fansim</h4><p>sending gift</p></div></div>
+                  <div class="link-right">LINK ↗</div>
+                </a>
               </div>
             </div>
           </div>
@@ -1009,6 +1089,7 @@ export default {
           let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = []; let pbPegs = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
+          let pinballMapType = 'map1';
 
           function distToSegmentSquared(p, v, w) {
              let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
@@ -1032,7 +1113,7 @@ export default {
               pbCanvas.width = 300; pbCanvas.height = 600; 
               pbCtx = pbCanvas.getContext('2d');
               
-              const mapType = document.getElementById('pb-map-select').value;
+              pinballMapType = document.getElementById('pb-map-select').value;
               pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
@@ -1040,28 +1121,28 @@ export default {
               pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
 
               // 🌟 6가지 맵 패턴 구현 (선분 및 페그 다이아몬드 활용)
-              if(mapType === 'map1') { 
+              if(pinballMapType === 'map1') { 
                   // 운명의 수레바퀴
                   pbSpinners.push({cx: cw/2, cy: 300, len: 140, angle: 0, speed: 0.05});
                   pbSpinners.push({cx: cw/2, cy: 450, len: 120, angle: Math.PI/2, speed: -0.04});
-              } else if(mapType === 'map2') { 
+              } else if(pinballMapType === 'map2') { 
                   // 지그재그
                   pbLines.push({x1: 0, y1: 150, x2: cw*0.6, y2: 200});
                   pbLines.push({x1: cw, y1: 300, x2: cw*0.4, y2: 350});
                   pbLines.push({x1: 0, y1: 450, x2: cw*0.6, y2: 500});
-              } else if(mapType === 'map3') { 
+              } else if(pinballMapType === 'map3') { 
                   // 욕망의 항아리 (다이아몬드)
                   let d = (cx, cy, s) => {
                      pbLines.push({x1:cx, y1:cy-s, x2:cx+s, y2:cy}); pbLines.push({x1:cx+s, y1:cy, x2:cx, y2:cy+s});
                      pbLines.push({x1:cx, y1:cy+s, x2:cx-s, y2:cy}); pbLines.push({x1:cx-s, y1:cy, x2:cx, y2:cy-s});
                   };
                   d(cw/4, 250, 40); d(cw*0.75, 250, 40); d(cw/2, 420, 50);
-              } else if(mapType === 'map4') { 
+              } else if(pinballMapType === 'map4') { 
                   // 장애물 밭
                   for(let r=3; r<=12; r+=2) {
                      for(let c=1; c<=5; c++) { pbPegs.push({x: c*(cw/6), y: r*40, r: 5}); }
                   }
-              } else if(mapType === 'map5') { 
+              } else if(pinballMapType === 'map5') { 
                   // 깔때기
                   pbLines.push({x1: 0, y1: 100, x2: cw*0.4, y2: 300});
                   pbLines.push({x1: cw, y1: 100, x2: cw*0.6, y2: 300});
@@ -1083,11 +1164,10 @@ export default {
               const pRaw = document.getElementById('pb-participants').value.trim();
               const rRaw = document.getElementById('pb-rewards').value.trim();
               
-              // 정규식을 사용해 완벽히 줄바꿈으로 분리
               const pText = pRaw.split(/\\r?\\n/).filter(t => t);
               const rText = rRaw.split(/\\r?\\n/).filter(t => t);
               
-              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 입력해주세요!'); return; }
+              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
 
               let parsedPlayers = [];
               pText.forEach(line => {
@@ -1247,7 +1327,6 @@ export default {
           function drawPinballFrame() {
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
-              // 네온 스타일 선분
               pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
               pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
@@ -1307,7 +1386,7 @@ export default {
                  let isDone = status.includes('완료') || status.includes('청산');
                  let sColor = isDone ? '#10b981' : '#ff478e';
                  
-                 html += '<div class="upbo-card">' +
+                 html += '<div class="upbo-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.02);">' +
                    '<div>' +
                      '<div style="font-size:14px; font-weight:800; color:var(--text-main); margin-bottom:5px;">' + name + '</div>' +
                      '<div style="font-size:13px; color:var(--text-sub);">' + desc + '</div>' +
@@ -1319,7 +1398,7 @@ export default {
               html += '</div>';
               container.innerHTML = html;
             } catch(e) {
-              container.innerHTML = '<div class="empty-state">업보 시트(UPBO)를 찾을 수 없거나 데이터가 비어있습니다.</div>';
+              container.innerHTML = '<div class="empty-state">등록된 업보가 없습니다.</div>';
             }
           }
 
@@ -1533,7 +1612,7 @@ export default {
           // ==============================
           let lockStartY = 0;
           document.addEventListener('DOMContentLoaded', () => {
-            // 🌟 모든 함수들을 독립된 에러 캐치로 실행하여 페이지 마비 원천 봉쇄
+            // 🌟 1. 잠금화면 구동
             try { updateLockTime(); setInterval(updateLockTime, 1000); } catch(e) {}
             
             try {
@@ -1547,13 +1626,14 @@ export default {
               }
             } catch(e) {}
 
+            // 🌟 2. 탭 별 기능 호출 (각자 독립적으로 에러 처리)
             try { renderCalendar(); } catch(e) {}
             try { renderLadderInputs(); } catch(e) {}
-            try { initPinballBoard(); } catch(e) {} // 핀볼 초기화
+            try { initPinballBoard(); } catch(e) {} 
             try { loadVods(); } catch(e) {}
             try { loadRecentPosts(); } catch(e) {}
             try { loadSongs(); } catch(e) {}
-            try { loadUpbo(); } catch(e) {} // 업보 연동
+            try { loadUpbo(); } catch(e) {} 
           });
 
         </script>
