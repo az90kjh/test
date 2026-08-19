@@ -11,7 +11,7 @@ export default {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
         <style>
-          /* ===== CSS 변수 (주황색 테마) ===== */
+          /* ===== CSS 변수 ===== */
           :root {
             --bg-body: #f4f5f7; --bg-card: #ffffff; --bg-nav: #222222;
             --text-main: #111111; --text-sub: #666666; --border-color: #eeeeee;
@@ -30,7 +30,7 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 스마트폰 잠금화면 (블러 오버레이) ===== */
+          /* ===== 스마트폰 잠금화면 ===== */
           #lock-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -46,7 +46,7 @@ export default {
           .lock-hint-text { font-size: 13px; letter-spacing: 1px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
           @keyframes bounceUp { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-10px); opacity: 1; } }
 
-          /* ===== 우측 세로형 네비게이션 ===== */
+          /* ===== 우측 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%);
             background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px;
@@ -57,7 +57,7 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 🌟 탭 스와이프 화면 넘김 (전체화면 기준) ===== */
+          /* ===== 스와이프 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; position: absolute; top:0; left:0; }
           .tab-section.active { display: block; z-index: 5; }
           .tab-section.flipping-in { display: block; z-index: 5; animation: swipeIn 0.4s forwards cubic-bezier(0.25, 1, 0.5, 1); }
@@ -65,44 +65,38 @@ export default {
           @keyframes swipeOut { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(-20%); opacity: 0; } }
           @keyframes swipeIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 
-          /* ===== 🌟 전체화면 레이아웃 (크기 꽉 채움) ===== */
+          /* ===== 메인 레이아웃 ===== */
           .main-wrapper { 
-            width: 100%; min-height: 100vh; margin: 0; 
-            padding: 0 80px 0 0; /* 네비게이션 바와 겹치지 않게 우측 80px 여백 */
-            background-color: var(--bg-card); 
-            box-sizing: border-box; 
+            width: 100%; min-height: 100vh; margin: 0; padding: 0 80px 0 0; background-color: var(--bg-card); box-sizing: border-box; 
           }
           #tab-home .main-wrapper { padding: 0; background-color: transparent; }
-          .fullscreen-bg {
-            position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
-            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1;
-          }
-
-          /* 하얀색 배경 카드가 이제 화면 전체를 덮습니다 */
-          .content-card { 
-            width: 100%; max-width: 1600px; margin: 0 auto; 
-            padding: 60px 40px 100px 60px;
-            min-height: 100vh; box-sizing: border-box;
-          }
+          .fullscreen-bg { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1; }
+          
+          .content-card { width: 100%; max-width: 1400px; margin: 0 auto; padding: 60px 40px 100px 60px; min-height: 100vh; box-sizing: border-box; }
 
           .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
           .section-header-out h2 { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
-          /* ===== 서브 탭 버튼 공통 ===== */
+          /* 서브탭 버튼 */
           .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
           .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* ===== 2. 프로필 탭 복구 ===== */
+          /* 팝업 공통 */
+          .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
+          .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
+          .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
+          .modal-input:focus { border-color: var(--point-color); }
+          #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
+
+          /* ===== 2. 프로필 탭 ===== */
           .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
           [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
           .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
           .vn-character-img { width: 100%; max-width: 350px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,130,0,0.15)); }
-          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
           .vn-quote-box { background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px; padding: 20px; position: relative; width: 100%; box-sizing: border-box; }
           .vn-quote-icon { position: absolute; top: -16px; left: -10px; width: 32px; height: 32px; background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; font-weight: bold; }
           .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
@@ -118,45 +112,31 @@ export default {
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; }
 
-          /* 최근게시글 & 위키 (레이아웃 복구) */
           .profile-bottom-grid { display: grid; grid-template-columns: 350px 1fr; gap: 40px; margin-bottom: 30px; }
           @media (max-width: 900px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
-          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
           .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
           .post-item:hover .post-title { color: var(--point-color); }
-          .post-title-row { display: flex; align-items: center; gap: 8px; }
           .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
           .post-badge.notice { background-color: var(--point-color); color: #fff; }
           .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-          .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
 
           .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
           .vn-panel { background: var(--bg-card); border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; }
-          .vn-panel-title { font-size: 15px; font-weight: 900; color: var(--point-color); margin-bottom: 20px; border-bottom: 2px dashed rgba(255, 130, 0, 0.3); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:flex-end; }
-          .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
 
-          /* 구독 뱃지 */
-          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); }
+          .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); margin-top:20px; }
           .badge-section h3 { color: var(--point-color); font-size: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(0,0,0,0.1); margin-bottom: 15px; }
           .badge-container { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 2px; }
           .badge-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; min-width: 0; }
-          .badge-img { width: 100%; max-width: 26px; height: auto; object-fit: contain; }
-          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; text-align: center; white-space: nowrap; letter-spacing: -0.5px; transform: scale(0.9); }
+          .badge-img { width: 100%; max-width: 26px; object-fit: contain; }
+          .badge-label { font-size: 9px; color: var(--text-sub); font-weight: 700; transform: scale(0.9); }
           .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
           /* ===== 3. 일정표 탭 ===== */
-          .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
-          .cal-nav { display: flex; align-items: center; gap: 15px; }
-          .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
-          .nav-arrow:hover { color: var(--point-color); }
-          #current-month-year { font-size: 15px; font-weight: 600; color: var(--text-main); }
-          
           #cal-month-view { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: var(--bg-card); }
           .cal-day-head { text-align: center; padding: 15px 0; font-weight: 700; font-size: 14px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
           .cal-cell { height: 120px; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 10px; box-sizing: border-box; }
@@ -170,6 +150,10 @@ export default {
           .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px; }
           .cal-week-date { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 15px; }
           .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
+          
+          /* 캘린더 네비게이션용 버튼 오버라이드 방지 */
+          .cal-nav .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
+          .cal-nav .nav-arrow:hover { color: var(--point-color); background: transparent; box-shadow: none; }
 
           /* ===== 4. 노래책 탭 ===== */
           .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
@@ -180,7 +164,6 @@ export default {
           .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
           .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
           .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
-          .group-header-row td { padding: 0 !important; border: none !important; }
           .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
 
           /* ===== 5. 의상실 (CLOSET) ===== */
@@ -190,98 +173,96 @@ export default {
           .closet-item-card { position: relative; width: 300px; height: 450px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
           .closet-tag-name { position: absolute; top: 15px; left: 15px; color: #ffffff; font-size: 14px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.6); z-index: 2; }
           .closet-tag-badge { position: absolute; top: 12px; right: 12px; background: #ff478e; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
-          .closet-item-card::before, .closet-item-card::after { content: ''; position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 2; }
-          .closet-item-card::before { top: 8px; left: 8px; border-top: 2px solid rgba(255,255,255,0.6); border-left: 2px solid rgba(255,255,255,0.6); }
-          .closet-item-card::after { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(255,255,255,0.6); border-right: 2px solid rgba(255,255,255,0.6); }
           .closet-card-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; z-index: 2; }
           .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
-          .closet-bottom-icons { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-size: 12px; }
-
-          /* ===== 6. 업보 탭 (복구 및 초기화) ===== */
+          
+          /* ===== 6. 업보 ===== */
           .empty-state { text-align: center; padding: 50px; color: var(--text-sub); font-size: 15px; }
 
-          /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) ===== */
+          /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) UI ===== */
           .game-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .game-sub-section.active { display: block; }
           
-          /* 공통 컨트롤 버튼 */
           .counter-box { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
           .counter-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 18px; cursor: pointer; color: var(--text-main); display:flex; align-items:center; justify-content:center;}
           .counter-num { font-size: 18px; font-weight: bold; color: var(--point-color); min-width: 20px; text-align: center; }
           .action-btn { background-color: var(--point-color); color: #fff; padding: 10px 25px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; box-shadow:0 2px 8px rgba(255,130,0,0.3);}
           .action-btn:hover { filter: brightness(0.9); }
 
-          /* 🌟 사다리게임 */
+          /* 사다리 */
           .ladder-setup { background: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px dashed rgba(255,130,0,0.3); }
           .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
           .ladder-input-box input { width: 100%; border: none; background: transparent; color: var(--text-main); font-size: 12px; outline: none; margin-bottom: 5px; font-family: inherit; }
-          .ladder-input-box input:last-child { margin-bottom: 0; color: var(--point-color); font-weight: bold; }
           .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
           .ladder-btn-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; min-width: 600px; }
           .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 🌟 핀볼게임 (마블룰렛 스타일) */
+          /* 🌟 핀볼게임 (마블룰렛 스타일 완벽 재현) */
           .pb-game-wrapper {
-             display: flex; width: 100%; height: 600px; 
+             display: flex; width: 100%; height: 650px; 
              background: #000; border-radius: 12px; overflow: hidden;
              box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;
           }
-          @media (max-width: 800px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
+          @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
-          /* 좌측 네온 맵 (Canvas) */
-          .pb-canvas-container { width: 300px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; }
+          /* 좌측 핀볼 맵 (Canvas) */
+          .pb-canvas-container { width: 320px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; position:relative; }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
-          /* 우측 패널 (순위 + 설정) */
-          .pb-side-panel { flex: 1; display: flex; flex-direction: column; background: #111; }
-          .pb-leaderboard {
-             flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-             color: #fff; padding: 20px; overflow-y: auto; position: relative;
-          }
-          .pb-rank-title { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.2); margin-bottom: 20px; letter-spacing: 5px; }
-          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 400px; }
-          .pb-rank-item { 
-             display: flex; justify-content: space-between; align-items: center; 
-             background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px;
-             font-size: 14px; font-weight: 700; border-left: 4px solid transparent;
-             animation: popIn 0.3s ease-out;
-          }
-          @keyframes popIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
-
+          /* 좌측 하단 컨트롤 (회색 배경) */
           .pb-controls {
-             background: #222; padding: 20px; display: flex; gap: 20px; align-items: flex-end; border-top: 1px solid #333;
+             position: absolute; bottom:0; left:0; width: 100%; 
+             background: #888888; padding: 15px; box-sizing:border-box; border-top: 1px solid #555;
           }
-          .pb-input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-          .pb-input-group label { color: #aaa; font-size: 11px; font-weight: 700; }
-          .pb-input-group textarea { 
-             width: 100%; height: 60px; background: #111; border: 1px solid #444; color: #fff;
-             border-radius: 6px; padding: 10px; font-size: 12px; resize: none; font-family: inherit;
+          .pb-controls textarea { 
+             width: 100%; height: 50px; background: #bbbbbb; border: none; color: #111;
+             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit; font-weight:bold;
+             margin-bottom: 10px; outline:none;
           }
-          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 150px; }
-          .pb-settings-row select { background: #444; color:#fff; border: none; border-radius: 6px; padding: 6px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 100%; }
+          .pb-controls textarea::placeholder { color: #555; }
+          .pb-controls select {
+             width: 100%; background: #bbbbbb; color:#111; border: none; border-radius: 4px; 
+             padding: 6px; font-size: 12px; font-family: inherit; font-weight:bold; outline: none; margin-bottom: 10px;
+          }
+          .pb-start-btn { 
+             width:100%; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;
+             padding: 8px; font-size: 13px; font-weight: 900; cursor: pointer; 
+             display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
+          }
+          .pb-start-btn:hover { background: #000; }
+
+          /* 우측 검은 랭킹 공간 */
+          .pb-right-col {
+             flex: 1; position: relative; background: #000; overflow: hidden;
+          }
+          /* 중앙의 떨어지는 애니메이션 요소 */
+          #pb-live-view {
+             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             display: flex; gap: 10px; align-items: flex-end; justify-content: center; width:90%;
+          }
+          /* 우측 상단 순위표 */
+          #pb-ranking-list {
+             position: absolute; top: 20px; right: 20px; text-align: right; 
+             display: flex; flex-direction: column; gap: 5px;
+          }
 
           /* ===== 8. VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
           @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
           @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
-          @media (max-width: 500px) { .vod-grid { grid-template-columns: repeat(1, 1fr); } }
           
           .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
-          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
+          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
           .vod-card.pinned { border: 2px solid var(--point-color); }
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
           .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
           .vod-play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 1; }
-          .vod-play-overlay span { font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: transform 0.2s, color 0.2s; }
           .vod-card:hover .vod-play-overlay { opacity: 1; }
-          .vod-card:hover .vod-play-overlay span { color: var(--point-color); transform: scale(1.1); }
           .vod-info { padding: 15px; }
           .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-          .vod-meta-stats { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); margin-top: 8px; }
-          .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
           /* ===== 9. INFO 링크 ===== */
           .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
@@ -293,23 +274,6 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
-
-          /* 공통 팝업 모달 창들 */
-          .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
-          .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
-          .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-          .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
-          .modal-input:focus { border-color: var(--point-color); }
-          
-          /* 음악 팝업 */
-          #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
-          .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-          .popup-header span { font-size: 11px; font-weight: bold; color: var(--point-color); }
-          .close-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; }
-          .video-container { width: 100%; height: 180px; background-color: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
-          .music-controls { display: flex; align-items: center; gap: 10px; }
-          .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
-          .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
         </style>
       </head>
       <body>
@@ -340,13 +304,15 @@ export default {
         </nav>
 
         <!-- 뮤직 플레이어 팝업 -->
-        <div id="music-popup">
-          <div class="popup-header">
-            <div><span>NOW PLAYING</span><br><strong style="font-size:14px;">Song Hyun BGM</strong></div>
-            <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
-          </div>
-          <div class="video-container">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id="music-popup" class="modal-overlay">
+          <div class="modal-content" style="width:320px; padding:15px;">
+            <div class="modal-header" style="margin-bottom:10px;">
+              <div><span style="font-size:11px; font-weight:bold; color:var(--point-color);">NOW PLAYING</span><br><strong style="font-size:14px;">Song Hyun BGM</strong></div>
+              <button onclick="toggleMusicPopup()" style="background:none; border:none; color:var(--text-sub); cursor:pointer;"><span class="material-symbols-rounded">close</span></button>
+            </div>
+            <div style="width:100%; height:180px; background:#000; border-radius:8px; overflow:hidden; margin-bottom:15px;">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
 
@@ -366,7 +332,7 @@ export default {
           </div>
         </div>
 
-        <!-- 🌟 일정 추가 팝업 -->
+        <!-- 일정 추가 팝업 -->
         <div id="schedule-popup" class="modal-overlay">
           <div class="modal-content">
             <div class="modal-header">
@@ -398,7 +364,7 @@ export default {
           </div>
         </section>
 
-        <!-- 2. 프로필 탭 (복구 완료) -->
+        <!-- 2. 프로필 탭 (오류 복구 완료) -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -407,19 +373,16 @@ export default {
               <div class="vn-profile-wrapper">
                 <div class="vn-profile-inner">
                   <div class="vn-left-col">
-                    <!-- 👇 프로필 사진 주소 👇 -->
                     <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/58031786945388127.png" class="vn-character-img" alt="캐릭터 스탠딩">
                     <div class="vn-quote-box">
-                      <div class="vn-quote-icon"><span class="material-symbols-rounded" style="font-size: 16px;">format_quote</span></div>
+                      <div class="vn-quote-icon"><span class="material-symbols-rounded">format_quote</span></div>
                       <div class="vn-quote-text">"반가워요! 송현입니다.<br>오늘 방송도 함께해 주셔서 감사합니다!"</div>
                     </div>
                   </div>
-
                   <div class="vn-right-col">
                     <div class="vn-header-badge">스트리머 소개</div>
                     <div class="vn-name-title">송현</div>
                     <div class="vn-name-sub">Song Hyun | Virtual Streamer</div>
-
                     <div class="vn-info-row"><div class="vn-info-label">AGE</div><div class="vn-info-value">17</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">DEBUT</div><div class="vn-info-value">2024.02</div></div>
                     <div class="vn-info-row"><div class="vn-info-label">BIRTHDAY</div><div class="vn-info-value">06.08</div></div>
@@ -432,12 +395,11 @@ export default {
                 </div>
               </div>
 
-              <!-- 하단 구역 -->
               <div class="profile-bottom-grid">
                 <div>
                   <div class="recent-posts">
                     <div class="recent-posts-header">
-                      <div><div style="font-size: 10px; font-weight: 800; color: var(--point-color);">SOOP POSTS</div><h3 style="font-size: 16px; font-weight: 800; margin-top: 2px;">최근 게시글</h3></div>
+                      <div><div style="font-size:10px; font-weight:800; color:var(--point-color);">SOOP POSTS</div><h3 style="font-size:16px; font-weight:800;">최근 게시글</h3></div>
                       <a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="recent-posts-more">전체보기 ↗</a>
                     </div>
                     <div id="soop-posts-container" class="recent-posts-list"></div>
@@ -445,7 +407,7 @@ export default {
                 </div>
 
                 <div class="extra-tabs-area">
-                  <div class="sub-tabs">
+                  <div class="sub-tabs" style="margin-bottom: 15px;">
                     <button class="sub-tab-btn active" onclick="switchExtraTab('extra-rule', this)">방송규칙</button>
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-ogq', this)">OGQ MARKET</button>
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
@@ -455,22 +417,19 @@ export default {
                     <div class="vn-panel" style="height:180px; overflow-y:auto; margin:0;">
                       <div class="vn-panel-title"><div><span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">gavel</span>방송 규칙</div></div>
                       <ul style="font-size:13px; color:var(--text-main); line-height:1.6; padding-left:20px; margin:0;">
-                        <li style="margin-bottom:6px;">타 스트리머 관련 언급 금지</li>
-                        <li style="margin-bottom:6px;">시청자 간의 과도한 친목 금지</li>
-                        <li style="margin-bottom:6px;">게임 스포일러 및 선 넘는 훈수 금지</li>
-                        <li style="margin-bottom:6px;">욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
+                        <li>타 스트리머 관련 언급 금지</li><li>시청자 간의 과도한 친목 금지</li><li>게임 스포일러 및 선 넘는 훈수 금지</li><li>욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
                       </ul>
                     </div>
                   </div>
                   
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="height:180px; display:flex; align-items:center; justify-content:center; gap:40px; margin:0;">
-                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display:flex; flex-direction:column; align-items:center; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="SOOP" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                      <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display:flex; flex-direction:column; align-items:center;">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
-                      <a href="#" target="_blank" style="display:flex; flex-direction:column; align-items:center; transition:0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="Naver" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                      <a href="#" target="_blank" style="display:flex; flex-direction:column; align-items:center;">
+                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
                     </div>
@@ -479,7 +438,7 @@ export default {
                   <div id="extra-wiki" class="extra-sub-section">
                     <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
-                        <h3 style="font-size:14px; color:var(--point-color); display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
+                        <h3 style="margin:0; font-size:14px; color:var(--point-color);"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
                         <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded" style="font-size:18px;">add</span></button>
                       </div>
                       <div id="wiki-content-list" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px;">
@@ -512,15 +471,15 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 3. 일정표 탭 (버튼 우측 상단으로 이동) -->
+        <!-- 🌟 3. 일정표 탭 (UI 복구 및 버튼 우측상단 배치 완료) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>SCHEDULE</h2><span>/ 일정</span></div>
               
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
+              <div class="calendar-header-new">
                 <div class="cal-title-left">
-                  <h1 style="font-size:32px; font-weight:900; margin-bottom:10px;">SCHEDULE</h1>
+                  <h1 style="margin-bottom: 10px;">SCHEDULE</h1>
                   <div class="cal-nav">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year">2026년 8월</span>
@@ -529,7 +488,7 @@ export default {
                 </div>
                 
                 <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
-                  <button class="action-btn" onclick="openSchedulePopup()" style="display:flex; align-items:center; gap:4px; padding:8px 16px;">
+                  <button class="action-btn" onclick="openSchedulePopup()" style="display:flex; align-items:center; gap:4px; padding:6px 14px;">
                     <span class="material-symbols-rounded" style="font-size:16px;">add</span> 새 일정
                   </button>
                   <div class="sub-tabs" style="margin-bottom:0; gap:8px;">
@@ -552,7 +511,7 @@ export default {
               <div class="section-header-out"><h2>SONG BOOK ♫</h2><span>/ 노래책</span></div>
               <div class="search-bar">
                 <input type="text" id="song-search-input" onkeyup="filterSongs()" placeholder="노래 제목이나 가수를 검색해보세요...">
-                <button class="refresh-btn" onclick="loadSongs()" title="새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
+                <button class="refresh-btn" onclick="loadSongs()" title="실시간 새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
               <div id="songbook-list">
                 <div class="empty-state">모든 시트 탭의 노래 목록을 불러오는 중입니다...</div>
@@ -561,7 +520,7 @@ export default {
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 (클래스 오류 복구 완료) -->
+        <!-- 5. 의상실 탭 -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -608,23 +567,24 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (구글 시트 'UPBO' 탭 자동 연동) -->
+        <!-- 🌟 6. 업보 탭 (초기화 및 복구 완료) -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>업보 ♡</h2><span>/ 리스트</span></div>
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">업보 청산소</h1>
-                <p style="font-size: 13px; color: var(--text-sub);">시청자 룰렛 당첨으로 쌓인 업보 목록입니다! (구글 시트 'UPBO' 탭 자동 연동)</p>
+                <p style="font-size: 13px; color: var(--text-sub);">시청자 카드를 누르면 어떤 업보가 있는지 자세히 볼 수 있어요.</p>
               </div>
               <div id="upbo-list-container">
-                <div class="empty-state">등록된 업보가 없습니다. 구글 시트 'UPBO' 탭을 확인해주세요.</div>
+                <!-- 사용자가 추가 연동을 원하기 전까지 초기 상태 유지 -->
+                <div class="empty-state">등록된 업보가 없습니다.</div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델 스타일 네온 핀볼) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임 완벽 구현) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -658,55 +618,50 @@ export default {
                 </div>
               </div>
 
-              <!-- 🎮 블루델 스타일 핀볼게임 영역 (네온/물리엔진) -->
+              <!-- 🎮 핀볼게임 영역 (네온/물리엔진 및 레이아웃 재배치) -->
               <div id="game-pinball" class="game-sub-section">
                 <div class="pb-game-wrapper">
                   
-                  <!-- 좌측 캔버스 (트랙) 영역 -->
-                  <div class="pb-canvas-container">
-                    <canvas id="pinballCanvas"></canvas>
-                  </div>
-
-                  <!-- 우측 컨트롤 및 리더보드 영역 -->
-                  <div class="pb-side-panel">
-                    <!-- 실시간 랭킹 디스플레이 -->
-                    <div class="pb-leaderboard" id="pb-leaderboard">
-                      <div class="pb-rank-title">LIVE RANKING</div>
-                      <div class="pb-live-ranks" id="pb-live-ranks">
-                        <div style="color:rgba(255,255,255,0.3); font-size:13px;">아래에서 참가자와 보상을 입력 후<br>추첨을 시작해주세요!</div>
-                      </div>
+                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
+                  <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
+                    <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
+                      <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                     </div>
-
-                    <!-- 하단 컨트롤 영역 -->
-                    <div class="pb-controls">
-                      <div class="pb-input-group">
-                        <label>이름 입력 (엔터 구분, 예: 수박*2)</label>
-                        <textarea id="pb-participants">수박*2\n키위*2\n귤*2</textarea>
-                      </div>
-                      <div class="pb-input-group">
-                        <label>보상 목록 (엔터 구분)</label>
-                        <textarea id="pb-rewards">꽝\n노래 1곡\n꽝\n리액션\n꽝</textarea>
-                      </div>
-                      <div class="pb-settings-group">
-                        <div class="pb-settings-row">
-                          <select id="pb-map-select" onchange="initPinballBoard()">
-                            <option value="map1">운명의 수레바퀴</option>
-                            <option value="map2">지그재그 협곡</option>
-                            <option value="map3">욕망의 항아리</option>
-                            <option value="map4">장애물 밭</option>
-                            <option value="map5">깔때기 함정</option>
-                            <option value="map6">카오스 랜덤</option>
-                          </select>
-                        </div>
-                        <button class="pb-start-btn" onclick="startPinballGame()">
-                          <span class="material-symbols-rounded">play_arrow</span> 추첨 시작
+                    
+                    <!-- 컨트롤 패널 -->
+                    <div class="pb-controls" style="padding: 15px; background: #888888; border-top: 1px solid #333;">
+                      <div style="color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 5px; letter-spacing:-0.5px;">이름들을 입력하세요 (이름*갯수)</div>
+                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none;">수박*2, 키위*2, 귤*2</textarea>
+                      
+                      <div style="display: flex; gap: 8px;">
+                        <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
+                          <option value="map1">운명의 수레바퀴</option>
+                          <option value="map2">버블팝</option>
+                          <option value="map3">욕망의 항아리</option>
+                          <option value="map4">밤을 달리다</option>
+                          <option value="map5">지그재그</option>
+                          <option value="map6">스피너 지옥</option>
+                        </select>
+                        <button onclick="startPinballGame()" style="background: #222; color: #fff; border: 1px solid #444; padding: 6px 15px; cursor: pointer; border-radius: 4px; display:flex; align-items:center; gap:5px; font-weight:bold; font-size:12px; transition:0.2s;">
+                          <span class="material-symbols-rounded" style="font-size:16px;">play_arrow</span> 시작
                         </button>
                       </div>
                     </div>
+                  </div>
 
+                  <!-- 우측: 랭킹 및 라이브 현황판 -->
+                  <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
+                    <!-- 현재 달리고 있는 구슬 뷰 -->
+                    <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end;">
+                      <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
+                    </div>
+                    
+                    <!-- 우측 상단 순위표 -->
+                    <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px;"></div>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
@@ -863,23 +818,6 @@ export default {
             } catch(e) {}
           }
 
-          function toggleMusicPopup(btnElement) {
-            try {
-              const popup = document.getElementById('music-popup');
-              if (popup.style.display === 'block') { popup.style.display = 'none'; } 
-              else {
-                popup.style.display = 'block';
-                if(btnElement) {
-                  const rect = btnElement.getBoundingClientRect();
-                  popup.style.top = (rect.top + rect.height / 2) + 'px';
-                  popup.style.right = (window.innerWidth - rect.left + 15) + 'px';
-                  popup.style.left = 'auto'; popup.style.transform = 'translateY(-50%)';
-                  popup.style.animation = 'popLeft 0.3s ease-out';
-                }
-              }
-            } catch(e) {}
-          }
-
           // 위키, 스케줄 팝업
           function openWikiPopup() { document.getElementById('wiki-textarea').value = ''; document.getElementById('wiki-popup').style.display = 'flex'; }
           function closeWikiPopup() { document.getElementById('wiki-popup').style.display = 'none'; }
@@ -897,7 +835,7 @@ export default {
           function openSchedulePopup() {
             try {
               document.getElementById('sch-date').value = ''; document.getElementById('sch-time').value = '';
-              document.getElementById('sch-title').value = ''; document.getElementById('sch-desc').value = '';
+              document.getElementById('sch-title').value = ''; 
               document.getElementById('sch-color').value = 'orange';
               document.getElementById('schedule-popup').style.display = 'flex';
             } catch(e) {}
@@ -1086,7 +1024,8 @@ export default {
           // 4. 미니게임 (핀볼 / 마블룰렛)
           // ==============================
           let pbCanvas, pbCtx;
-          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = []; let pbPegs = [];
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbPegs = [];
+          let pbFinished = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
           let pinballMapType = 'map1';
@@ -1110,112 +1049,94 @@ export default {
             try {
               pbCanvas = document.getElementById('pinballCanvas');
               if(!pbCanvas) return;
-              pbCanvas.width = 300; pbCanvas.height = 600; 
+              pbCanvas.width = 300; 
+              pbCanvas.height = pbCanvas.parentElement.clientHeight || 500; 
               pbCtx = pbCanvas.getContext('2d');
               
               pinballMapType = document.getElementById('pb-map-select').value;
-              pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = [];
+              pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
+              // 양 벽
               pbLines.push({x1: 0, y1: 0, x2: 0, y2: ch});
               pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
 
-              // 🌟 6가지 맵 패턴 구현 (선분 및 페그 다이아몬드 활용)
-              if(pinballMapType === 'map1') { 
-                  // 운명의 수레바퀴
-                  pbSpinners.push({cx: cw/2, cy: 300, len: 140, angle: 0, speed: 0.05});
-                  pbSpinners.push({cx: cw/2, cy: 450, len: 120, angle: Math.PI/2, speed: -0.04});
-              } else if(pinballMapType === 'map2') { 
-                  // 지그재그
-                  pbLines.push({x1: 0, y1: 150, x2: cw*0.6, y2: 200});
-                  pbLines.push({x1: cw, y1: 300, x2: cw*0.4, y2: 350});
-                  pbLines.push({x1: 0, y1: 450, x2: cw*0.6, y2: 500});
-              } else if(pinballMapType === 'map3') { 
-                  // 욕망의 항아리 (다이아몬드)
+              // 🌟 6가지 맵 패턴 구현
+              if(pinballMapType === 'map1') { // 운명의 수레바퀴
+                  pbLines.push({x1: 0, y1: ch*0.2, x2: cw*0.3, y2: ch*0.3});
+                  pbLines.push({x1: cw, y1: ch*0.2, x2: cw*0.7, y2: ch*0.3});
+                  pbSpinners.push({cx: cw/2, cy: ch/2, len: cw*0.6, angle: 0, speed: 0.05});
+                  pbLines.push({x1: 0, y1: ch*0.7, x2: cw*0.4, y2: ch*0.8});
+                  pbLines.push({x1: cw, y1: ch*0.7, x2: cw*0.6, y2: ch*0.8});
+              } else if(pinballMapType === 'map2') { // 버블팝
+                  pbSpinners.push({cx: cw/2, cy: ch*0.6, len: cw*0.8, angle: 0, speed: -0.04});
+                  for(let r=2; r<=6; r++) {
+                     let cols = r%2===0 ? 5 : 6;
+                     let sp = cw/(cols+1);
+                     for(let c=1; c<=cols; c++) { pbPegs.push({x: c*sp, y: r*40, r: 4}); }
+                  }
+              } else if(pinballMapType === 'map3') { // 욕망의 항아리
                   let d = (cx, cy, s) => {
                      pbLines.push({x1:cx, y1:cy-s, x2:cx+s, y2:cy}); pbLines.push({x1:cx+s, y1:cy, x2:cx, y2:cy+s});
                      pbLines.push({x1:cx, y1:cy+s, x2:cx-s, y2:cy}); pbLines.push({x1:cx-s, y1:cy, x2:cx, y2:cy-s});
                   };
-                  d(cw/4, 250, 40); d(cw*0.75, 250, 40); d(cw/2, 420, 50);
-              } else if(pinballMapType === 'map4') { 
-                  // 장애물 밭
-                  for(let r=3; r<=12; r+=2) {
-                     for(let c=1; c<=5; c++) { pbPegs.push({x: c*(cw/6), y: r*40, r: 5}); }
+                  d(cw*0.3, ch*0.3, 30); d(cw*0.7, ch*0.3, 30); d(cw*0.5, ch*0.6, 40);
+                  pbSpinners.push({cx: cw/2, cy: ch*0.8, len: cw*0.5, angle: 0, speed: 0.07});
+              } else if(pinballMapType === 'map4') { // 밤을 달리다
+                  pbLines.push({x1: 0, y1: ch*0.2, x2: cw*0.7, y2: ch*0.25});
+                  pbLines.push({x1: cw, y1: ch*0.4, x2: cw*0.3, y2: ch*0.45});
+                  pbLines.push({x1: 0, y1: ch*0.6, x2: cw*0.7, y2: ch*0.65});
+                  pbSpinners.push({cx: cw/2, cy: ch*0.85, len: cw*0.6, angle: 0, speed: 0.06});
+              } else if(pinballMapType === 'map5') { // 지그재그
+                  for(let i=1; i<=4; i++) {
+                     if(i%2===1) pbLines.push({x1: 0, y1: i*(ch/5), x2: cw*0.8, y2: i*(ch/5)+30});
+                     else pbLines.push({x1: cw, y1: i*(ch/5), x2: cw*0.2, y2: i*(ch/5)+30});
                   }
-              } else if(pinballMapType === 'map5') { 
-                  // 깔때기
-                  pbLines.push({x1: 0, y1: 100, x2: cw*0.4, y2: 300});
-                  pbLines.push({x1: cw, y1: 100, x2: cw*0.6, y2: 300});
-                  pbLines.push({x1: cw*0.4, y1: 300, x2: cw*0.4, y2: 450});
-                  pbLines.push({x1: cw*0.6, y1: 300, x2: cw*0.6, y2: 450});
-              } else { 
-                  // 카오스
-                  for(let i=0; i<15; i++) { pbPegs.push({x: 20 + Math.random()*(cw-40), y: 100 + Math.random()*350, r: 6}); }
-                  pbSpinners.push({cx: cw/2, cy: 400, len: 120, angle: 0, speed: 0.1});
+                  pbSpinners.push({cx: cw/2, cy: ch*0.9, len: cw*0.4, angle: 0, speed: 0.08});
+              } else { // 스피너 지옥
+                  pbSpinners.push({cx: cw*0.3, cy: ch*0.3, len: 70, angle: 0, speed: 0.06});
+                  pbSpinners.push({cx: cw*0.7, cy: ch*0.3, len: 70, angle: 0, speed: -0.06});
+                  pbSpinners.push({cx: cw*0.5, cy: ch*0.6, len: 100, angle: Math.PI/2, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.5, cy: ch*0.85, len: cw*0.8, angle: 0, speed: -0.05});
               }
 
               drawPinballFrame();
+              document.getElementById('pb-ranking-list').innerHTML = '<div style="color:#666; font-size:12px;">결과 대기 중...</div>';
+              document.getElementById('pb-live-view').innerHTML = '';
             } catch(e) {}
           }
 
           function startPinballGame() {
             try {
               initPinballBoard();
-              const pRaw = document.getElementById('pb-participants').value.trim();
-              const rRaw = document.getElementById('pb-rewards').value.trim();
+              const raw = document.getElementById('pb-participants').value.trim();
+              if(!raw) { alert('참가자를 입력해주세요!'); return; }
               
-              const pText = pRaw.split(/\\r?\\n/).filter(t => t);
-              const rText = rRaw.split(/\\r?\\n/).filter(t => t);
-              
-              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
-
-              let parsedPlayers = [];
-              pText.forEach(line => {
-                  let parts = line.split('*');
-                  let name = parts[0].trim();
-                  let count = parts.length > 1 ? parseInt(parts[1]) : 1;
-                  if(isNaN(count) || count < 1) count = 1;
-                  for(let i=0; i<count; i++) { parsedPlayers.push(name); }
+              let parsed = [];
+              let items = raw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              items.forEach(item => {
+                 let parts = item.split('*');
+                 let name = parts[0].trim();
+                 let count = parts.length > 1 ? parseInt(parts[1]) : 1;
+                 if(isNaN(count) || count < 1) count = 1;
+                 for(let i=0; i<count; i++) parsed.push(name);
               });
 
-              pbSlots = rText.map(t => ({ text: t }));
-              pbBalls = parsedPlayers.map((p, i) => ({
-                  name: p, color: pbColors[i % pbColors.length],
-                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 10,
-                  vx: (Math.random()-0.5)*2, vy: 0,
-                  r: 8, settled: false, slotIndex: -1
+              pbBalls = parsed.map((p, i) => ({
+                  id: i, name: p, color: pbColors[i % pbColors.length],
+                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 20,
+                  vx: (Math.random()-0.5)*3, vy: 0,
+                  r: 7, settled: false
               }));
               
-              document.getElementById('pb-winner-box').style.display = 'block';
-              document.getElementById('pb-winner-text').innerHTML = '<span style="color:var(--text-sub);">구슬이 떨어지고 있습니다...</span>';
-              
+              pbFinished = [];
+              document.getElementById('pb-ranking-list').innerHTML = '';
+
               if(!pbIsRunning) {
                   pbIsRunning = true;
                   requestAnimationFrame(updatePinball);
               }
-            } catch(e) { console.error(e); }
-          }
-
-          function resolveBallCollision() {
-             for(let i=0; i<pbBalls.length; i++) {
-                for(let j=i+1; j<pbBalls.length; j++) {
-                   let b1 = pbBalls[i]; let b2 = pbBalls[j];
-                   if(b1.settled || b2.settled) continue;
-                   let dx = b2.x - b1.x; let dy = b2.y - b1.y;
-                   let dist = Math.sqrt(dx*dx + dy*dy);
-                   let minDist = b1.r + b2.r;
-                   if(dist < minDist) {
-                      let angle = Math.atan2(dy, dx);
-                      let overlap = minDist - dist;
-                      b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
-                      b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
-                      let nx = dx/dist; let ny = dy/dist;
-                      let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
-                      b1.vx -= p*nx; b1.vy -= p*ny;
-                      b2.vx += p*nx; b2.vy += p*ny;
-                   }
-                }
-             }
+            } catch(e) {}
           }
 
           function updatePinball() {
@@ -1227,17 +1148,19 @@ export default {
               drawPinballFrame();
               
               let allSettled = true;
-              const slotW = cw / pbSlots.length;
               
               pbBalls.forEach(b => {
                   if(!b.settled) {
                       allSettled = false;
-                      b.vy += 0.2; b.vy *= 0.99; 
+                      b.vy += 0.15; // 약한 중력
+                      b.vy *= 0.99; b.vx *= 0.99; // 공기 저항
                       b.x += b.vx; b.y += b.vy;
                       
-                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.7; }
-                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.7; }
+                      // 벽 튕기기
+                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.8; }
+                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.8; }
                       
+                      // 선분(벽) 충돌
                       pbLines.forEach(line => {
                          let v = {x:line.x1, y:line.y1}; let w = {x:line.x2, y:line.y2};
                          let distSq = distToSegmentSquared(b, v, w);
@@ -1250,11 +1173,12 @@ export default {
                                b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
                                let dot = b.vx*nx + b.vy*ny;
                                b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
-                               b.vx *= 0.6; b.vy *= 0.6; 
+                               b.vx *= 0.7; b.vy *= 0.7; 
                             }
                          }
                       });
 
+                      // 둥근 페그 충돌
                       pbPegs.forEach(p => {
                           let dx = b.x - p.x; let dy = b.y - p.y;
                           let dist = Math.sqrt(dx*dx + dy*dy);
@@ -1263,10 +1187,11 @@ export default {
                               b.x = p.x + nx * (b.r + p.r - dist); b.y = p.y + ny * (b.r + p.r - dist);
                               let dot = b.vx*nx + b.vy*ny;
                               b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
-                              b.vx *= 0.6; b.vy *= 0.6;
+                              b.vx *= 0.7; b.vy *= 0.7;
                           }
                       });
 
+                      // 회전 스피너 충돌
                       pbSpinners.forEach(sp => {
                          let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
                          let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
@@ -1279,131 +1204,77 @@ export default {
                             if(dist > 0) {
                                let nx = dx/dist; let ny = dy/dist;
                                b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
-                               let kickVx = -Math.sin(sp.angle) * sp.speed * 10;
-                               let kickVy = Math.cos(sp.angle) * sp.speed * 10;
+                               let kickVx = -Math.sin(sp.angle) * sp.speed * 8;
+                               let kickVy = Math.cos(sp.angle) * sp.speed * 8;
                                b.vx += kickVx; b.vy += kickVy;
                             }
                          }
                       });
                       
-                      if(b.y > ch - 40 - b.r) {
-                          b.y = ch - 40 - b.r; b.vx = 0; b.vy = 0; b.settled = true;
-                          b.slotIndex = Math.floor(b.x / slotW);
-                          if(b.slotIndex < 0) b.slotIndex = 0;
-                          if(b.slotIndex >= pbSlots.length) b.slotIndex = pbSlots.length - 1;
+                      // 도착 판정 (레이싱 방식)
+                      if(b.y > ch - b.r - 5) {
+                          b.y = ch - b.r - 5; b.vx = 0; b.vy = 0; 
+                          b.settled = true;
+                          pbFinished.push(b);
+                          updateRankingUI();
                       }
                   }
                   
+                  // 구슬 그리기
                   pbCtx.beginPath(); pbCtx.arc(b.x, b.y, b.r, 0, Math.PI*2);
                   pbCtx.fillStyle = b.color; pbCtx.fill();
-                  pbCtx.strokeStyle = '#fff'; pbCtx.lineWidth = 2; pbCtx.stroke();
-                  pbCtx.fillStyle = '#fff'; pbCtx.font = '11px Pretendard';
-                  pbCtx.textAlign = 'center'; pbCtx.fillText(b.name, b.x, b.y - 14);
               });
 
-              resolveBallCollision(); 
-              pbBalls.forEach(b => { if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r; });
-
-              let sortedBalls = [...pbBalls].sort((a,b) => b.y - a.y);
-              let rankHtml = '';
-              sortedBalls.forEach((b, idx) => {
-                  let rTxt = b.settled ? (pbSlots[b.slotIndex] ? pbSlots[b.slotIndex].text : '') : '진행중..';
-                  rankHtml += '<div class="pb-rank-item" style="border-color:'+b.color+';"><span>' + (idx+1) + '위. ' + b.name + '</span><span style="color:var(--point-color);">' + rTxt + '</span></div>';
+              // 라이브 뷰 업데이트 (우측 검은 화면 중앙)
+              let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
+              let liveHtml = '';
+              activeBalls.forEach(b => {
+                 let initial = b.name.charAt(0);
+                 liveHtml += '<div style="display:flex; flex-direction:column; align-items:center; gap:3px;">' +
+                             '<div style="width:24px; height:24px; border-radius:50%; border:2px dashed '+b.color+'; background:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#000;">'+initial+'</div>' +
+                             '<span style="color:'+b.color+'; font-size:12px; font-weight:bold; letter-spacing:-0.5px;">'+b.name+'</span></div>';
               });
-              document.getElementById('pb-live-ranks').innerHTML = rankHtml;
+              document.getElementById('pb-live-view').innerHTML = liveHtml;
               
               if(allSettled) {
-                  pbIsRunning = false; let resultHtml = '';
-                  pbBalls.forEach(b => {
-                      let reward = pbSlots[b.slotIndex] ? pbSlots[b.slotIndex].text : '?';
-                      resultHtml += '<span style="color:'+b.color+'; font-weight:900;">' + b.name + '</span> ➔ ' + reward + '<br>';
-                  });
-                  document.getElementById('pb-winner-text').innerHTML = resultHtml;
+                  pbIsRunning = false;
+                  document.getElementById('pb-live-view').innerHTML = '<div style="color:var(--point-color); font-size:24px; font-weight:900;">종료!</div>';
               } else {
                   requestAnimationFrame(updatePinball);
               }
           }
 
+          function updateRankingUI() {
+             let html = '';
+             pbFinished.forEach((b, idx) => {
+                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:14px; margin-bottom:4px; animation: popIn 0.3s ease-out;">'+b.name+' <span style="color:#fff;">#'+(idx+1)+'</span></div>';
+             });
+             document.getElementById('pb-ranking-list').innerHTML = html;
+          }
+
           function drawPinballFrame() {
-              let cw = pbCanvas.width; let ch = pbCanvas.height;
-              
-              pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
-              pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
+              pbCtx.shadowBlur = 8; pbCtx.shadowColor = '#38bdf8';
+              pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 2; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
                  pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
               });
               
-              pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 4;
+              pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 3;
               pbSpinners.forEach(sp => {
                  let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
                  let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
                  pbCtx.beginPath(); pbCtx.moveTo(x1, y1); pbCtx.lineTo(x2, y2); pbCtx.stroke();
-                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 5, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
+                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 4, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
               });
               
               pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
               pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
-
-              if(pbSlots.length > 0) {
-                  let slotW = cw / pbSlots.length;
-                  pbCtx.fillStyle = 'rgba(255, 255, 255, 0.1)'; pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                  pbCtx.lineWidth = 2; pbCtx.font = '12px Pretendard'; pbCtx.textAlign = 'center';
-                  for(let i=0; i<pbSlots.length; i++) {
-                      pbCtx.strokeRect(i*slotW, ch - 40, slotW, 40);
-                      pbCtx.fillStyle = '#ff8200';
-                      pbCtx.fillText(pbSlots[i].text, i*slotW + slotW/2, ch - 15);
-                  }
-              }
           }
 
-          // ==============================
-          // 5. 구글 시트 연동 로직
-          // ==============================
-          
-          /* ===== 🌟 업보 시트 연동 ===== */
-          async function loadUpbo() {
-            const container = document.getElementById('upbo-list-container');
-            try {
-              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ'; 
-              const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&headers=1&sheet=UPBO';
-              const res = await fetch(url);
-              let text = await res.text();
-              text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-              const data = JSON.parse(text);
 
-              if(!data.table.rows || data.table.rows.length === 0) {
-                 container.innerHTML = '<div class="empty-state">등록된 업보가 없습니다.</div>'; return;
-              }
-
-              let html = '<div style="display:flex; flex-direction:column; gap:10px;">';
-              data.table.rows.forEach(row => {
-                 if(!row || !row.c) return;
-                 let name = row.c[0]?.v || '익명';
-                 let desc = row.c[1]?.v || '내용 없음';
-                 let status = row.c[2]?.v || '진행중';
-                 let date = row.c[3]?.v || '';
-                 
-                 let isDone = status.includes('완료') || status.includes('청산');
-                 let sColor = isDone ? '#10b981' : '#ff478e';
-                 
-                 html += '<div class="upbo-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.02);">' +
-                   '<div>' +
-                     '<div style="font-size:14px; font-weight:800; color:var(--text-main); margin-bottom:5px;">' + name + '</div>' +
-                     '<div style="font-size:13px; color:var(--text-sub);">' + desc + '</div>' +
-                     '<div style="font-size:11px; color:var(--text-sub); margin-top:5px;">' + date + '</div>' +
-                   '</div>' +
-                   '<div style="background:' + sColor + '15; color:' + sColor + '; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:800;">' + status + '</div>' +
-                 '</div>';
-              });
-              html += '</div>';
-              container.innerHTML = html;
-            } catch(e) {
-              container.innerHTML = '<div class="empty-state">등록된 업보가 없습니다.</div>';
-            }
-          }
-
-          /* ===== VOD 시트 연동 ===== */
+          /* ===== 🌟 VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
+
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             try {
@@ -1415,7 +1286,6 @@ export default {
               const data = JSON.parse(text);
               
               let pinnedCards = []; let normalCards = [];
-              
               if (data.table.rows.length === 0) {
                   container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">등록된 VOD 영상이 없습니다.</div>'; return;
               }
@@ -1423,7 +1293,6 @@ export default {
               data.table.rows.forEach(function(row) {
                 if (!row || !row.c) return;
                 let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
-                
                 let title = cells[0] || ''; let link = cells[1] || '#';
                 let thumb = cells[2] || 'https://via.placeholder.com/640x360/eeeeee/999999?text=No+Thumbnail';
                 let duration = cells[3] || ''; let date = cells[4] || '';
@@ -1554,34 +1423,18 @@ export default {
                   container.innerHTML = '<div class="empty-state">등록된 노래가 없습니다. 구글 시트 내용을 확인해주세요.</div>'; return;
               }
               
-              renderSongbookTable(grouped);
+              let html = '<table class="song-table"><thead><tr><th style="width:10%;">번호</th><th style="width:15%;">가수</th><th style="width:45%;">노래제목</th><th style="width:15%;">난이도</th><th style="width:15%; text-align:center;">상태</th></tr></thead><tbody id="songbook-tbody">';
+              for (const [singer, songs] of Object.entries(grouped)) {
+                html += '<tr class="group-header-row"><td colspan="5"><div class="group-header-box"><div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;"><span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>' + singer + '</div><div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">' + songs.length + '곡</div></div></td></tr>';
+                songs.forEach(song => {
+                  html += '<tr><td style="color: var(--text-sub); font-size: 13px;">' + song.no + '</td><td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td><td style="font-weight: 600;">' + song.title + '</td><td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td><td style="text-align: center; color: var(--text-sub);">' + song.status + '</td></tr>';
+                });
+              }
+              html += '</tbody></table>';
+              container.innerHTML = html;
             } catch (err) {
               container.innerHTML = '<div class="empty-state">구글 시트 연동에 실패했습니다.</div>';
             }
-          }
-
-          function renderSongbookTable(grouped) {
-            try {
-              const container = document.getElementById('songbook-list');
-              container.innerHTML = '<table class="song-table">' +
-                  '<thead><tr><th style="width: 10%;">번호</th><th style="width: 15%;">가수</th><th style="width: 45%;">노래제목</th><th style="width: 15%;">난이도</th><th style="width: 15%; text-align:center;">상태</th></tr></thead>' +
-                  '<tbody id="songbook-tbody"></tbody></table>';
-              
-              const tbody = document.getElementById('songbook-tbody');
-              
-              for (const [singer, songs] of Object.entries(grouped)) {
-                const headerTr = document.createElement('tr');
-                headerTr.className = 'group-header-row';
-                headerTr.innerHTML = '<td colspan="5"><div class="group-header-box"><div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;"><span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>' + singer + '</div><div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">' + songs.length + '곡</div></div></td>';
-                tbody.appendChild(headerTr);
-                
-                songs.forEach(function(song) {
-                  const tr = document.createElement('tr');
-                  tr.innerHTML = '<td style="color: var(--text-sub); font-size: 13px;">' + song.no + '</td><td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td><td style="font-weight: 600;">' + song.title + '</td><td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td><td style="text-align: center; color: var(--text-sub);">' + song.status + '</td>';
-                  tbody.appendChild(tr);
-                });
-              }
-            } catch(e) {}
           }
 
           function filterSongs() {
@@ -1589,7 +1442,6 @@ export default {
               const query = document.getElementById('song-search-input').value.toLowerCase();
               const tbody = document.getElementById('songbook-tbody');
               if (!tbody) return;
-              
               const rows = tbody.querySelectorAll('tr');
               let currentGroupHeader = null; let visibleCountInGroup = 0;
               
@@ -1607,14 +1459,36 @@ export default {
             } catch(e) {}
           }
 
+          /* ===== 최근 게시글 ===== */
+          function loadRecentPosts() {
+            try {
+              const container = document.getElementById('soop-posts-container');
+              const dummyPosts = [
+                { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
+                { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
+                { isNotice: false, title: "어제 방송 너무 재밌었어요!!", date: "2026.08.10", likes: 32, comments: 15 }
+              ];
+              let html = '';
+              dummyPosts.forEach(post => {
+                let badge = post.isNotice ? '<span class="post-badge notice">공지</span>' : '<span class="post-badge">일반</span>';
+                html += '<a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="post-item">' +
+                    '<div class="post-title-row">' + badge + '<span class="post-title">' + post.title + '</span></div>' +
+                    '<div class="post-meta">' +
+                      '<span>' + post.date + '</span>' +
+                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">favorite</span> ' + post.likes +
+                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">chat_bubble</span> ' + post.comments +
+                    '</div></a>';
+              });
+              container.innerHTML = html;
+            } catch(e) {}
+          }
+
           // ==============================
-          // 6. 초기 실행
+          // 초기화 실행부
           // ==============================
           let lockStartY = 0;
           document.addEventListener('DOMContentLoaded', () => {
-            // 🌟 1. 잠금화면 구동
             try { updateLockTime(); setInterval(updateLockTime, 1000); } catch(e) {}
-            
             try {
               const lockScreen = document.getElementById('lock-screen');
               if(lockScreen) {
@@ -1626,14 +1500,12 @@ export default {
               }
             } catch(e) {}
 
-            // 🌟 2. 탭 별 기능 호출 (각자 독립적으로 에러 처리)
             try { renderCalendar(); } catch(e) {}
             try { renderLadderInputs(); } catch(e) {}
             try { initPinballBoard(); } catch(e) {} 
             try { loadVods(); } catch(e) {}
             try { loadRecentPosts(); } catch(e) {}
             try { loadSongs(); } catch(e) {}
-            try { loadUpbo(); } catch(e) {} 
           });
 
         </script>
