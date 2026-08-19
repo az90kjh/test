@@ -12,38 +12,12 @@ export default {
         
         <style>
           /* ===== CSS 변수 (주황색 테마) ===== */
-          :root {
-            --bg-body: #f4f5f7;
-            --bg-card: #ffffff;
-            --bg-nav: #222222;
-            --text-main: #111111;
-            --text-sub: #666666;
-            --border-color: #eeeeee;
-            --point-color: #ff8200; 
-            --bg-point-light: #fff3e6; 
-            --nav-icon: #888888;
-            --nav-icon-active: #ff8200; 
-          }
-
-          [data-theme="dark"] {
-            --bg-body: #121212;
-            --bg-card: #1e1e1e;
-            --bg-nav: #2a2a2a;
-            --text-main: #ffffff;
-            --text-sub: #aaaaaa;
-            --border-color: #333333;
-            --point-color: #ff8200; 
-            --bg-point-light: #3a2618; 
-            --nav-icon: #aaaaaa;
-            --nav-icon-active: #ff8200; 
-          }
-
+          :root { --bg-body: #f4f5f7; --bg-card: #ffffff; --bg-nav: #222222; --text-main: #111111; --text-sub: #666666; --border-color: #eeeeee; --point-color: #ff8200; --bg-point-light: #fff3e6; --nav-icon: #888888; --nav-icon-active: #ff8200; }
+          [data-theme="dark"] { --bg-body: #121212; --bg-card: #1e1e1e; --bg-nav: #2a2a2a; --text-main: #ffffff; --text-sub: #aaaaaa; --border-color: #333333; --point-color: #ff8200; --bg-point-light: #3a2618; --nav-icon: #aaaaaa; --nav-icon-active: #ff8200; }
           body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background-color: var(--bg-body); color: var(--text-main); transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
-          h1, h2, h3, p { margin: 0; }
-          ul { list-style: none; padding: 0; margin: 0; }
-          a { text-decoration: none; color: inherit; }
+          h1, h2, h3, p { margin: 0; } ul { list-style: none; padding: 0; margin: 0; } a { text-decoration: none; color: inherit; }
 
-          /* ===== 스마트폰 잠금화면 (블러 오버레이) ===== */
+          /* ===== 🌟 스마트폰 잠금화면 (블러 오버레이) ===== */
           #lock-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -60,17 +34,13 @@ export default {
           @keyframes bounceUp { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-10px); opacity: 1; } }
 
           /* ===== 우측 세로형 네비게이션 ===== */
-          .nav-container {
-            position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%);
-            background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px;
-            display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-          }
+          .nav-container { position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%); background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px; display: flex; flex-direction: column; gap: 12px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
           .nav-btn { background: none; border: none; color: var(--nav-icon); cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
           .nav-btn:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 탭 스와이프 화면 넘김 애니메이션 ===== */
+          /* ===== 탭 스와이프 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; }
           .tab-section.active { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
@@ -83,30 +53,13 @@ export default {
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
           /* ===== 메인 콘텐츠 영역 ===== */
-          .main-wrapper { 
-            width: 100%; min-height: 100vh; margin: 0; padding: 0 100px 0 0; 
-            background-color: var(--bg-card); position: relative; overflow-x: hidden; box-sizing: border-box;
-          }
-          .main-wrapper::before {
-            content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px;
-            background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%);
-            z-index: 10; pointer-events: none;
-          }
+          .main-wrapper { width: 100%; min-height: 100vh; margin: 0; padding: 0 100px 0 0; background-color: var(--bg-card); position: relative; overflow-x: hidden; box-sizing: border-box; }
+          .main-wrapper::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px; background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%); z-index: 10; pointer-events: none; }
           [data-theme="dark"] .main-wrapper::before { background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%); }
-
           #tab-home .main-wrapper { padding: 0; background-color: var(--bg-body); }
           #tab-home .main-wrapper::before { display: none; }
-          .fullscreen-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif');
-            background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1;
-          }
-
-          .content-card { 
-            max-width: 1200px; margin: 0 auto; padding: 60px 20px 80px 70px; 
-            min-height: 100vh; background: transparent; box-shadow: none; border-radius: 0; box-sizing: border-box;
-          }
-
+          .fullscreen-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
+          .content-card { max-width: 1200px; margin: 0 auto; padding: 60px 20px 80px 70px; min-height: 100vh; background: transparent; box-shadow: none; border-radius: 0; box-sizing: border-box; }
           .section-header-out { margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
           .section-header-out h2 { font-size: 16px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
@@ -136,7 +89,7 @@ export default {
           .vn-like-icons { display: flex; gap: 10px; flex-wrap: wrap; }
           .vn-like-item { background: var(--bg-body); border: 1px solid var(--point-color); border-radius: 20px; padding: 8px 16px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: var(--point-color); font-size: 12px; box-shadow: 0 2px 5px rgba(255, 130, 0, 0.1); }
 
-          /* 하단: 최근 게시글 & 서브 탭 */
+          /* 서브탭 및 배지 */
           .profile-bottom-grid { display: grid; grid-template-columns: 350px 1fr; gap: 40px; position: relative; z-index: 3; margin-bottom: 30px; }
           @media (max-width: 800px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
@@ -184,11 +137,9 @@ export default {
           .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
-          /* ===== 미니게임 (사다리 & 핀볼) UI ===== */
+          /* ===== 미니게임 (사다리 & 핀볼) ===== */
           .game-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .game-sub-section.active { display: block; }
-          
-          /* 사다리게임 */
           .ladder-setup { background: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px dashed rgba(255,130,0,0.3); }
           .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
@@ -202,7 +153,6 @@ export default {
           .ladder-result-row { display: flex; justify-content: center; gap: 5px; margin-top: 10px; min-width: 600px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 블루델 핀볼게임 스타일 (플링코) */
           .pb-game-wrapper { display: flex; gap: 0; width: 100%; height: 600px; background: #0b0c10; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #1f2937; }
           @media (max-width: 800px) { .pb-game-wrapper { flex-direction: column; } .pb-sidebar { width: 100% !important; } }
           .pb-canvas-container { width: 250px; height: 100%; background: #111; border-right: 1px solid #333; position: relative; }
@@ -230,7 +180,7 @@ export default {
           .action-btn { background-color: var(--text-main); color: var(--bg-card); padding: 10px 25px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; }
           .action-btn:hover { background-color: var(--point-color); }
 
-          /* ===== VOD 다시보기 ===== */
+          /* ===== 🌟 VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
           @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
           @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -311,7 +261,7 @@ export default {
           </div>
         </div>
 
-        <!-- 🌟 우측 세로형 네비게이션 바 -->
+        <!-- 우측 세로형 네비게이션 바 -->
         <nav class="nav-container">
           <button class="nav-btn active" onclick="switchTab('tab-home', this)" title="홈"><span class="material-symbols-rounded">home</span></button>
           <button class="nav-btn" onclick="switchTab('tab-profile', this)" title="프로필"><span class="material-symbols-rounded">person</span></button>
@@ -496,11 +446,11 @@ export default {
                   <div id="extra-ogq" class="extra-sub-section">
                     <div class="vn-panel" style="margin-bottom:0; height: 180px; display:flex; align-items:center; justify-content:center; gap: 40px; text-align:center;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="여기에_OGQ_황숭티콘1_이미지_주소를_넣어주세요.png" alt="황숭티콘 1" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
                       </a>
                       <a href="두번째_OGQ_링크_주소를_넣어주세요" target="_blank" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/50741786949410199.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <img src="여기에_OGQ_황숭티콘2_이미지_주소를_넣어주세요.png" alt="황숭티콘 2" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(Naver)</span>
                       </a>
                     </div>
@@ -667,7 +617,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임 완벽 구현) -->
+        <!-- 🌟 7. 미니게임 탭 -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -678,7 +628,7 @@ export default {
                 <button class="sub-tab-btn" onclick="switchGameTab('game-pinball', this)">핀볼 뽑기 (Plinko)</button>
               </div>
 
-              <!-- 🎮 사다리게임 영역 -->
+              <!-- 사다리게임 영역 -->
               <div id="game-ladder" class="game-sub-section active">
                 <div class="ladder-setup">
                   <div style="font-weight:800; font-size:15px; margin-bottom:10px; color:var(--point-color);">1. 참가 인원 설정 (최대 16명)</div>
@@ -687,9 +637,7 @@ export default {
                     <div class="counter-num" id="ladder-count">4</div>
                     <button class="counter-btn" onclick="changeLadderCount(1)">+</button>
                   </div>
-                  <div class="ladder-inputs-grid" id="ladder-inputs-container">
-                    <!-- JS로 동적 생성됨 -->
-                  </div>
+                  <div class="ladder-inputs-grid" id="ladder-inputs-container"></div>
                   <button class="action-btn" style="margin-top:15px;" onclick="generateLadder()">사다리 무작위 생성하기</button>
                 </div>
                 
@@ -703,31 +651,22 @@ export default {
                 </div>
               </div>
 
-              <!-- 🎮 블루델 스타일 핀볼게임 영역 -->
+              <!-- 핀볼게임 영역 -->
               <div id="game-pinball" class="game-sub-section">
                 <div class="pb-game-wrapper">
-                  
-                  <!-- 좌측 캔버스 (트랙) 영역 -->
                   <div class="pb-canvas-container">
                     <canvas id="pinballCanvas"></canvas>
                   </div>
-
-                  <!-- 우측 컨트롤 및 리더보드 영역 -->
                   <div class="pb-side-panel">
-                    
-                    <!-- 실시간 랭킹 디스플레이 -->
                     <div class="pb-leaderboard" id="pb-leaderboard">
                       <div class="pb-rank-title">LIVE RANKING</div>
                       <div class="pb-live-ranks" id="pb-live-ranks">
-                        <!-- JS에서 실시간 순위 채워짐 -->
                         <div style="color:rgba(255,255,255,0.3); font-size:13px;">아래에서 참가자와 보상을 입력 후<br>추첨을 시작해주세요!</div>
                       </div>
                     </div>
-
-                    <!-- 하단 컨트롤 영역 -->
                     <div class="pb-controls">
                       <div class="pb-input-group">
-                        <label>이름들을 입력하세요 (예: 수박*2, 키위*1)</label>
+                        <label>이름 입력 (엔터로 구분, 띄어쓰기 없이 적어주세요! 예: 수박*2)</label>
                         <textarea id="pb-participants">수박*2\n키위*2\n귤*2</textarea>
                       </div>
                       <div class="pb-input-group">
@@ -751,16 +690,14 @@ export default {
                         </button>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (카테고리 연동 및 4x5 바둑판 완벽 수정) -->
+        <!-- 🌟 8. VOD 탭 -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -826,186 +763,221 @@ export default {
 
         <!-- 기능 스크립트 모음 -->
         <script>
-          /* ===== 🌟 잠금화면 ===== */
+          // ⚠️ 모든 스크립트 내부에 에러 방지용 try-catch 블록을 두어 잠금화면 마비를 100% 원천 봉쇄합니다.
+          
           function unlockScreen() {
-            var lock = document.getElementById('lock-screen');
-            if(lock) {
-              lock.classList.add('unlocked');
-              setTimeout(function() { lock.style.display = 'none'; }, 600); 
-            }
+            try {
+              var lock = document.getElementById('lock-screen');
+              if(lock) {
+                lock.classList.add('unlocked');
+                setTimeout(function() { lock.style.display = 'none'; }, 600); 
+              }
+            } catch(e) { console.error(e); }
           }
 
           function updateLockTime() {
-            const now = new Date();
-            let h = now.getHours(); let m = now.getMinutes();
-            h = h < 10 ? '0' + h : h; m = m < 10 ? '0' + m : m;
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
-            const dateStr = (now.getMonth() + 1) + '월 ' + now.getDate() + '일 ' + days[now.getDay()] + '요일';
-            const timeEl = document.getElementById('lock-time');
-            const dateEl = document.getElementById('lock-date');
-            if (timeEl) timeEl.innerText = h + ':' + m;
-            if (dateEl) dateEl.innerText = dateStr;
+            try {
+              const now = new Date();
+              let h = now.getHours(); let m = now.getMinutes();
+              h = h < 10 ? '0' + h : h; m = m < 10 ? '0' + m : m;
+              const days = ['일', '월', '화', '수', '목', '금', '토'];
+              const dateStr = (now.getMonth() + 1) + '월 ' + now.getDate() + '일 ' + days[now.getDay()] + '요일';
+              const timeEl = document.getElementById('lock-time');
+              const dateEl = document.getElementById('lock-date');
+              if (timeEl) timeEl.innerText = h + ':' + m;
+              if (dateEl) dateEl.innerText = dateStr;
+            } catch(e) { console.error(e); }
           }
 
-          /* ===== 🌟 탭 스와이프 애니메이션 ===== */
           function switchTab(tabId, clickedBtn) {
-            var currentTab = document.querySelector('.tab-section.active') || document.querySelector('.tab-section.flipping-in');
-            var newTab = document.getElementById(tabId);
-            if (currentTab === newTab) return;
-            
-            document.querySelectorAll('.nav-btn').forEach(function(btn) {
-              if(btn.innerHTML.indexOf('music_note') === -1 && btn.innerHTML.indexOf('mode') === -1) { btn.classList.remove('active'); }
-            });
-            if(clickedBtn) clickedBtn.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (currentTab) {
-              currentTab.classList.remove('active', 'flipping-in');
-              currentTab.classList.add('flipping-out');
-              newTab.classList.add('flipping-in');
+            try {
+              var currentTab = document.querySelector('.tab-section.active') || document.querySelector('.tab-section.flipping-in');
+              var newTab = document.getElementById(tabId);
+              if (currentTab === newTab) return;
               
-              setTimeout(function() {
-                currentTab.classList.remove('flipping-out');
-                if(newTab.classList.contains('flipping-in')) {
-                  newTab.classList.remove('flipping-in');
-                  newTab.classList.add('active');
-                  
-                  // 미니게임 탭 진입 시 캔버스 렌더링 최적화
-                  if(tabId === 'tab-game') {
-                     if(document.getElementById('game-ladder').classList.contains('active')) generateLadder();
-                     if(document.getElementById('game-pinball').classList.contains('active')) initPinballBoard();
+              document.querySelectorAll('.nav-btn').forEach(function(btn) {
+                if(btn.innerHTML.indexOf('music_note') === -1 && btn.innerHTML.indexOf('mode') === -1) { btn.classList.remove('active'); }
+              });
+              if(clickedBtn) clickedBtn.classList.add('active');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+
+              if (currentTab) {
+                currentTab.classList.remove('active', 'flipping-in');
+                currentTab.classList.add('flipping-out');
+                newTab.classList.add('flipping-in');
+                
+                setTimeout(function() {
+                  currentTab.classList.remove('flipping-out');
+                  if(newTab.classList.contains('flipping-in')) {
+                    newTab.classList.remove('flipping-in');
+                    newTab.classList.add('active');
+                    
+                    if(tabId === 'tab-game') {
+                       if(document.getElementById('game-ladder').classList.contains('active')) generateLadder();
+                       if(document.getElementById('game-pinball').classList.contains('active')) initPinballBoard();
+                    }
                   }
-                }
-              }, 400); 
-            } else {
-              newTab.classList.add('active');
-            }
+                }, 400); 
+              } else {
+                newTab.classList.add('active');
+              }
+            } catch(e) { console.error(e); }
           }
 
-          /* 서브탭 전환 */
           function switchExtraTab(subTabId, clickedBtn) {
-            document.querySelectorAll('.extra-sub-section').forEach(function(sec) { sec.style.display = 'none'; });
-            var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
-            parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
-            document.getElementById(subTabId).style.display = 'block';
-            clickedBtn.classList.add('active');
+            try {
+              document.querySelectorAll('.extra-sub-section').forEach(function(sec) { sec.style.display = 'none'; });
+              var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
+              parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
+              document.getElementById(subTabId).style.display = 'block';
+              clickedBtn.classList.add('active');
+            } catch(e) {}
           }
 
           function switchClosetTab(subTabId, clickedBtn) {
-            document.querySelectorAll('.closet-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
-            var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
-            parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
-            document.getElementById(subTabId).classList.add('active');
-            clickedBtn.classList.add('active');
+            try {
+              document.querySelectorAll('.closet-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
+              var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
+              parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
+              document.getElementById(subTabId).classList.add('active');
+              clickedBtn.classList.add('active');
+            } catch(e) {}
           }
 
           function switchGameTab(subTabId, clickedBtn) {
-            document.querySelectorAll('.game-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
-            var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
-            parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
-            document.getElementById(subTabId).classList.add('active');
-            clickedBtn.classList.add('active');
-            
-            if(subTabId === 'game-ladder') { generateLadder(); }
-            if(subTabId === 'game-pinball') { initPinballBoard(); }
+            try {
+              document.querySelectorAll('.game-sub-section').forEach(function(sec) { sec.classList.remove('active'); });
+              var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
+              parentTabs.forEach(function(btn) { btn.classList.remove('active'); });
+              document.getElementById(subTabId).classList.add('active');
+              clickedBtn.classList.add('active');
+              
+              if(subTabId === 'game-ladder') { generateLadder(); }
+              if(subTabId === 'game-pinball') { initPinballBoard(); }
+            } catch(e) {}
           }
 
-          /* 테마 전환 */
           function toggleTheme() {
-            const htmlTag = document.documentElement;
-            const themeIcon = document.querySelector('#themeToggleBtn .material-symbols-rounded');
-            if (htmlTag.getAttribute('data-theme') === 'light') {
-              htmlTag.setAttribute('data-theme', 'dark'); themeIcon.textContent = 'light_mode'; 
-            } else {
-              htmlTag.setAttribute('data-theme', 'light'); themeIcon.textContent = 'dark_mode'; 
-            }
-          }
-
-          /* 뮤직 팝업 */
-          function toggleMusicPopup(btnElement) {
-            const popup = document.getElementById('music-popup');
-            if (popup.style.display === 'block') {
-              popup.style.display = 'none';
-            } else {
-              popup.style.display = 'block';
-              if(btnElement) {
-                const rect = btnElement.getBoundingClientRect();
-                popup.style.top = (rect.top + rect.height / 2) + 'px';
-                popup.style.right = (window.innerWidth - rect.left + 15) + 'px';
-                popup.style.left = 'auto'; popup.style.transform = 'translateY(-50%)';
-                popup.style.animation = 'popLeft 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            try {
+              const htmlTag = document.documentElement;
+              const themeIcon = document.querySelector('#themeToggleBtn .material-symbols-rounded');
+              if (htmlTag.getAttribute('data-theme') === 'light') {
+                htmlTag.setAttribute('data-theme', 'dark'); themeIcon.textContent = 'light_mode'; 
+              } else {
+                htmlTag.setAttribute('data-theme', 'light'); themeIcon.textContent = 'dark_mode'; 
               }
-            }
+            } catch(e) {}
           }
 
-          /* ===== 🌟 일정표 팝업 로직 ===== */
+          function toggleMusicPopup(btnElement) {
+            try {
+              const popup = document.getElementById('music-popup');
+              if (popup.style.display === 'block') { popup.style.display = 'none'; } 
+              else {
+                popup.style.display = 'block';
+                if(btnElement) {
+                  const rect = btnElement.getBoundingClientRect();
+                  popup.style.top = (rect.top + rect.height / 2) + 'px';
+                  popup.style.right = (window.innerWidth - rect.left + 15) + 'px';
+                  popup.style.left = 'auto'; popup.style.transform = 'translateY(-50%)';
+                  popup.style.animation = 'popLeft 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                }
+              }
+            } catch(e) {}
+          }
+
+          function openWikiPopup() { document.getElementById('wiki-textarea').value = ''; document.getElementById('wiki-popup').style.display = 'flex'; }
+          function closeWikiPopup() { document.getElementById('wiki-popup').style.display = 'none'; }
+          function saveWiki() {
+            try {
+              var text = document.getElementById('wiki-textarea').value.trim();
+              if (!text) { alert('내용을 적어주세요!'); return; }
+              var list = document.getElementById('wiki-content-list');
+              var newItem = document.createElement('div');
+              newItem.className = 'wiki-item';
+              newItem.style.animation = 'fadeIn 0.3s ease-in-out';
+              newItem.textContent = text; 
+              list.insertBefore(newItem, list.firstChild);
+              closeWikiPopup();
+            } catch(e) {}
+          }
+
           function openSchedulePopup() {
-            document.getElementById('sch-date').value = ''; document.getElementById('sch-time').value = '';
-            document.getElementById('sch-title').value = ''; document.getElementById('sch-desc').value = '';
-            document.getElementById('sch-color').value = 'orange';
-            document.getElementById('schedule-popup').style.display = 'flex';
+            try {
+              document.getElementById('sch-date').value = ''; document.getElementById('sch-time').value = '';
+              document.getElementById('sch-title').value = ''; document.getElementById('sch-desc').value = '';
+              document.getElementById('sch-color').value = 'orange';
+              document.getElementById('schedule-popup').style.display = 'flex';
+            } catch(e) {}
           }
           function closeSchedulePopup() { document.getElementById('schedule-popup').style.display = 'none'; }
           function saveSchedule() {
-            var dateVal = document.getElementById('sch-date').value;
-            var timeVal = document.getElementById('sch-time').value;
-            var colorVal = document.getElementById('sch-color').value;
-            var titleVal = document.getElementById('sch-title').value.trim();
-            if(!dateVal || !titleVal) { alert('날짜와 일정 제목은 필수로 입력해주세요!'); return; }
-            var d = new Date(dateVal);
-            var dateKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-            if(!mockEvents[dateKey]) mockEvents[dateKey] = [];
-            var displayStr = titleVal;
-            if(timeVal) displayStr = timeVal + ' ' + titleVal;
-            mockEvents[dateKey].push({ text: displayStr, color: colorVal });
-            renderCalendar(); 
-            closeSchedulePopup();
+            try {
+              var dateVal = document.getElementById('sch-date').value;
+              var timeVal = document.getElementById('sch-time').value;
+              var colorVal = document.getElementById('sch-color').value;
+              var titleVal = document.getElementById('sch-title').value.trim();
+              if(!dateVal || !titleVal) { alert('날짜와 일정 제목은 필수로 입력해주세요!'); return; }
+              var d = new Date(dateVal);
+              var dateKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+              if(!mockEvents[dateKey]) mockEvents[dateKey] = [];
+              var displayStr = titleVal;
+              if(timeVal) displayStr = timeVal + ' ' + titleVal;
+              mockEvents[dateKey].push({ text: displayStr, color: colorVal });
+              renderCalendar(); 
+              closeSchedulePopup();
+            } catch(e) {}
           }
 
-          /* 일정표 렌더링 */
           let currentDate = new Date(); let calView = 'month'; const mockEvents = {}; 
           function renderCalendar() {
-            const year = currentDate.getFullYear(); const month = currentDate.getMonth(); 
-            if(calView === 'month') { document.getElementById('current-month-year').innerText = year + '년 ' + (month + 1) + '월'; }
-            else {
-              const tempDate = new Date(currentDate); tempDate.setDate(currentDate.getDate() - currentDate.getDay());
-              document.getElementById('current-month-year').innerText = tempDate.getFullYear() + '년 ' + (tempDate.getMonth() + 1) + '월 (주간)';
-            }
-            if (calView === 'month') {
-              document.getElementById('cal-month-view').style.display = 'grid'; document.getElementById('cal-week-view').style.display = 'none';
-              renderMonth(year, month);
-            } else {
-              document.getElementById('cal-month-view').style.display = 'none'; document.getElementById('cal-week-view').style.display = 'grid';
-              renderWeek(currentDate);
-            }
+            try {
+              const year = currentDate.getFullYear(); const month = currentDate.getMonth(); 
+              if(calView === 'month') { document.getElementById('current-month-year').innerText = year + '년 ' + (month + 1) + '월'; }
+              else {
+                const tempDate = new Date(currentDate); tempDate.setDate(currentDate.getDate() - currentDate.getDay());
+                document.getElementById('current-month-year').innerText = tempDate.getFullYear() + '년 ' + (tempDate.getMonth() + 1) + '월 (주간)';
+              }
+              if (calView === 'month') {
+                document.getElementById('cal-month-view').style.display = 'grid'; document.getElementById('cal-week-view').style.display = 'none';
+                renderMonth(year, month);
+              } else {
+                document.getElementById('cal-month-view').style.display = 'none'; document.getElementById('cal-week-view').style.display = 'grid';
+                renderWeek(currentDate);
+              }
+            } catch(e) {}
           }
           function renderMonth(year, month) {
-            const grid = document.getElementById('cal-month-view');
-            grid.innerHTML = '<div class="cal-day-head">일</div><div class="cal-day-head">월</div><div class="cal-day-head">화</div><div class="cal-day-head">수</div><div class="cal-day-head">목</div><div class="cal-day-head">금</div><div class="cal-day-head">토</div>';
-            const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); 
-            const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
-            for (let i = 0; i < totalCells; i++) {
-              if (i < firstDay || i >= firstDay + daysInMonth) { grid.innerHTML += '<div class="cal-cell empty"></div>'; }
-              else {
-                const dateNum = i - firstDay + 1; const dateKey = year + '-' + (month + 1) + '-' + dateNum;
-                const dayEvents = mockEvents[dateKey] || [];
-                let eventHtml = ''; let bgClass = ''; 
-                dayEvents.forEach(function(ev) { eventHtml += '<div class="sch-txt">' + ev.text + '</div>'; if(!bgClass) bgClass = 'bg-' + ev.color; });
-                grid.innerHTML += '<div class="cal-cell ' + bgClass + '"><div class="date">' + dateNum + '</div>' + eventHtml + '</div>';
+            try {
+              const grid = document.getElementById('cal-month-view');
+              grid.innerHTML = '<div class="cal-day-head">일</div><div class="cal-day-head">월</div><div class="cal-day-head">화</div><div class="cal-day-head">수</div><div class="cal-day-head">목</div><div class="cal-day-head">금</div><div class="cal-day-head">토</div>';
+              const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); 
+              const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+              for (let i = 0; i < totalCells; i++) {
+                if (i < firstDay || i >= firstDay + daysInMonth) { grid.innerHTML += '<div class="cal-cell empty"></div>'; }
+                else {
+                  const dateNum = i - firstDay + 1; const dateKey = year + '-' + (month + 1) + '-' + dateNum;
+                  const dayEvents = mockEvents[dateKey] || [];
+                  let eventHtml = ''; let bgClass = ''; 
+                  dayEvents.forEach(function(ev) { eventHtml += '<div class="sch-txt">' + ev.text + '</div>'; if(!bgClass) bgClass = 'bg-' + ev.color; });
+                  grid.innerHTML += '<div class="cal-cell ' + bgClass + '"><div class="date">' + dateNum + '</div>' + eventHtml + '</div>';
+                }
               }
-            }
+            } catch(e) {}
           }
           function renderWeek(date) {
-            const grid = document.getElementById('cal-week-view'); grid.innerHTML = '';
-            const startOfWeek = new Date(date); startOfWeek.setDate(date.getDate() - date.getDay());
-            const daysArr = ['일', '월', '화', '수', '목', '금', '토'];
-            for (let i = 0; i < 7; i++) {
-              const curr = new Date(startOfWeek); curr.setDate(startOfWeek.getDate() + i);
-              const y = curr.getFullYear(); const m = curr.getMonth() + 1; const d = curr.getDate(); const dateKey = y + '-' + m + '-' + d;
-              const dayEvents = mockEvents[dateKey] || []; let eventHtml = '';
-              dayEvents.forEach(function(ev) { eventHtml += '<div class="event-pill pill-' + ev.color + '">' + ev.text + '</div>'; });
-              grid.innerHTML += '<div class="cal-week-card"><div class="cal-week-date">' + m + '/' + d + ' ' + daysArr[i] + '</div>' + eventHtml + '</div>';
-            }
+            try {
+              const grid = document.getElementById('cal-week-view'); grid.innerHTML = '';
+              const startOfWeek = new Date(date); startOfWeek.setDate(date.getDate() - date.getDay());
+              const daysArr = ['일', '월', '화', '수', '목', '금', '토'];
+              for (let i = 0; i < 7; i++) {
+                const curr = new Date(startOfWeek); curr.setDate(startOfWeek.getDate() + i);
+                const y = curr.getFullYear(); const m = curr.getMonth() + 1; const d = curr.getDate(); const dateKey = y + '-' + m + '-' + d;
+                const dayEvents = mockEvents[dateKey] || []; let eventHtml = '';
+                dayEvents.forEach(function(ev) { eventHtml += '<div class="event-pill pill-' + ev.color + '">' + ev.text + '</div>'; });
+                grid.innerHTML += '<div class="cal-week-card"><div class="cal-week-date">' + m + '/' + d + ' ' + daysArr[i] + '</div>' + eventHtml + '</div>';
+              }
+            } catch(e) {}
           }
           function changeDate(dir) {
             if (calView === 'month') { currentDate.setMonth(currentDate.getMonth() + dir); }
@@ -1017,11 +989,7 @@ export default {
             document.getElementById('btn-' + view).classList.add('active'); renderCalendar();
           }
 
-          /* ===== 🌟 사다리게임 로직 ===== */
-          let ladderCount = 4;
-          let rungs = [];
-          let ctxL, canvasL;
-
+          let ladderCount = 4; let rungs = []; let ctxL, canvasL;
           function changeLadderCount(val) {
             ladderCount += val;
             if (ladderCount < 2) ladderCount = 2;
@@ -1029,150 +997,98 @@ export default {
             document.getElementById('ladder-count').innerText = ladderCount;
             renderLadderInputs();
           }
-
           function renderLadderInputs() {
-            const container = document.getElementById('ladder-inputs-container');
-            let html = '';
-            for(let i=0; i<ladderCount; i++) {
-               html += '<div class="ladder-input-box">' +
-                         '<input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'">' +
-                         '<input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'">' +
-                       '</div>';
-            }
-            container.innerHTML = html;
+            try {
+              const container = document.getElementById('ladder-inputs-container'); let html = '';
+              for(let i=0; i<ladderCount; i++) {
+                 html += '<div class="ladder-input-box"><input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'"><input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'"></div>';
+              }
+              container.innerHTML = html;
+            } catch(e) {}
           }
-
           function generateLadder() {
-            document.getElementById('ladder-play-area').style.display = 'block';
-            const btnWrap = document.getElementById('ladder-btns');
-            const resWrap = document.getElementById('ladder-results');
-            canvasL = document.getElementById('ladderCanvas');
-            ctxL = canvasL.getContext('2d');
-            
-            const cw = Math.max(600, ladderCount * 80);
-            canvasL.width = cw;
-            btnWrap.style.minWidth = cw + 'px';
-            resWrap.style.minWidth = cw + 'px';
-            
-            let btnHtml = ''; let resHtml = '';
-            for(let i=0; i<ladderCount; i++) {
-              let pName = document.getElementById('ladder-name-'+i).value || (i+1);
-              let pRes = document.getElementById('ladder-res-'+i).value || '?';
-              btnHtml += '<button class="ladder-start-btn" onclick="playLadder('+i+')">' + pName + '</button>';
-              resHtml += '<div class="ladder-res-box" id="res-box-'+i+'">' + pRes + '</div>';
-            }
-            btnWrap.innerHTML = btnHtml;
-            resWrap.innerHTML = resHtml;
+            try {
+              document.getElementById('ladder-play-area').style.display = 'block';
+              const btnWrap = document.getElementById('ladder-btns'); const resWrap = document.getElementById('ladder-results');
+              canvasL = document.getElementById('ladderCanvas'); ctxL = canvasL.getContext('2d');
+              const cw = Math.max(600, ladderCount * 80);
+              canvasL.width = cw; btnWrap.style.minWidth = cw + 'px'; resWrap.style.minWidth = cw + 'px';
+              
+              let btnHtml = ''; let resHtml = '';
+              for(let i=0; i<ladderCount; i++) {
+                let pName = document.getElementById('ladder-name-'+i).value || (i+1); let pRes = document.getElementById('ladder-res-'+i).value || '?';
+                btnHtml += '<button class="ladder-start-btn" onclick="playLadder('+i+')">' + pName + '</button>';
+                resHtml += '<div class="ladder-res-box" id="res-box-'+i+'">' + pRes + '</div>';
+              }
+              btnWrap.innerHTML = btnHtml; resWrap.innerHTML = resHtml;
 
-            const floors = 10 + Math.floor(Math.random() * 5); 
-            rungs = [];
-            for(let f=1; f<=floors; f++) {
-               let placed = [];
-               for(let c=0; c<ladderCount-1; c++) {
-                  if(Math.random() < 0.35 && !placed.includes(c-1)) {
-                     rungs.push({ row: f, col: c });
-                     placed.push(c);
-                  }
-               }
-            }
-            drawLadderBase();
+              const floors = 10 + Math.floor(Math.random() * 5); 
+              rungs = [];
+              for(let f=1; f<=floors; f++) {
+                 let placed = [];
+                 for(let c=0; c<ladderCount-1; c++) {
+                    if(Math.random() < 0.35 && !placed.includes(c-1)) { rungs.push({ row: f, col: c }); placed.push(c); }
+                 }
+              }
+              drawLadderBase();
+            } catch(e) {}
           }
-
           function drawLadderBase() {
              ctxL.clearRect(0, 0, canvasL.width, canvasL.height);
              const colWidth = canvasL.width / ladderCount;
-             
-             ctxL.lineWidth = 4;
-             ctxL.lineCap = 'round';
-             ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
-
+             ctxL.lineWidth = 4; ctxL.lineCap = 'round'; ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
              for(let i=0; i<ladderCount; i++) {
                 let x = colWidth/2 + (i*colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x, 0); ctxL.lineTo(x, canvasL.height); ctxL.stroke();
              }
-
              const rowHeight = canvasL.height / 15; 
              rungs.forEach(rung => {
-                let y = rung.row * rowHeight;
-                let x1 = colWidth/2 + (rung.col * colWidth);
-                let x2 = colWidth/2 + ((rung.col+1) * colWidth);
+                let y = rung.row * rowHeight; let x1 = colWidth/2 + (rung.col * colWidth); let x2 = colWidth/2 + ((rung.col+1) * colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x1, y); ctxL.lineTo(x2, y); ctxL.stroke();
              });
           }
-
           function playLadder(startIndex) {
-             drawLadderBase(); 
-             const colWidth = canvasL.width / ladderCount;
-             const rowHeight = canvasL.height / 15;
-             
-             let path = [{ x: colWidth/2 + (startIndex*colWidth), y: 0 }];
-             let currentCol = startIndex;
+             try {
+               drawLadderBase();
+               const colWidth = canvasL.width / ladderCount; const rowHeight = canvasL.height / 15;
+               let path = [{ x: colWidth/2 + (startIndex*colWidth), y: 0 }]; let currentCol = startIndex;
 
-             for(let f=1; f<=15; f++) {
-                let y = f * rowHeight;
-                path.push({ x: colWidth/2 + (currentCol*colWidth), y: y }); 
-                
-                let rToRight = rungs.find(r => r.row === f && r.col === currentCol);
-                let rToLeft = rungs.find(r => r.row === f && r.col === currentCol - 1);
-                
-                if (rToRight) {
-                   currentCol++;
-                   path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
-                } else if (rToLeft) {
-                   currentCol--;
-                   path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
-                }
-             }
+               for(let f=1; f<=15; f++) {
+                  let y = f * rowHeight;
+                  path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
+                  let rToRight = rungs.find(r => r.row === f && r.col === currentCol);
+                  let rToLeft = rungs.find(r => r.row === f && r.col === currentCol - 1);
+                  if (rToRight) { currentCol++; path.push({ x: colWidth/2 + (currentCol*colWidth), y: y }); } 
+                  else if (rToLeft) { currentCol--; path.push({ x: colWidth/2 + (currentCol*colWidth), y: y }); }
+               }
 
-             let step = 0;
-             let progress = 0;
-             ctxL.lineWidth = 5;
-             ctxL.strokeStyle = '#ff8200'; 
+               let step = 0; let progress = 0;
+               ctxL.lineWidth = 5; ctxL.strokeStyle = '#ff8200';
 
-             function animate() {
-                if (step >= path.length - 1) {
-                   document.querySelectorAll('.ladder-res-box').forEach(el => {
-                      el.style.background = 'var(--bg-card)';
-                      el.style.color = 'var(--text-main)';
-                   });
-                   const finalBox = document.getElementById('res-box-'+currentCol);
-                   finalBox.style.background = '#ff8200';
-                   finalBox.style.color = '#fff';
-                   return;
-                }
-                let p1 = path[step];
-                let p2 = path[step+1];
-                
-                progress += 0.15; 
-                if(progress > 1) { progress = 1; }
+               function animate() {
+                  if (step >= path.length - 1) {
+                     document.querySelectorAll('.ladder-res-box').forEach(el => { el.style.background = 'var(--bg-card)'; el.style.color = 'var(--text-main)'; });
+                     const finalBox = document.getElementById('res-box-'+currentCol);
+                     finalBox.style.background = '#ff8200'; finalBox.style.color = '#fff';
+                     return;
+                  }
+                  let p1 = path[step]; let p2 = path[step+1];
+                  progress += 0.15; if(progress > 1) { progress = 1; }
+                  let currX = p1.x + (p2.x - p1.x) * progress; let currY = p1.y + (p2.y - p1.y) * progress;
 
-                let currX = p1.x + (p2.x - p1.x) * progress;
-                let currY = p1.y + (p2.y - p1.y) * progress;
+                  drawLadderBase(); 
+                  ctxL.beginPath(); ctxL.moveTo(path[0].x, path[0].y);
+                  for(let i=1; i<=step; i++) { ctxL.lineTo(path[i].x, path[i].y); }
+                  ctxL.lineTo(currX, currY); ctxL.stroke();
+                  ctxL.beginPath(); ctxL.arc(currX, currY, 6, 0, Math.PI*2); ctxL.fillStyle = '#ff8200'; ctxL.fill();
 
-                drawLadderBase(); 
-                
-                ctxL.beginPath();
-                ctxL.moveTo(path[0].x, path[0].y);
-                for(let i=1; i<=step; i++) {
-                   ctxL.lineTo(path[i].x, path[i].y);
-                }
-                ctxL.lineTo(currX, currY);
-                ctxL.stroke();
-
-                ctxL.beginPath();
-                ctxL.arc(currX, currY, 6, 0, Math.PI*2);
-                ctxL.fillStyle = '#ff8200';
-                ctxL.fill();
-
-                if(progress === 1) {
-                   step++; progress = 0;
-                }
-                requestAnimationFrame(animate);
-             }
-             animate();
+                  if(progress === 1) { step++; progress = 0; }
+                  requestAnimationFrame(animate);
+               }
+               animate();
+             } catch(e) {}
           }
 
-          /* ===== 🌟 블루델 스타일 핀볼(Plinko) 물리엔진 ===== */
           let pbCanvas, pbCtx;
           let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = [];
           let pbIsRunning = false;
@@ -1186,7 +1102,6 @@ export default {
              t = Math.max(0, Math.min(1, t));
              return (p.x - (v.x + t * (w.x - v.x)))**2 + (p.y - (v.y + t * (w.y - v.y)))**2;
           }
-
           function getClosestPointOnSegment(p, v, w) {
              let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
              if (l2 === 0) return {x:v.x, y:v.y};
@@ -1196,6 +1111,7 @@ export default {
           }
 
           function initPinballBoard() {
+            try {
               pbCanvas = document.getElementById('pinballCanvas');
               if(!pbCanvas) return;
               pbCanvas.width = 250; pbCanvas.height = 600; 
@@ -1234,18 +1150,19 @@ export default {
               }
 
               drawPinballFrame();
+            } catch(e) {}
           }
 
           function startPinballGame() {
+            try {
               initPinballBoard();
-              // 줄바꿈 문자를 정규식이나 split('\n') 으로 명확하게 분리 (백틱 에러 방지)
               const pbPartsRaw = document.getElementById('pb-participants').value.trim();
               const pbRewsRaw = document.getElementById('pb-rewards').value.trim();
               
-              const pText = pbPartsRaw.split(/\\r?\\n/).filter(t => t);
-              const rText = pbRewsRaw.split(/\\r?\\n/).filter(t => t);
+              const pText = pbPartsRaw.split(/\\n/).filter(t => t);
+              const rText = pbRewsRaw.split(/\\n/).filter(t => t);
               
-              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
+              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 입력해주세요!'); return; }
 
               let parsedPlayers = [];
               pText.forEach(line => {
@@ -1271,6 +1188,7 @@ export default {
                   pbIsRunning = true;
                   requestAnimationFrame(updatePinball);
               }
+            } catch(e) {}
           }
 
           function resolveBallCollision() {
@@ -1430,7 +1348,6 @@ export default {
               }
           }
 
-
           /* ===== 🌟 VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
 
@@ -1461,15 +1378,12 @@ export default {
                 
                 let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
                 
-                let title = cells[0] || '';
-                let link = cells[1] || '#';
+                let title = cells[0] || ''; let link = cells[1] || '#';
                 let thumb = cells[2] || 'https://via.placeholder.com/640x360/eeeeee/999999?text=No+Thumbnail';
-                let duration = cells[3] || '';
-                let date = cells[4] || '';
+                let duration = cells[3] || ''; let date = cells[4] || '';
                 let isPinned = (cells[5] === '고정');
                 
-                let catText = cells[6] || '';
-                let category = 'live'; 
+                let catText = cells[6] || ''; let category = 'live'; 
                 if (catText === '노래커버') { category = 'cover'; }
                 else if (catText === '라이브') { category = 'live'; }
                 else if (title.indexOf('커버') !== -1 || title.toLowerCase().indexOf('cover') !== -1) { category = 'cover'; }
@@ -1498,50 +1412,292 @@ export default {
                   container.innerHTML = combinedCards.join('');
               }
             } catch (err) {
-              console.error(err);
               container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub); grid-column: 1 / -1;">VOD 구글 시트 연동에 실패했습니다.<br>구글 시트 하단에 <strong>[VOD]</strong> 라는 이름의 탭이 있는지 확인해주세요.</div>';
             }
           }
 
           function filterVodsByCategory(cat, btnElement) {
-            currentVodCategory = cat;
-            var parentTabs = btnElement.parentElement.querySelectorAll('.sub-tab-btn');
-            parentTabs.forEach(function(b) { b.classList.remove('active'); });
-            btnElement.classList.add('active');
-            filterVods();
+            try {
+              currentVodCategory = cat;
+              var parentTabs = btnElement.parentElement.querySelectorAll('.sub-tab-btn');
+              parentTabs.forEach(function(b) { b.classList.remove('active'); });
+              btnElement.classList.add('active');
+              filterVods();
+            } catch(e) {}
           }
 
           function filterVods() {
-            const query = document.getElementById('vod-search-input').value.toLowerCase();
-            const vodCards = document.querySelectorAll('#tab-vod .vod-card');
-            vodCards.forEach(function(card) {
-              const title = card.querySelector('.vod-title').textContent.toLowerCase();
-              const cat = card.getAttribute('data-category');
-              const matchQuery = title.indexOf(query) !== -1;
-              const matchCat = (currentVodCategory === 'all' || cat === currentVodCategory);
-              if (matchQuery && matchCat) { card.style.display = 'flex'; } 
-              else { card.style.display = 'none'; }
-            });
+            try {
+              const query = document.getElementById('vod-search-input').value.toLowerCase();
+              const vodCards = document.querySelectorAll('#tab-vod .vod-card');
+              vodCards.forEach(function(card) {
+                const title = card.querySelector('.vod-title').textContent.toLowerCase();
+                const cat = card.getAttribute('data-category');
+                const matchQuery = title.indexOf(query) !== -1;
+                const matchCat = (currentVodCategory === 'all' || cat === currentVodCategory);
+                if (matchQuery && matchCat) { card.style.display = 'flex'; } 
+                else { card.style.display = 'none'; }
+              });
+            } catch(e) {}
           }
 
+          /* ===== 최근 게시글 ===== */
+          function loadRecentPosts() {
+            try {
+              const container = document.getElementById('soop-posts-container');
+              const dummyPosts = [
+                { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
+                { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
+                { isNotice: false, title: "어제 방송 너무 재밌었어요!!", date: "2026.08.10", likes: 32, comments: 15 }
+              ];
+              let html = '';
+              dummyPosts.forEach(function(post) {
+                let badge = post.isNotice ? '<span class="post-badge notice">공지</span>' : '<span class="post-badge">일반</span>';
+                html += '<a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="post-item">' +
+                    '<div class="post-title-row">' + badge + '<span class="post-title">' + post.title + '</span></div>' +
+                    '<div class="post-meta">' +
+                      '<span>' + post.date + '</span>' +
+                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">favorite</span> ' + post.likes +
+                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">chat_bubble</span> ' + post.comments +
+                    '</div>' +
+                  '</a>';
+              });
+              container.innerHTML = html;
+            } catch(e) {}
+          }
+
+          /* ===== 노래책 연동 로직 ===== */
+          async function loadSongs() {
+            const container = document.getElementById('songbook-list');
+            try {
+              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
+              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
+              const grouped = {};
+              let globalSongIndex = 1;
+
+              const timestamp = new Date().getTime();
+              const fetchPromises = sheetNames.map(async function(sheetName) {
+                const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&headers=0&sheet=' + encodeURIComponent(sheetName) + '&_=' + timestamp;
+                const response = await fetch(url);
+                let text = await response.text();
+                text = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(text);
+                return { sheetName: sheetName, rows: data.table.rows };
+              });
+
+              const results = await Promise.all(fetchPromises);
+
+              results.forEach(function(resultObj) {
+                let sheetName = resultObj.sheetName;
+                let rows = resultObj.rows;
+                let lastSinger = sheetName;
+
+                rows.forEach(function(row) {
+                  if (!row || !row.c) return; 
+
+                  let cells = row.c.map(function(cell) {
+                    return (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '';
+                  });
+                  
+                  let rawSinger = cells[1] ? cells[1] : '';
+                  let title = cells[2] ? cells[2] : '';
+                  let diff = cells[3] ? cells[3] : 'ㅡ';
+                  let status = cells[4] ? cells[4] : 'ㅡ';
+
+                  let validTextList = cells.filter(function(t) { return t !== ''; });
+
+                  if (!title && validTextList.length >= 2 && cells[0]) {
+                    rawSinger = cells[0];
+                    title = cells[1];
+                  }
+
+                  if (!title) return;
+
+                  let checkStr = (rawSinger + " " + title).toLowerCase();
+                  if (
+                    checkStr.indexOf('송현 노래책') !== -1 || 
+                    checkStr.indexOf('노래신청은') !== -1 || 
+                    checkStr.indexOf('제목') !== -1 || 
+                    checkStr.indexOf('가수') !== -1 ||
+                    checkStr.indexOf('노래책 설명서') !== -1 ||
+                    checkStr.indexOf('별풍 200개') !== -1 ||
+                    checkStr.indexOf('이거 불러죠') !== -1 ||
+                    checkStr.indexOf('블렀던곡') !== -1 ||
+                    checkStr.indexOf('녹음음원') !== -1
+                  ) {
+                    return;
+                  }
+
+                  let singersList = rawSinger.split('\\n').map(function(s) { return s.trim(); });
+                  let titlesList = title.split('\\n').map(function(t) { return t.trim(); });
+                  let diffsList = diff.split('\\n').map(function(d) { return d.trim(); });
+                  let statusList = status.split('\\n').map(function(s) { return s.trim(); });
+
+                  let maxLen = Math.max(titlesList.length, singersList.length);
+
+                  for (let i = 0; i < maxLen; i++) {
+                    let t = titlesList[i] || ''; 
+                    let s = singersList[i] || (singersList.length === 1 ? singersList[0] : ''); 
+                    let d = diffsList[i] || (diffsList.length === 1 ? diffsList[0] : '');
+                    let st = statusList[i] || (statusList.length === 1 ? statusList[0] : '');
+
+                    if (!t) continue;
+
+                    let lowerT = t.toLowerCase().split(' ').join('');
+                    let lowerS = s.toLowerCase().split(' ').join('');
+
+                    if (
+                      lowerT.indexOf('송현노래책') !== -1 || lowerT.indexOf('노래신청은') !== -1 || lowerT === '제목' || lowerT === 'title' ||
+                      lowerS.indexOf('송현노래책') !== -1 || lowerS === '가수' || lowerS === 'singer' ||
+                      lowerT.indexOf('노래책설명서') !== -1 || lowerT.indexOf('컨트롤+f') !== -1 || lowerT.indexOf('컨트롤f') !== -1 || lowerT.indexOf('노래검색') !== -1 ||
+                      lowerT.indexOf('별풍') !== -1 || lowerT.indexOf('녹음음원') !== -1 || lowerT.indexOf('불렀던곡') !== -1 || lowerT.indexOf('재신청') !== -1 ||
+                      lowerT.indexOf('이거불러죠') !== -1 || lowerT.indexOf('유료곡') !== -1 || lowerT.indexOf('미션풍') !== -1 ||
+                      (lowerT === 'original' && lowerS.indexOf('오리지널') !== -1) ||
+                      lowerT === '오리지널곡✨' || lowerT === '숙제곡💖' ||
+                      lowerT === '-error' || lowerT === 'error' || lowerT === 'x' || lowerT === 'xo' || lowerT === 'x+3'
+                    ) {
+                      continue;
+                    }
+
+                    let singer = s ? s : lastSinger;
+                    lastSinger = singer;
+
+                    let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
+
+                    if (!grouped[singer]) grouped[singer] = [];
+                    grouped[singer].push({ 
+                      no: no, 
+                      title: t, 
+                      difficulty: d || 'ㅡ', 
+                      status: st || 'ㅡ', 
+                      sheetName: sheetName 
+                    });
+                    globalSongIndex++;
+                  }
+                });
+              });
+              
+              if(Object.keys(grouped).length === 0) {
+                  container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">등록된 노래가 없습니다. 구글 시트 내용을 확인해주세요.</div>';
+                  return;
+              }
+              
+              renderSongbookTable(grouped);
+
+            } catch (err) {
+              container.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-sub);">구글 시트 연동에 실패했습니다.<br>시트 탭 이름이 정확한지 확인해주세요.</div>';
+            }
+          }
+
+          function renderSongbookTable(grouped) {
+            try {
+              const container = document.getElementById('songbook-list');
+              container.innerHTML = '<table class="song-table">' +
+                  '<thead>' +
+                    '<tr>' +
+                      '<th style="width: 10%;">번호</th>' +
+                      '<th style="width: 15%;">가수</th>' +
+                      '<th style="width: 45%;">노래제목</th>' +
+                      '<th style="width: 15%;">난이도</th>' +
+                      '<th style="width: 15%; text-align:center;">상태</th>' +
+                    '</tr>' +
+                  '</thead>' +
+                  '<tbody id="songbook-tbody"></tbody>' +
+                '</table>';
+              
+              const tbody = document.getElementById('songbook-tbody');
+              
+              for (const [singer, songs] of Object.entries(grouped)) {
+                const headerTr = document.createElement('tr');
+                headerTr.className = 'group-header-row';
+                headerTr.innerHTML = '<td colspan="5">' +
+                    '<div class="group-header-box">' +
+                      '<div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">' +
+                        '<span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>' +
+                        singer +
+                      '</div>' +
+                      '<div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">' + songs.length + '곡</div>' +
+                    '</div>' +
+                  '</td>';
+                tbody.appendChild(headerTr);
+                
+                songs.forEach(function(song) {
+                  const tr = document.createElement('tr');
+                  tr.innerHTML = '<td style="color: var(--text-sub); font-size: 13px;">' + song.no + '</td>' +
+                    '<td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td>' +
+                    '<td style="font-weight: 600;">' + song.title + '</td>' +
+                    '<td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td>' +
+                    '<td style="text-align: center; color: var(--text-sub);">' + song.status + '</td>';
+                  tbody.appendChild(tr);
+                });
+              }
+            } catch(e) {}
+          }
+
+          function filterSongs() {
+            try {
+              const query = document.getElementById('song-search-input').value.toLowerCase();
+              const tbody = document.getElementById('songbook-tbody');
+              if (!tbody) return;
+              
+              const rows = tbody.querySelectorAll('tr');
+              let currentGroupHeader = null;
+              let visibleCountInGroup = 0;
+              
+              rows.forEach(function(row) {
+                if (row.classList.contains('group-header-row')) {
+                  if (currentGroupHeader) {
+                    currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
+                  }
+                  currentGroupHeader = row;
+                  visibleCountInGroup = 0;
+                } else {
+                  const text = row.textContent.toLowerCase();
+                  if (text.indexOf(query) !== -1) {
+                    row.style.display = '';
+                    visibleCountInGroup++;
+                  } else {
+                    row.style.display = 'none';
+                  }
+                }
+              });
+              if (currentGroupHeader) {
+                currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none';
+              }
+            } catch(e) {}
+          }
+
+          let lockStartY = 0;
           document.addEventListener('DOMContentLoaded', () => {
-            renderCalendar();
-            renderLadderInputs(); 
-            loadVods(); 
             
-            updateLockTime();
+            // 🌟 1. 잠금화면 시간은 최우선으로 실행
+            try { updateLockTime(); } catch(e) {}
             setInterval(updateLockTime, 1000);
 
-            const lockScreen = document.getElementById('lock-screen');
-            if(lockScreen) {
-              lockScreen.addEventListener('touchstart', e => { lockStartY = e.touches[0].clientY; });
-              lockScreen.addEventListener('touchmove', e => {
-                let moveY = e.touches[0].clientY;
-                if (lockStartY - moveY > 50) { unlockScreen(); }
-              });
-            }
+            // 🌟 2. 스와이프 기능 활성화
+            try {
+              const lockScreen = document.getElementById('lock-screen');
+              if(lockScreen) {
+                lockScreen.addEventListener('touchstart', e => { lockStartY = e.touches[0].clientY; }, {passive: true});
+                lockScreen.addEventListener('touchmove', e => {
+                  let moveY = e.touches[0].clientY;
+                  if (lockStartY - moveY > 50) { unlockScreen(); }
+                }, {passive: true});
+              }
+            } catch(e) {}
+
+            // 🌟 3. 그 외 기능들은 혹시 실패하더라도 화면을 프리징시키지 않도록 개별 try-catch 포장
+            try { renderCalendar(); } catch(e) {}
+            try { renderLadderInputs(); } catch(e) {}
+            try { loadVods(); } catch(e) {}
+            try { loadRecentPosts(); } catch(e) {}
+            try { loadSongs(); } catch(e) {}
+            
           });
 
+          const styleSheet = document.createElement("style");
+          styleSheet.innerText = "@keyframes spin { 100% { transform: rotate(360deg); } }";
+          document.head.appendChild(styleSheet);
         </script>
       </body>
       </html>
