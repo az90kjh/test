@@ -1,5 +1,5 @@
 export default {
-  async fetch(request, env, ctx) {
+  async fetch() {
     const html = `
       <!DOCTYPE html>
       <html lang="ko" data-theme="light">
@@ -11,7 +11,6 @@ export default {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
         <style>
-          /* ===== CSS 변수 ===== */
           :root {
             --bg-body: #f4f5f7; --bg-card: #ffffff; --bg-nav: #222222;
             --text-main: #111111; --text-sub: #666666; --border-color: #eeeeee;
@@ -30,7 +29,6 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
-          /* ===== 스마트폰 잠금화면 ===== */
           #lock-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -46,7 +44,6 @@ export default {
           .lock-hint-text { font-size: 13px; letter-spacing: 1px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
           @keyframes bounceUp { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-10px); opacity: 1; } }
 
-          /* ===== 우측 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%);
             background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px;
@@ -57,7 +54,6 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 스와이프 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; position: absolute; top:0; left:0; }
           .tab-section.active { display: block; z-index: 5; }
           .tab-section.flipping-in { display: block; z-index: 5; animation: swipeIn 0.4s forwards cubic-bezier(0.25, 1, 0.5, 1); }
@@ -65,7 +61,6 @@ export default {
           @keyframes swipeOut { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(-20%); opacity: 0; } }
           @keyframes swipeIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 
-          /* ===== 메인 레이아웃 ===== */
           .main-wrapper { 
             width: 100%; min-height: 100vh; margin: 0; padding: 0 80px 0 0; background-color: var(--bg-card); box-sizing: border-box; 
           }
@@ -81,19 +76,16 @@ export default {
           .section-header-out h2 { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
-          /* ===== 서브 탭 버튼 공통 ===== */
           .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
           .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* ===== 팝업 공통 ===== */
           .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
           .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
           .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
           .modal-input:focus { border-color: var(--point-color); }
           
-          /* 음악 팝업 */
           #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
           @keyframes popLeft { from { opacity: 0; transform: translate(20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
           .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -104,7 +96,6 @@ export default {
           .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
-          /* ===== 2. 프로필 탭 ===== */
           .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
           [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
           .vn-profile-wrapper::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.15; pointer-events: none; z-index: 1; }
@@ -153,10 +144,9 @@ export default {
           .badge-line { flex: 0.5; height: 1px; background-color: var(--point-color); opacity: 0.3; margin-bottom: 12px; min-width: 3px; }
 
           /* ===== 3. 일정표 탭 ===== */
-          .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
-          
-          /* 월 변경 버튼 강제 1줄화 */
+          .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: nowrap; width: 100%; }
+          .cal-title-left { display: flex; align-items: center; gap: 20px; flex-wrap: nowrap; white-space: nowrap; }
+          .cal-title-left h1 { font-size: 32px; font-weight: 900; margin: 0; padding: 0; }
           .cal-nav { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 15px !important; flex-wrap: nowrap !important; white-space: nowrap !important; }
           .cal-nav .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: inline-flex; align-items: center; justify-content:center; transition: color 0.2s; flex-shrink: 0; }
           .cal-nav .nav-arrow:hover { color: var(--point-color); background: transparent; box-shadow: none; }
@@ -201,7 +191,7 @@ export default {
           .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
           
           /* ===== 6. 업보 ===== */
-          .empty-state { text-align: center; padding: 50px; color: var(--text-sub); font-size: 15px; }
+          .empty-state { text-align: center; padding: 50px; color: var(--text-sub); font-size: 15px; width: 100%; box-sizing: border-box;}
 
           /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) UI ===== */
           .game-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
@@ -218,25 +208,24 @@ export default {
           .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
           .ladder-input-box input { width: 100%; border: none; background: transparent; color: var(--text-main); font-size: 12px; outline: none; margin-bottom: 5px; font-family: inherit; }
+          .ladder-input-box input:last-child { margin-bottom: 0; color: var(--point-color); font-weight: bold; }
           .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
           .ladder-btn-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; min-width: 600px; }
           .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 🌟 핀볼게임 (마블룰렛 스타일 확장 완벽 재현) */
+          /* 🌟 핀볼게임 (마블룰렛 스타일 확장) */
           .pb-game-wrapper {
-             display: flex; width: 100%; height: 800px; /* 맵 길이 대폭 상향 */
+             display: flex; width: 100%; height: 800px; 
              background: #000; border-radius: 12px; overflow: hidden;
              box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;
           }
           @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:600px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
-          /* 좌측 네온 맵 (Canvas) */
           .pb-canvas-container { width: 320px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; position:relative; }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
-          /* 좌측 하단 컨트롤 (회색 배경) */
           .pb-controls {
              position: absolute; bottom:0; left:0; width: 100%; 
              background: #888888; padding: 15px; box-sizing:border-box; border-top: 1px solid #555;
@@ -250,7 +239,6 @@ export default {
              padding: 6px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer;
           }
           
-          /* 우측 검은 랭킹 공간 */
           .pb-right-col { flex: 1; position: relative; background: #000; overflow: hidden; }
           #pb-live-view { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;}
           #pb-ranking-list { position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; }
@@ -285,12 +273,11 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
-
         </style>
       </head>
       <body>
 
-        <!-- 🌟 스마트폰 잠금화면 -->
+        <!-- 스마트폰 잠금화면 -->
         <div id="lock-screen" onclick="unlockScreen()">
           <div class="lock-time" id="lock-time">00:00</div>
           <div class="lock-date" id="lock-date">1월 1일 월요일</div>
@@ -315,7 +302,7 @@ export default {
           <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 🌟 복원된 뮤직 플레이어 플로팅 팝업 -->
+        <!-- 뮤직 플레이어 팝업 (볼륨 바 복구 완료) -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -375,7 +362,7 @@ export default {
           </div>
         </div>
 
-        <!-- 1. 홈 탭 (전체화면, 흰색카드 없음) -->
+        <!-- 1. 홈 탭 -->
         <section id="tab-home" class="tab-section active">
           <div class="main-wrapper">
             <div class="fullscreen-bg"></div>
@@ -484,30 +471,28 @@ export default {
                   <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
 
-        <!-- 🌟 3. 일정표 탭 (+버튼 이동 및 한줄 고정 완벽 적용) -->
+        <!-- 🌟 3. 일정표 탭 (UI 복구 및 버튼 우측상단 배치 완료) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>SCHEDULE</h2><span>/ 일정</span></div>
               
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
-                <div class="cal-title-left">
-                  <h1 style="font-size:32px; font-weight:900; margin-bottom:10px;">SCHEDULE</h1>
-                  <!-- 월 변경 1줄 강제화 -->
-                  <div class="cal-nav" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 15px !important; flex-wrap: nowrap !important; white-space: nowrap !important;">
-                    <button class="nav-arrow" onclick="changeDate(-1)" style="display:inline-flex; align-items:center; flex-shrink:0;"><span class="material-symbols-rounded">chevron_left</span></button>
-                    <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main); flex-shrink:0;">2026년 8월</span>
-                    <button class="nav-arrow" onclick="changeDate(1)" style="display:inline-flex; align-items:center; flex-shrink:0;"><span class="material-symbols-rounded">chevron_right</span></button>
+              <div class="calendar-header-new">
+                <div class="cal-title-left" style="display:flex; align-items:center; gap:20px; flex-wrap:nowrap; white-space:nowrap;">
+                  <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
+                  <!-- 월 변경 1줄 강제 고정 -->
+                  <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
+                    <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
+                    <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
+                    <button class="nav-arrow" onclick="changeDate(1)"><span class="material-symbols-rounded">chevron_right</span></button>
                   </div>
                 </div>
                 
                 <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
-                  <!-- 버튼 위치 우측 상단 -->
                   <button class="action-btn" onclick="openSchedulePopup()" style="display:flex; align-items:center; gap:4px; padding:8px 16px;">
                     <span class="material-symbols-rounded" style="font-size:16px;">add</span> 새 일정
                   </button>
@@ -594,7 +579,7 @@ export default {
               <div class="section-header-out"><h2>업보 ♡</h2><span>/ 리스트</span></div>
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">업보 청산소</h1>
-                <p style="font-size: 13px; color: var(--text-sub);">시청자 룰렛 당첨으로 쌓인 업보 목록입니다.</p>
+                <p style="font-size: 13px; color: var(--text-sub);">시청자 카드를 누르면 어떤 업보가 있는지 자세히 볼 수 있어요.</p>
               </div>
               <div id="upbo-list-container">
                 <div class="empty-state">등록된 업보가 없습니다.</div>
@@ -639,17 +624,15 @@ export default {
 
               <!-- 🎮 핀볼게임 영역 (네온/물리엔진 및 레이아웃 재배치) -->
               <div id="game-pinball" class="game-sub-section">
-                <!-- 전체 높이 800px 로 상향 -->
-                <div class="pb-game-wrapper" style="display: flex; width: 100%; height: 800px; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;">
+                <div class="pb-game-wrapper">
                   
-                  <!-- 좌측: 캔버스 + 컨트롤 -->
+                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
                   <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
-                    <!-- 캔버스 컨테이너 (위쪽 공간 꽉 채움) -->
                     <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
                       <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                     </div>
                     
-                    <!-- 컨트롤 패널 (좌측 하단 찰싹 붙음) -->
+                    <!-- 컨트롤 패널 -->
                     <div class="pb-controls" style="padding: 15px; background: #888888; border-top: 1px solid #333;">
                       <div style="color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 5px; letter-spacing:-0.5px;">이름들을 입력하세요 (이름*갯수)</div>
                       <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing:border-box;">수박*2, 키위*2, 귤*2</textarea>
@@ -657,10 +640,10 @@ export default {
                       <div style="display: flex; gap: 8px;">
                         <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
                           <option value="map1">운명의 수레바퀴</option>
-                          <option value="map2">버블팝 (플링코)</option>
+                          <option value="map2">버블팝</option>
                           <option value="map3">욕망의 항아리</option>
-                          <option value="map4">장애물 밭</option>
-                          <option value="map5">지그재그 협곡</option>
+                          <option value="map4">밤을 달리다</option>
+                          <option value="map5">지그재그</option>
                           <option value="map6">스피너 지옥</option>
                         </select>
                         <button onclick="startPinballGame()" style="background: #222; color: #fff; border: 1px solid #444; padding: 6px 15px; cursor: pointer; border-radius: 4px; display:flex; align-items:center; gap:5px; font-weight:bold; font-size:12px; transition:0.2s;">
@@ -672,9 +655,12 @@ export default {
 
                   <!-- 우측: 랭킹 및 라이브 현황판 -->
                   <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
+                    <!-- 현재 달리고 있는 구슬 뷰 -->
                     <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;">
                       <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
                     </div>
+                    
+                    <!-- 우측 상단 순위표 -->
                     <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px;"></div>
                   </div>
                 </div>
@@ -711,7 +697,7 @@ export default {
           </div>
         </section>
 
-        <!-- 9. INFO 탭 (UI 깨짐 복구) -->
+        <!-- 9. INFO 탭 -->
         <section id="tab-info" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -1059,7 +1045,7 @@ export default {
           // 4. 미니게임 (핀볼 / 마블룰렛)
           // ==============================
           let pbCanvas, pbCtx;
-          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = []; let pbPegs = [];
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbPegs = [];
           let pbFinished = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
@@ -1094,10 +1080,11 @@ export default {
               pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
+              // 양쪽 벽
               pbLines.push({x1: 0, y1: 0, x2: 0, y2: ch});
               pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
 
-              // 🌟 6가지 맵 (800px 공간을 활용해 더 길게)
+              // 🌟 6가지 맵 패턴 구현 (800px 높이에 맞게 조절)
               if(pinballMapType === 'map1') { 
                   pbLines.push({x1: 0, y1: ch*0.1, x2: cw*0.3, y2: ch*0.15});
                   pbLines.push({x1: cw, y1: ch*0.1, x2: cw*0.7, y2: ch*0.15});
@@ -1154,28 +1141,23 @@ export default {
             try {
               initPinballBoard();
               const pRaw = document.getElementById('pb-participants').value.trim();
-              const rRaw = document.getElementById('pb-rewards').value.trim();
+              if(!pRaw) { alert('참가자를 입력해주세요!'); return; }
               
-              const pText = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
-              const rText = rRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
-              
-              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
-
-              let parsedPlayers = [];
-              pText.forEach(line => {
-                  let parts = line.split('*');
-                  let name = parts[0].trim();
-                  let count = parts.length > 1 ? parseInt(parts[1]) : 1;
-                  if(isNaN(count) || count < 1) count = 1;
-                  for(let i=0; i<count; i++) { parsedPlayers.push(name); }
+              let parsed = [];
+              let items = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              items.forEach(item => {
+                 let parts = item.split('*');
+                 let name = parts[0].trim();
+                 let count = parts.length > 1 ? parseInt(parts[1]) : 1;
+                 if(isNaN(count) || count < 1) count = 1;
+                 for(let i=0; i<count; i++) parsed.push(name);
               });
 
-              pbSlots = rText.map(t => ({ text: t }));
-              pbBalls = parsedPlayers.map((p, i) => ({
-                  name: p, color: pbColors[i % pbColors.length],
-                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 10,
+              pbBalls = parsed.map((p, i) => ({
+                  id: i, name: p, color: pbColors[i % pbColors.length],
+                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 20,
                   vx: (Math.random()-0.5)*3, vy: 0,
-                  r: 8, settled: false, slotIndex: -1
+                  r: 7, settled: false
               }));
               
               pbFinished = [];
@@ -1185,54 +1167,28 @@ export default {
                   pbIsRunning = true;
                   requestAnimationFrame(updatePinball);
               }
-            } catch(e) { console.error(e); }
-          }
-
-          function resolveBallCollision() {
-             for(let i=0; i<pbBalls.length; i++) {
-                for(let j=i+1; j<pbBalls.length; j++) {
-                   let b1 = pbBalls[i]; let b2 = pbBalls[j];
-                   if(b1.settled || b2.settled) continue;
-                   let dx = b2.x - b1.x; let dy = b2.y - b1.y;
-                   let dist = Math.sqrt(dx*dx + dy*dy);
-                   let minDist = b1.r + b2.r;
-                   if(dist < minDist) {
-                      let angle = Math.atan2(dy, dx);
-                      let overlap = minDist - dist;
-                      b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
-                      b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
-                      let nx = dx/dist; let ny = dy/dist;
-                      let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
-                      
-                      // 통통 튀도록 탄성계수 0.8 적용
-                      b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
-                      b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
-                   }
-                }
-             }
+            } catch(e) {}
           }
 
           function updatePinball() {
               if(!pbIsRunning) return;
               let cw = pbCanvas.width; let ch = pbCanvas.height;
-              
               pbCtx.clearRect(0,0,cw,ch);
               pbSpinners.forEach(sp => { sp.angle += sp.speed; });
               drawPinballFrame();
               
               let allSettled = true;
-              const slotW = cw / pbSlots.length;
               
               pbBalls.forEach(b => {
                   if(!b.settled) {
                       allSettled = false;
-                      b.vy += 0.12; // 중력을 조금 낮춰서 더 오래 체공하게
-                      b.vy *= 0.99; b.vx *= 0.99; 
+                      b.vy += 0.15; // 약한 중력
+                      b.vy *= 0.99; b.vx *= 0.99; // 공기 저항
                       b.x += b.vx; b.y += b.vy;
                       
                       // 벽 튕기기
-                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.9; }
-                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.9; }
+                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.8; }
+                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.8; }
                       
                       // 선분(벽) 충돌
                       pbLines.forEach(line => {
@@ -1247,7 +1203,7 @@ export default {
                                b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
                                let dot = b.vx*nx + b.vy*ny;
                                b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
-                               b.vx *= 0.85; b.vy *= 0.85; // 탄성 0.7 -> 0.85 상향
+                               b.vx *= 0.85; b.vy *= 0.85; // 🌟 탄성 계수 상향
                             }
                          }
                       });
@@ -1286,28 +1242,53 @@ export default {
                          }
                       });
                       
-                      if(b.y > ch - 40 - b.r) {
-                          b.y = ch - 40 - b.r; b.vx = 0; b.vy = 0; 
+                      // 도착 판정 (레이싱 방식)
+                      if(b.y > ch - b.r - 5) {
+                          b.y = ch - b.r - 5; b.vx = 0; b.vy = 0; 
                           b.settled = true;
-                          b.slotIndex = Math.floor(b.x / slotW);
-                          if(b.slotIndex < 0) b.slotIndex = 0;
-                          if(b.slotIndex >= pbSlots.length) b.slotIndex = pbSlots.length - 1;
                           pbFinished.push(b);
                           updateRankingUI();
                       }
                   }
                   
+                  // 구슬 그리기
                   pbCtx.beginPath(); pbCtx.arc(b.x, b.y, b.r, 0, Math.PI*2);
                   pbCtx.fillStyle = b.color; pbCtx.fill();
               });
 
-              resolveBallCollision(); 
-              pbBalls.forEach(b => { if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r; });
+              // 구슬끼리 부딪힘
+              for(let i=0; i<pbBalls.length; i++) {
+                 for(let j=i+1; j<pbBalls.length; j++) {
+                    let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                    if(b1.settled || b2.settled) continue;
+                    let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let minDist = b1.r + b2.r;
+                    if(dist < minDist) {
+                       let angle = Math.atan2(dy, dx);
+                       let overlap = minDist - dist;
+                       b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                       b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                       let nx = dx/dist; let ny = dy/dist;
+                       let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                       
+                       // 통통 튀도록 탄성계수 0.8 적용
+                       b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
+                       b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
+                    }
+                 }
+              }
+              
+              // 화면 밖을 벗어난 구슬 정리
+              pbBalls.forEach(b => {
+                 if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r;
+              });
 
+              // 라이브 뷰 업데이트 (우측 검은 화면 중앙)
               let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
               let liveHtml = '';
               activeBalls.forEach(b => {
-                 let initial = b.name.charAt(0);
+                 let initial = b.name ? b.name.charAt(0) : '?';
                  liveHtml += '<div style="display:flex; flex-direction:column; align-items:center; gap:3px;">' +
                              '<div style="width:24px; height:24px; border-radius:50%; border:2px solid '+b.color+'; background:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#000;">'+initial+'</div>' +
                              '<span style="color:'+b.color+'; font-size:12px; font-weight:bold; letter-spacing:-0.5px;">'+b.name+'</span></div>';
@@ -1325,8 +1306,7 @@ export default {
           function updateRankingUI() {
              let html = '';
              pbFinished.forEach((b, idx) => {
-                let reward = pbSlots[b.slotIndex] ? pbSlots[b.slotIndex].text : '?';
-                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:14px; margin-bottom:4px; animation: popIn 0.3s ease-out;">'+b.name+' <span style="color:#fff;">#'+(idx+1)+' ('+reward+')</span></div>';
+                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:14px; margin-bottom:4px; animation: popIn 0.3s ease-out;">'+b.name+' <span style="color:#fff;">#'+(idx+1)+'</span></div>';
              });
              document.getElementById('pb-ranking-list').innerHTML = html;
           }
@@ -1334,12 +1314,14 @@ export default {
           function drawPinballFrame() {
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
+              // 네온 스타일 선분
               pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
               pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
                  pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
               });
               
+              // 네온 스타일 스피너
               pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 4;
               pbSpinners.forEach(sp => {
                  let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
@@ -1350,21 +1332,11 @@ export default {
               
               pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
               pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
-
-              if(pbSlots.length > 0) {
-                  let slotW = cw / pbSlots.length;
-                  pbCtx.fillStyle = 'rgba(255, 255, 255, 0.1)'; pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                  pbCtx.lineWidth = 2; pbCtx.font = '12px Pretendard'; pbCtx.textAlign = 'center';
-                  for(let i=0; i<pbSlots.length; i++) {
-                      pbCtx.strokeRect(i*slotW, ch - 40, slotW, 40);
-                      pbCtx.fillStyle = '#ff8200';
-                      pbCtx.fillText(pbSlots[i].text, i*slotW + slotW/2, ch - 15);
-                  }
-              }
           }
 
           /* ===== 5. VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
+
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             try {
@@ -1481,10 +1453,10 @@ export default {
                   let checkStr = (rawSinger + " " + title).toLowerCase();
                   if (checkStr.indexOf('송현 노래책') !== -1 || checkStr.indexOf('노래신청은') !== -1 || checkStr.indexOf('제목') !== -1) return;
 
-                  let singersList = rawSinger.split(/\\r?\\n/).map(s => s.trim());
-                  let titlesList = title.split(/\\r?\\n/).map(t => t.trim());
-                  let diffsList = diff.split(/\\r?\\n/).map(d => d.trim());
-                  let statusList = status.split(/\\r?\\n/).map(s => s.trim());
+                  let singersList = rawSinger.split(/[\\r\\n]+/).map(s => s.trim());
+                  let titlesList = title.split(/[\\r\\n]+/).map(t => t.trim());
+                  let diffsList = diff.split(/[\\r\\n]+/).map(d => d.trim());
+                  let statusList = status.split(/[\\r\\n]+/).map(s => s.trim());
                   let maxLen = Math.max(titlesList.length, singersList.length);
 
                   for (let i = 0; i < maxLen; i++) {
