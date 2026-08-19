@@ -133,19 +133,24 @@ export default {
           /* 최근 게시글 */
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
-          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
           .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
           .post-item:hover .post-title { color: var(--point-color); }
+          .post-title-row { display: flex; align-items: center; gap: 8px; }
           .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
           .post-badge.notice { background-color: var(--point-color); color: #fff; }
-          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+          .post-meta { display: flex; align-items: center; font-size: 11px; color: var(--text-sub); }
 
           .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
-          .vn-panel { background: var(--bg-card); border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; }
-
+          
+          /* 🌟 2번 탭 - 서브 탭 패널 (높이 완전 고정) */
+          .vn-panel { 
+            background: var(--bg-card); border: 2px solid var(--point-color); 
+            border-radius: 16px; padding: 20px 25px; height: 220px; box-sizing: border-box; 
+          }
           /* 위키 & 방송규칙 공통 아이템 디자인 */
           .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
 
@@ -161,6 +166,8 @@ export default {
           .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: nowrap; width: 100%; }
           .cal-title-left { display: flex; align-items: center; gap: 20px; flex-wrap: nowrap; white-space: nowrap; }
           .cal-title-left h1 { font-size: 32px; font-weight: 900; margin: 0; padding: 0; }
+          
+          /* 🌟 월 변경 네비게이션이 1줄로 강제 유지되도록 CSS 보강 */
           .cal-nav { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 15px !important; flex-wrap: nowrap !important; white-space: nowrap !important; }
           .cal-nav .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: inline-flex; align-items: center; justify-content:center; transition: color 0.2s; flex-shrink: 0; }
           .cal-nav .nav-arrow:hover { color: var(--point-color); background: transparent; box-shadow: none; }
@@ -198,6 +205,9 @@ export default {
           .closet-item-card { position: relative; width: 300px; height: 450px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
           .closet-tag-name { position: absolute; top: 15px; left: 15px; color: #ffffff; font-size: 14px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.6); z-index: 2; }
           .closet-tag-badge { position: absolute; top: 12px; right: 12px; background: #ff478e; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
+          .closet-item-card::before, .closet-item-card::after { content: ''; position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 2; }
+          .closet-item-card::before { top: 8px; left: 8px; border-top: 2px solid rgba(255,255,255,0.6); border-left: 2px solid rgba(255,255,255,0.6); }
+          .closet-item-card::after { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(255,255,255,0.6); border-right: 2px solid rgba(255,255,255,0.6); }
           .closet-card-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; z-index: 2; }
           .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
           
@@ -226,36 +236,62 @@ export default {
           .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 🌟 핀볼게임 (마블룰렛 스타일 확장) */
+          /* 🌟 핀볼게임 (마블룰렛 스타일 확장 완벽 재현) */
           .pb-game-wrapper {
-             display: flex; width: 100%; height: 800px; 
-             background: #000; border-radius: 12px; overflow: hidden;
+             display: flex; gap: 0; width: 100%; height: 800px; 
+             background: #000000; border-radius: 12px; overflow: hidden;
              box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;
           }
           @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:600px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
           /* 좌측 네온 맵 (Canvas) */
-          .pb-canvas-container { width: 320px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; position:relative; }
+          .pb-canvas-container {
+             width: 320px; height: 100%; background: #080808; 
+             border-right: 1px solid #333; position: relative;
+             flex-shrink: 0;
+          }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
-          /* 좌측 하단 컨트롤 (회색 배경) */
-          .pb-controls {
-             position: absolute; bottom:0; left:0; width: 100%; 
-             background: #888888; padding: 15px; box-sizing:border-box; border-top: 1px solid #555;
-          }
-          .pb-controls textarea { 
-             width: 100%; height: 50px; background: #cccccc; color: #111; border: none;
-             border-radius: 4px; padding: 8px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing: border-box;
-          }
-          .pb-controls select {
-             flex: 1; background: #cccccc; color:#111; font-weight:bold; border: none; border-radius: 4px; 
-             padding: 6px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer;
+          /* 우측 리더보드 및 설정 영역 */
+          .pb-side-panel {
+             flex: 1; display: flex; flex-direction: column; position: relative; background: #111;
           }
           
-          /* 우측 검은 랭킹 공간 */
-          .pb-right-col { flex: 1; position: relative; background: #000; overflow: hidden; }
-          #pb-live-view { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;}
-          #pb-ranking-list { position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; }
+          .pb-leaderboard {
+             flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+             color: #fff; padding: 20px; overflow-y: auto; position: relative;
+          }
+          .pb-rank-title { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.2); margin-bottom: 20px; letter-spacing: 5px; }
+          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 350px; }
+          .pb-rank-item { 
+             display: flex; justify-content: space-between; align-items: center; 
+             background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px;
+             font-size: 14px; font-weight: 700; border-left: 4px solid transparent;
+             animation: popIn 0.3s ease-out;
+          }
+
+          .pb-controls {
+             background: #2a2a2a; padding: 15px 20px;
+             display: flex; gap: 20px; align-items: flex-end; border-top: 1px solid #444;
+          }
+          .pb-input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+          .pb-input-group label { color: #aaa; font-size: 11px; font-weight: 700; }
+          .pb-input-group textarea { 
+             width: 100%; height: 60px; background: #111; border: 1px solid #444; color: #fff;
+             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit;
+          }
+          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 200px; }
+          .pb-settings-row { display: flex; align-items: center; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 700; }
+          .pb-settings-row select { 
+             background: #444; color:#fff; border: none; border-radius: 4px; padding: 4px 8px; 
+             font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 130px;
+          }
+          .pb-start-btn { 
+             background: var(--point-color); color: #fff; border: none; border-radius: 6px;
+             padding: 15px 25px; font-size: 16px; font-weight: 900; cursor: pointer; 
+             display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
+          }
+          .pb-start-btn:hover { filter: brightness(0.8); }
 
           /* ===== 8. VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -263,10 +299,11 @@ export default {
           @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
           @media (max-width: 500px) { .vod-grid { grid-template-columns: repeat(1, 1fr); } }
           
-          .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
-          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
-          .vod-card.pinned { border: 2px solid var(--point-color); }
+          .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
+          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
+          .vod-card.pinned { border: 2px solid var(--point-color); box-shadow: 0 4px 12px rgba(255,130,0,0.1); }
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
+          [data-theme="dark"] .vod-thumb { background-color: #334155; }
           .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
           .vod-play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 1; }
           .vod-play-overlay span { font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: transform 0.2s, color 0.2s; }
@@ -317,7 +354,7 @@ export default {
           <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 🌟 복원된 뮤직 플레이어 팝업 -->
+        <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -379,7 +416,7 @@ export default {
           </div>
         </div>
 
-        <!-- 1. 홈 탭 (전체화면) -->
+        <!-- 1. 홈 탭 (전체화면, 흰색카드 없음) -->
         <section id="tab-home" class="tab-section active">
           <div class="main-wrapper">
             <div class="fullscreen-bg"></div>
@@ -435,9 +472,9 @@ export default {
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
                   </div>
                   
-                  <!-- 🌟 방송규칙을 위키와 같은 UI 박스 디자인으로 변경 -->
+                  <!-- 🌟 방송규칙을 위키와 같은 레이아웃/박스 아이템 스타일로 통일 -->
                   <div id="extra-rule" class="extra-sub-section active">
-                    <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0; box-sizing:border-box;">
+                    <div class="vn-panel" style="display:flex; flex-direction:column;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
                         <h3 style="margin:0; font-size:14px; color:var(--point-color); display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">gavel</span> 방송 규칙</h3>
                       </div>
@@ -451,7 +488,7 @@ export default {
                   </div>
                   
                   <div id="extra-ogq" class="extra-sub-section">
-                    <div class="vn-panel" style="height:180px; display:flex; align-items:center; justify-content:center; gap:40px; margin:0;">
+                    <div class="vn-panel" style="display:flex; align-items:center; justify-content:center; gap:40px;">
                       <a href="https://naver.me/GDQWC7ZK" target="_blank" style="display:flex; flex-direction:column; align-items:center;">
                         <img src="https://stimg.sooplive.com/NORMAL_BBS/8/10867168/14251786949404893.png" style="width:80px; height:80px; margin-bottom:10px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
                         <span style="font-size:15px; font-weight:800; color:var(--text-main);">황숭티콘(SOOP)</span>
@@ -464,7 +501,7 @@ export default {
                   </div>
                   
                   <div id="extra-wiki" class="extra-sub-section">
-                    <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0; box-sizing:border-box;">
+                    <div class="vn-panel" style="display:flex; flex-direction:column;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
                         <h3 style="margin:0; font-size:14px; color:var(--point-color); display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
                         <button onclick="openWikiPopup()" title="새 내용 작성" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s;">
@@ -501,19 +538,19 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 3. 일정표 탭 -->
+        <!-- 🌟 3. 일정표 탭 (UI 복구 및 버튼 우측상단 배치 완료) -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>SCHEDULE</h2><span>/ 일정</span></div>
               
               <div class="calendar-header-new">
-                <div class="cal-title-left" style="display:flex; align-items:center; gap:20px; flex-wrap:nowrap; white-space:nowrap;">
-                  <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
+                <div class="cal-title-left">
+                  <h1 style="margin-bottom: 10px;">SCHEDULE</h1>
                   <!-- 월 변경 1줄 강제 고정 -->
-                  <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
+                  <div class="cal-nav">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
-                    <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
+                    <span id="current-month-year">2026년 8월</span>
                     <button class="nav-arrow" onclick="changeDate(1)"><span class="material-symbols-rounded">chevron_right</span></button>
                   </div>
                 </div>
@@ -652,7 +689,7 @@ export default {
               <div id="game-pinball" class="game-sub-section">
                 <div class="pb-game-wrapper">
                   
-                  <!-- 좌측: 캔버스 + 컨트롤 -->
+                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
                   <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
                     <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
                       <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
@@ -666,10 +703,10 @@ export default {
                       <div style="display: flex; gap: 8px;">
                         <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
                           <option value="map1">운명의 수레바퀴</option>
-                          <option value="map2">버블팝 (플링코)</option>
+                          <option value="map2">버블팝</option>
                           <option value="map3">욕망의 항아리</option>
                           <option value="map4">밤을 달리다</option>
-                          <option value="map5">지그재그 협곡</option>
+                          <option value="map5">지그재그</option>
                           <option value="map6">스피너 지옥</option>
                         </select>
                         <button onclick="startPinballGame()" style="background: #222; color: #fff; border: 1px solid #444; padding: 6px 15px; cursor: pointer; border-radius: 4px; display:flex; align-items:center; gap:5px; font-weight:bold; font-size:12px; transition:0.2s;">
@@ -681,9 +718,12 @@ export default {
 
                   <!-- 우측: 랭킹 및 라이브 현황판 -->
                   <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
+                    <!-- 현재 달리고 있는 구슬 뷰 -->
                     <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;">
                       <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
                     </div>
+                    
+                    <!-- 우측 상단 순위표 -->
                     <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px;"></div>
                   </div>
                 </div>
@@ -760,7 +800,7 @@ export default {
             try {
               var lock = document.getElementById('lock-screen');
               if(lock) { lock.classList.add('unlocked'); setTimeout(() => { lock.style.display = 'none'; }, 600); }
-            } catch(e) {}
+            } catch(e) { console.error(e); }
           }
 
           function updateLockTime() {
@@ -804,7 +844,7 @@ export default {
                   }
                 }, 400); 
               } else { newTab.classList.add('active'); }
-            } catch(e) {}
+            } catch(e) { console.error(e); }
           }
 
           function switchExtraTab(subTabId, clickedBtn) {
@@ -862,7 +902,6 @@ export default {
             } catch(e) {}
           }
 
-          // 위키, 스케줄 팝업
           function openWikiPopup() { document.getElementById('wiki-textarea').value = ''; document.getElementById('wiki-popup').style.display = 'flex'; }
           function closeWikiPopup() { document.getElementById('wiki-popup').style.display = 'none'; }
           function saveWiki() {
@@ -1180,8 +1219,8 @@ export default {
               pbSlots = rText.map(t => ({ text: t }));
               pbBalls = parsedPlayers.map((p, i) => ({
                   name: p, color: pbColors[i % pbColors.length],
-                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 10,
-                  vx: (Math.random()-0.5)*2, vy: 0,
+                  x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 20,
+                  vx: (Math.random()-0.5)*3, vy: 0,
                   r: 8, settled: false, slotIndex: -1
               }));
               
@@ -1363,6 +1402,7 @@ export default {
 
           /* ===== 5. VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
+
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             try {
@@ -1546,7 +1586,7 @@ export default {
             } catch(e) {}
           }
 
-          /* 🌟 최근 게시글 메타 태그(날짜, 좋아요) 사이즈 축소 적용 완료 */
+          /* 최근 게시글 더미데이터 */
           function loadRecentPosts() {
             try {
               const container = document.getElementById('soop-posts-container');
