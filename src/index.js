@@ -1,5 +1,5 @@
 export default {
-  async fetch() {
+  async fetch(request, env, ctx) {
     const html = `
       <!DOCTYPE html>
       <html lang="ko" data-theme="light">
@@ -11,6 +11,7 @@ export default {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
         <style>
+          /* ===== CSS 변수 ===== */
           :root {
             --bg-body: #f4f5f7; --bg-card: #ffffff; --bg-nav: #222222;
             --text-main: #111111; --text-sub: #666666; --border-color: #eeeeee;
@@ -29,6 +30,7 @@ export default {
           ul { list-style: none; padding: 0; margin: 0; }
           a { text-decoration: none; color: inherit; }
 
+          /* ===== 스마트폰 잠금화면 ===== */
           #lock-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -44,6 +46,7 @@ export default {
           .lock-hint-text { font-size: 13px; letter-spacing: 1px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
           @keyframes bounceUp { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-10px); opacity: 1; } }
 
+          /* ===== 우측 네비게이션 ===== */
           .nav-container {
             position: fixed; top: 50%; right: 20px; left: auto; transform: translateY(-50%);
             background-color: var(--bg-nav); border-radius: 30px; padding: 15px 10px;
@@ -54,6 +57,7 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
+          /* ===== 스와이프 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; position: absolute; top:0; left:0; }
           .tab-section.active { display: block; z-index: 5; }
           .tab-section.flipping-in { display: block; z-index: 5; animation: swipeIn 0.4s forwards cubic-bezier(0.25, 1, 0.5, 1); }
@@ -61,6 +65,7 @@ export default {
           @keyframes swipeOut { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(-20%); opacity: 0; } }
           @keyframes swipeIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 
+          /* ===== 메인 레이아웃 ===== */
           .main-wrapper { 
             width: 100%; min-height: 100vh; margin: 0; padding: 0 80px 0 0; background-color: var(--bg-card); box-sizing: border-box; 
           }
@@ -76,16 +81,19 @@ export default {
           .section-header-out h2 { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
+          /* ===== 서브 탭 버튼 공통 ===== */
           .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
           .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
+          /* ===== 팝업 공통 ===== */
           .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
           .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
           .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
           .modal-input:focus { border-color: var(--point-color); }
           
+          /* 음악 팝업 */
           #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
           @keyframes popLeft { from { opacity: 0; transform: translate(20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
           .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -96,6 +104,7 @@ export default {
           .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
+          /* ===== 2. 프로필 탭 ===== */
           .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
           [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
           .vn-profile-wrapper::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.15; pointer-events: none; z-index: 1; }
@@ -208,7 +217,6 @@ export default {
           .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
           .ladder-input-box input { width: 100%; border: none; background: transparent; color: var(--text-main); font-size: 12px; outline: none; margin-bottom: 5px; font-family: inherit; }
-          .ladder-input-box input:last-child { margin-bottom: 0; color: var(--point-color); font-weight: bold; }
           .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
           .ladder-btn-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; min-width: 600px; }
@@ -223,9 +231,11 @@ export default {
           }
           @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:600px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
+          /* 좌측 네온 맵 (Canvas) */
           .pb-canvas-container { width: 320px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; position:relative; }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
+          /* 좌측 하단 컨트롤 (회색 배경) */
           .pb-controls {
              position: absolute; bottom:0; left:0; width: 100%; 
              background: #888888; padding: 15px; box-sizing:border-box; border-top: 1px solid #555;
@@ -239,6 +249,7 @@ export default {
              padding: 6px; font-size: 12px; font-family: inherit; outline: none; cursor: pointer;
           }
           
+          /* 우측 검은 랭킹 공간 */
           .pb-right-col { flex: 1; position: relative; background: #000; overflow: hidden; }
           #pb-live-view { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;}
           #pb-ranking-list { position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; }
@@ -273,6 +284,7 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
+
         </style>
       </head>
       <body>
@@ -302,7 +314,7 @@ export default {
           <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 (볼륨 바 복구 완료) -->
+        <!-- 뮤직 플레이어 팝업 -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -362,7 +374,7 @@ export default {
           </div>
         </div>
 
-        <!-- 1. 홈 탭 -->
+        <!-- 1. 홈 탭 (전체화면, 흰색카드 없음) -->
         <section id="tab-home" class="tab-section active">
           <div class="main-wrapper">
             <div class="fullscreen-bg"></div>
@@ -418,11 +430,17 @@ export default {
                     <button class="sub-tab-btn" onclick="switchExtraTab('extra-wiki', this)">송현위키</button>
                   </div>
                   
+                  <!-- 🌟 방송규칙 리스트 상하 여백 복구 완료 -->
                   <div id="extra-rule" class="extra-sub-section active">
-                    <div class="vn-panel" style="height:180px; overflow-y:auto; margin:0;">
-                      <div class="vn-panel-title"><div><span class="material-symbols-rounded" style="font-size:16px; margin-right:5px; vertical-align:text-bottom;">gavel</span>방송 규칙</div></div>
+                    <div class="vn-panel" style="height:180px; overflow-y:auto; margin:0; box-sizing:border-box;">
+                      <div class="vn-panel-title">
+                        <div style="display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">gavel</span>방송 규칙</div>
+                      </div>
                       <ul style="font-size:13px; color:var(--text-main); line-height:1.6; padding-left:20px; margin:0;">
-                        <li>타 스트리머 관련 언급 금지</li><li>시청자 간의 과도한 친목 금지</li><li>게임 스포일러 및 선 넘는 훈수 금지</li><li>욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
+                        <li style="margin-bottom:6px;">타 스트리머 관련 언급 금지</li>
+                        <li style="margin-bottom:6px;">시청자 간의 과도한 친목 금지</li>
+                        <li style="margin-bottom:6px;">게임 스포일러 및 선 넘는 훈수 금지</li>
+                        <li style="margin-bottom:6px;">욕설, 도배, 어그로성 채팅은 즉시 밴 처리됩니다.</li>
                       </ul>
                     </div>
                   </div>
@@ -441,10 +459,13 @@ export default {
                   </div>
                   
                   <div id="extra-wiki" class="extra-sub-section">
-                    <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0;">
+                    <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0; box-sizing:border-box;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
-                        <h3 style="margin:0; font-size:14px; color:var(--point-color);"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
-                        <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded">add</span></button>
+                        <h3 style="margin:0; font-size:14px; color:var(--point-color); display:flex; align-items:center; gap:5px;"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
+                        <!-- 🌟 + 버튼 완벽한 정중앙 정렬 교정 완료 -->
+                        <button onclick="openWikiPopup()" title="새 내용 작성" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; box-shadow:0 2px 5px rgba(255,130,0,0.3); transition:0.2s;">
+                          <span class="material-symbols-rounded" style="font-size:18px;">add</span>
+                        </button>
                       </div>
                       <div id="wiki-content-list" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px;">
                         <div class="wiki-item"><strong>[환영합니다]</strong> 우측 상단의 + 버튼을 눌러 송현님의 정보를 추가해 보세요!</div>
@@ -471,11 +492,12 @@ export default {
                   <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
 
-        <!-- 🌟 3. 일정표 탭 (UI 복구 및 버튼 우측상단 배치 완료) -->
+        <!-- 3. 일정표 탭 -->
         <section id="tab-schedule" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -484,7 +506,6 @@ export default {
               <div class="calendar-header-new">
                 <div class="cal-title-left" style="display:flex; align-items:center; gap:20px; flex-wrap:nowrap; white-space:nowrap;">
                   <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
-                  <!-- 월 변경 1줄 강제 고정 -->
                   <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
@@ -525,7 +546,7 @@ export default {
           </div>
         </section>
 
-        <!-- 5. 의상실 탭 (클래스 오류 복구) -->
+        <!-- 5. 의상실 탭 -->
         <section id="tab-closet" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -572,7 +593,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (초기 빈 상태로 복구) -->
+        <!-- 6. 업보 탭 -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -588,7 +609,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리 & 마블 룰렛 핀볼 확장) -->
+        <!-- 7. 미니게임 탭 -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -599,7 +620,7 @@ export default {
                 <button class="sub-tab-btn" onclick="switchGameTab('game-pinball', this)">핀볼 뽑기 (마블 룰렛)</button>
               </div>
 
-              <!-- 🎮 사다리게임 영역 -->
+              <!-- 사다리게임 영역 -->
               <div id="game-ladder" class="game-sub-section active">
                 <div class="ladder-setup">
                   <div style="font-weight:800; font-size:15px; margin-bottom:10px; color:var(--point-color);">1. 참가 인원 설정 (최대 16명)</div>
@@ -622,28 +643,28 @@ export default {
                 </div>
               </div>
 
-              <!-- 🎮 핀볼게임 영역 (네온/물리엔진 및 레이아웃 재배치) -->
+              <!-- 핀볼게임 영역 -->
               <div id="game-pinball" class="game-sub-section">
                 <div class="pb-game-wrapper">
                   
-                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
                   <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
                     <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
                       <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                     </div>
                     
-                    <!-- 컨트롤 패널 -->
                     <div class="pb-controls" style="padding: 15px; background: #888888; border-top: 1px solid #333;">
                       <div style="color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 5px; letter-spacing:-0.5px;">이름들을 입력하세요 (이름*갯수)</div>
-                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing:border-box;">수박*2, 키위*2, 귤*2</textarea>
+                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing:border-box;">수박*2
+키위*2
+귤*2</textarea>
                       
                       <div style="display: flex; gap: 8px;">
                         <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
                           <option value="map1">운명의 수레바퀴</option>
-                          <option value="map2">버블팝</option>
+                          <option value="map2">버블팝 (플링코)</option>
                           <option value="map3">욕망의 항아리</option>
                           <option value="map4">밤을 달리다</option>
-                          <option value="map5">지그재그</option>
+                          <option value="map5">지그재그 협곡</option>
                           <option value="map6">스피너 지옥</option>
                         </select>
                         <button onclick="startPinballGame()" style="background: #222; color: #fff; border: 1px solid #444; padding: 6px 15px; cursor: pointer; border-radius: 4px; display:flex; align-items:center; gap:5px; font-weight:bold; font-size:12px; transition:0.2s;">
@@ -653,14 +674,10 @@ export default {
                     </div>
                   </div>
 
-                  <!-- 우측: 랭킹 및 라이브 현황판 -->
                   <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
-                    <!-- 현재 달리고 있는 구슬 뷰 -->
                     <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;">
                       <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
                     </div>
-                    
-                    <!-- 우측 상단 순위표 -->
                     <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px;"></div>
                   </div>
                 </div>
@@ -839,7 +856,6 @@ export default {
             } catch(e) {}
           }
 
-          // 위키, 스케줄 팝업
           function openWikiPopup() { document.getElementById('wiki-textarea').value = ''; document.getElementById('wiki-popup').style.display = 'flex'; }
           function closeWikiPopup() { document.getElementById('wiki-popup').style.display = 'none'; }
           function saveWiki() {
@@ -1144,7 +1160,7 @@ export default {
               if(!pRaw) { alert('참가자를 입력해주세요!'); return; }
               
               let parsed = [];
-              let items = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              let items = pRaw.split(/[\\n]+/).map(t => t.trim()).filter(t => t);
               items.forEach(item => {
                  let parts = item.split('*');
                  let name = parts[0].trim();
@@ -1170,9 +1186,34 @@ export default {
             } catch(e) {}
           }
 
+          function resolveBallCollision() {
+             for(let i=0; i<pbBalls.length; i++) {
+                for(let j=i+1; j<pbBalls.length; j++) {
+                   let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                   if(b1.settled || b2.settled) continue;
+                   let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                   let dist = Math.sqrt(dx*dx + dy*dy);
+                   let minDist = b1.r + b2.r;
+                   if(dist < minDist) {
+                      let angle = Math.atan2(dy, dx);
+                      let overlap = minDist - dist;
+                      b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                      b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                      let nx = dx/dist; let ny = dy/dist;
+                      let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                      
+                      // 통통 튀도록 탄성계수 0.8 적용
+                      b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
+                      b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
+                   }
+                }
+             }
+          }
+
           function updatePinball() {
               if(!pbIsRunning) return;
               let cw = pbCanvas.width; let ch = pbCanvas.height;
+              
               pbCtx.clearRect(0,0,cw,ch);
               pbSpinners.forEach(sp => { sp.angle += sp.speed; });
               drawPinballFrame();
@@ -1256,35 +1297,9 @@ export default {
                   pbCtx.fillStyle = b.color; pbCtx.fill();
               });
 
-              // 구슬끼리 부딪힘
-              for(let i=0; i<pbBalls.length; i++) {
-                 for(let j=i+1; j<pbBalls.length; j++) {
-                    let b1 = pbBalls[i]; let b2 = pbBalls[j];
-                    if(b1.settled || b2.settled) continue;
-                    let dx = b2.x - b1.x; let dy = b2.y - b1.y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
-                    let minDist = b1.r + b2.r;
-                    if(dist < minDist) {
-                       let angle = Math.atan2(dy, dx);
-                       let overlap = minDist - dist;
-                       b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
-                       b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
-                       let nx = dx/dist; let ny = dy/dist;
-                       let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
-                       
-                       // 통통 튀도록 탄성계수 0.8 적용
-                       b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
-                       b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
-                    }
-                 }
-              }
-              
-              // 화면 밖을 벗어난 구슬 정리
-              pbBalls.forEach(b => {
-                 if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r;
-              });
+              resolveBallCollision(); 
+              pbBalls.forEach(b => { if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r; });
 
-              // 라이브 뷰 업데이트 (우측 검은 화면 중앙)
               let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
               let liveHtml = '';
               activeBalls.forEach(b => {
