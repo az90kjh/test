@@ -70,7 +70,7 @@ export default {
           .nav-btn.active { background-color: var(--bg-point-light); color: var(--point-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
           .nav-btn .material-symbols-rounded { font-size: 22px; }
 
-          /* ===== 🌟 탭 스와이프 화면 넘김 애니메이션 ===== */
+          /* ===== 🌟 탭 스와이프 애니메이션 ===== */
           .tab-section { display: none; width: 100%; min-height: 100vh; }
           .tab-section.active { display: block; position: relative; z-index: 5; }
           .tab-section.flipping-in { display: block; position: relative; z-index: 5; }
@@ -185,7 +185,9 @@ export default {
           .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
           .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
-          /* ===== 🌟 7. 미니게임 (사다리 & 핀볼) UI ===== */
+          /* =========================================
+             🌟 7. 미니게임 (사다리 & 블루델 스타일 핀볼)
+             ========================================= */
           .game-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; }
           .game-sub-section.active { display: block; }
           
@@ -204,23 +206,74 @@ export default {
           .ladder-result-row { display: flex; justify-content: center; gap: 5px; margin-top: 10px; min-width: 600px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-          /* 블루델 핀볼게임 스타일 (플링코) */
-          .pb-container { display: flex; gap: 20px; background: var(--bg-body); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); }
-          @media (max-width: 800px) { .pb-container { flex-direction: column; } .pb-sidebar { width: 100% !important; } }
-          .pb-sidebar { width: 220px; display: flex; flex-direction: column; gap: 10px; }
-          .pb-sidebar textarea { height: 120px; font-size: 12px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); resize: none; color: var(--text-main); font-family: inherit; }
-          .pb-sidebar textarea:focus { border-color: var(--point-color); outline: none; }
-          .pb-main { flex: 1; background: #111; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
-          canvas#pinballCanvas { display: block; width: 100%; height: 500px; background: #1a1a1a; border-radius: 8px; box-shadow: inset 0 0 20px #000; }
+          /* 블루델 스타일 핀볼(Plinko) 레이아웃 */
+          .pb-game-wrapper {
+             display: flex; gap: 0; width: 100%; height: 600px; 
+             background: #0b0c10; border-radius: 12px; overflow: hidden;
+             box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #1f2937;
+          }
+          
+          /* 좌측 캔버스(트랙) 영역 */
+          .pb-canvas-container {
+             width: 250px; height: 100%; background: #111; 
+             border-right: 1px solid #333; position: relative;
+          }
+          canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
+          
+          /* 우측 리더보드 및 설정 영역 */
+          .pb-side-panel {
+             flex: 1; display: flex; flex-direction: column; position: relative;
+          }
+          
+          /* 중앙 실시간 순위 화면 */
+          .pb-leaderboard {
+             flex: 1; background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+             display: flex; flex-direction: column; align-items: center; justify-content: center;
+             color: #fff; padding: 20px; overflow: hidden; position: relative;
+          }
+          .pb-rank-title { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.2); margin-bottom: 20px; letter-spacing: 5px; }
+          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 300px; }
+          .pb-rank-item { 
+             display: flex; justify-content: space-between; align-items: center; 
+             background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px;
+             font-size: 14px; font-weight: 700; border-left: 4px solid transparent;
+             animation: popIn 0.3s ease-out;
+          }
+          @keyframes popIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
 
-          /* 공통 카운터 */
+          /* 하단 컨트롤 패널 (회색) */
+          .pb-controls {
+             background: #737373; padding: 15px 20px;
+             display: flex; gap: 20px; align-items: flex-end;
+          }
+          .pb-input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+          .pb-input-group label { color: #fff; font-size: 11px; font-weight: 700; }
+          .pb-input-group textarea { 
+             width: 100%; height: 60px; background: #e2e8f0; border: none; 
+             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit;
+          }
+          
+          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 200px; }
+          .pb-settings-row { display: flex; align-items: center; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 700; }
+          .pb-settings-row select { 
+             background: #e2e8f0; border: none; border-radius: 4px; padding: 4px 8px; 
+             font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 130px;
+          }
+          .pb-start-btn { 
+             background: #1e293b; color: #fff; border: none; border-radius: 6px;
+             padding: 15px 25px; font-size: 16px; font-weight: 900; cursor: pointer; 
+             display: flex; align-items: center; gap: 5px; transition: 0.2s;
+          }
+          .pb-start-btn:hover { background: #0f172a; }
+
+          /* 공통 UI 요소 */
           .counter-box { display: flex; align-items: center; gap: 15px; }
           .counter-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-card); font-size: 18px; cursor: pointer; color: var(--text-main); display:flex; align-items:center; justify-content:center;}
           .counter-num { font-size: 18px; font-weight: bold; color: var(--point-color); min-width: 20px; text-align: center; }
           .action-btn { background-color: var(--text-main); color: var(--bg-card); padding: 10px 25px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; }
           .action-btn:hover { background-color: var(--point-color); }
 
-          /* ===== 🌟 VOD 다시보기 ===== */
+          /* ===== VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
           @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
           @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -657,7 +710,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임 완벽 구현) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -695,27 +748,53 @@ export default {
 
               <!-- 🎮 블루델 스타일 핀볼게임 영역 -->
               <div id="game-pinball" class="game-sub-section">
-                <div class="pb-container">
-                  <!-- 좌측 설정 패널 -->
-                  <div class="pb-sidebar">
-                    <div style="font-size:13px; font-weight:bold; color:var(--point-color);">참가자 (엔터로 구분)</div>
-                    <textarea id="pb-participants">시청자1\n시청자2\n시청자3\n시청자4\n시청자5</textarea>
-                    
-                    <div style="font-size:13px; font-weight:bold; color:var(--point-color); margin-top:5px;">결과/보상 (엔터로 구분)</div>
-                    <textarea id="pb-rewards">꽝\n노래 1곡\n애교\n꽝\n랜덤 룰렛</textarea>
-
-                    <button class="action-btn" style="margin-top:10px; padding:12px; font-size:14px;" onclick="startPinballGame()">추첨 시작 ▼</button>
-                    
-                    <!-- 실시간 당첨 결과 출력 창 -->
-                    <div id="pb-winner-box" style="margin-top:20px; font-size:14px; font-weight:bold; color:var(--point-color); text-align:center; display:none;">
-                      🎉 당첨 결과 🎉<br>
-                      <span id="pb-winner-text" style="font-size:14px; color:var(--text-main); margin-top:10px; display:block; line-height:1.6;">-</span>
-                    </div>
-                  </div>
+                <div class="pb-game-wrapper">
                   
-                  <!-- 우측 핀볼(물리엔진) 캔버스 -->
-                  <div class="pb-main">
+                  <!-- 좌측 캔버스 (트랙) 영역 -->
+                  <div class="pb-canvas-container">
                     <canvas id="pinballCanvas"></canvas>
+                  </div>
+
+                  <!-- 우측 컨트롤 및 리더보드 영역 -->
+                  <div class="pb-side-panel">
+                    
+                    <!-- 실시간 랭킹 디스플레이 -->
+                    <div class="pb-leaderboard" id="pb-leaderboard">
+                      <div class="pb-rank-title">LIVE RANKING</div>
+                      <div class="pb-live-ranks" id="pb-live-ranks">
+                        <!-- JS에서 실시간 순위 채워짐 -->
+                        <div style="color:rgba(255,255,255,0.3); font-size:13px;">아래에서 참가자와 보상을 입력 후<br>추첨을 시작해주세요!</div>
+                      </div>
+                    </div>
+
+                    <!-- 하단 컨트롤 영역 -->
+                    <div class="pb-controls">
+                      <div class="pb-input-group">
+                        <label>이름들을 입력하세요 (예: 수박*2, 키위*1)</label>
+                        <textarea id="pb-participants">수박*2, 키위*2, 귤*2</textarea>
+                      </div>
+                      <div class="pb-input-group">
+                        <label>당첨 보상 목록 (엔터로 구분)</label>
+                        <textarea id="pb-rewards">꽝\n노래 1곡\n꽝\n리액션\n꽝</textarea>
+                      </div>
+                      <div class="pb-settings-group">
+                        <div class="pb-settings-row">
+                          <span>🗺️ 맵 종류</span>
+                          <select id="pb-map-select">
+                            <option value="map1">운명의 수레바퀴</option>
+                            <option value="map2">지그재그 협곡</option>
+                            <option value="map3">블랙홀</option>
+                            <option value="map4">회전 교차로</option>
+                            <option value="map5">벽타기</option>
+                            <option value="map6">카오스</option>
+                          </select>
+                        </div>
+                        <button class="pb-start-btn" onclick="startPinballGame()">
+                          <span class="material-symbols-rounded">play_arrow</span> 추첨 시작
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -724,7 +803,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 8. VOD 탭 (카테고리 연동 및 4x5 바둑판 완벽 수정) -->
+        <!-- 🌟 8. VOD 탭 (카테고리 탭 완벽 적용) -->
         <section id="tab-vod" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -746,7 +825,6 @@ export default {
                 <button class="sub-tab-btn" onclick="filterVodsByCategory('cover', this)">노래커버</button>
               </div>
 
-              <!-- 단일 그리드 (구분선이나 h3 없이 바둑판만 나옵니다) -->
               <div id="vod-grid-container" class="vod-grid">
                 <div style="text-align:center; padding: 50px; color: var(--text-sub); grid-column: 1 / -1;">
                   <span class="material-symbols-rounded" style="font-size:40px; animation: spin 2s linear infinite;">sync</span><br><br>
@@ -791,7 +869,7 @@ export default {
 
         <!-- 기능 스크립트 모음 -->
         <script>
-          /* ===== 🌟 잠금화면 (스와이프 및 클릭 해제) ===== */
+          /* ===== 🌟 잠금화면 ===== */
           function unlockScreen() {
             var lock = document.getElementById('lock-screen');
             if(lock) {
@@ -835,7 +913,6 @@ export default {
                   newTab.classList.remove('flipping-in');
                   newTab.classList.add('active');
                   
-                  // 미니게임 탭 진입 시 캔버스 렌더링 최적화
                   if(tabId === 'tab-game') {
                      if(document.getElementById('game-ladder').classList.contains('active')) generateLadder();
                      if(document.getElementById('game-pinball').classList.contains('active')) initPinballBoard();
@@ -847,7 +924,6 @@ export default {
             }
           }
 
-          /* 서브탭 전환 */
           function switchExtraTab(subTabId, clickedBtn) {
             document.querySelectorAll('.extra-sub-section').forEach(function(sec) { sec.style.display = 'none'; });
             var parentTabs = clickedBtn.parentElement.querySelectorAll('.sub-tab-btn');
@@ -875,7 +951,6 @@ export default {
             if(subTabId === 'game-pinball') { initPinballBoard(); }
           }
 
-          /* 테마 전환 */
           function toggleTheme() {
             const htmlTag = document.documentElement;
             const themeIcon = document.querySelector('#themeToggleBtn .material-symbols-rounded');
@@ -886,12 +961,10 @@ export default {
             }
           }
 
-          /* 뮤직 팝업 */
           function toggleMusicPopup(btnElement) {
             const popup = document.getElementById('music-popup');
-            if (popup.style.display === 'block') {
-              popup.style.display = 'none';
-            } else {
+            if (popup.style.display === 'block') { popup.style.display = 'none'; } 
+            else {
               popup.style.display = 'block';
               if(btnElement) {
                 const rect = btnElement.getBoundingClientRect();
@@ -927,7 +1000,6 @@ export default {
             closeSchedulePopup();
           }
 
-          /* 일정표 렌더링 */
           let currentDate = new Date(); let calView = 'month'; const mockEvents = {}; 
           function renderCalendar() {
             const year = currentDate.getFullYear(); const month = currentDate.getMonth(); 
@@ -982,10 +1054,8 @@ export default {
             document.getElementById('btn-' + view).classList.add('active'); renderCalendar();
           }
 
-          /* ===== 🌟 사다리게임 로직 (최대 16명, 랜덤 패턴 8층 이상) ===== */
-          let ladderCount = 4;
-          let rungs = [];
-          let ctxL, canvasL;
+          /* ===== 🌟 사다리게임 ===== */
+          let ladderCount = 4; let rungs = []; let ctxL, canvasL;
 
           function changeLadderCount(val) {
             ladderCount += val;
@@ -994,100 +1064,65 @@ export default {
             document.getElementById('ladder-count').innerText = ladderCount;
             renderLadderInputs();
           }
-
           function renderLadderInputs() {
-            const container = document.getElementById('ladder-inputs-container');
-            let html = '';
+            const container = document.getElementById('ladder-inputs-container'); let html = '';
             for(let i=0; i<ladderCount; i++) {
-               html += '<div class="ladder-input-box">' +
-                         '<input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'">' +
-                         '<input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'">' +
-                       '</div>';
+               html += '<div class="ladder-input-box"><input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'"><input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'"></div>';
             }
             container.innerHTML = html;
           }
-
           function generateLadder() {
             document.getElementById('ladder-play-area').style.display = 'block';
-            const btnWrap = document.getElementById('ladder-btns');
-            const resWrap = document.getElementById('ladder-results');
-            canvasL = document.getElementById('ladderCanvas');
-            ctxL = canvasL.getContext('2d');
-            
+            const btnWrap = document.getElementById('ladder-btns'); const resWrap = document.getElementById('ladder-results');
+            canvasL = document.getElementById('ladderCanvas'); ctxL = canvasL.getContext('2d');
             const cw = Math.max(600, ladderCount * 80);
-            canvasL.width = cw;
-            btnWrap.style.minWidth = cw + 'px';
-            resWrap.style.minWidth = cw + 'px';
+            canvasL.width = cw; btnWrap.style.minWidth = cw + 'px'; resWrap.style.minWidth = cw + 'px';
             
             let btnHtml = ''; let resHtml = '';
             for(let i=0; i<ladderCount; i++) {
-              let pName = document.getElementById('ladder-name-'+i).value || (i+1);
-              let pRes = document.getElementById('ladder-res-'+i).value || '?';
+              let pName = document.getElementById('ladder-name-'+i).value || (i+1); let pRes = document.getElementById('ladder-res-'+i).value || '?';
               btnHtml += '<button class="ladder-start-btn" onclick="playLadder('+i+')">' + pName + '</button>';
               resHtml += '<div class="ladder-res-box" id="res-box-'+i+'">' + pRes + '</div>';
             }
-            btnWrap.innerHTML = btnHtml;
-            resWrap.innerHTML = resHtml;
+            btnWrap.innerHTML = btnHtml; resWrap.innerHTML = resHtml;
 
-            // 랜덤 사다리 가로선 생성 (최소 10층 ~ 최대 14층)
             const floors = 10 + Math.floor(Math.random() * 5); 
             rungs = [];
             for(let f=1; f<=floors; f++) {
                let placed = [];
                for(let c=0; c<ladderCount-1; c++) {
-                  if(Math.random() < 0.35 && !placed.includes(c-1)) {
-                     rungs.push({ row: f, col: c });
-                     placed.push(c);
-                  }
+                  if(Math.random() < 0.35 && !placed.includes(c-1)) { rungs.push({ row: f, col: c }); placed.push(c); }
                }
             }
             drawLadderBase();
           }
-
           function drawLadderBase() {
              ctxL.clearRect(0, 0, canvasL.width, canvasL.height);
              const colWidth = canvasL.width / ladderCount;
-             
-             ctxL.lineWidth = 4;
-             ctxL.lineCap = 'round';
-             ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
-
+             ctxL.lineWidth = 4; ctxL.lineCap = 'round'; ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
              for(let i=0; i<ladderCount; i++) {
                 let x = colWidth/2 + (i*colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x, 0); ctxL.lineTo(x, canvasL.height); ctxL.stroke();
              }
-
              const rowHeight = canvasL.height / 15; 
              rungs.forEach(rung => {
-                let y = rung.row * rowHeight;
-                let x1 = colWidth/2 + (rung.col * colWidth);
-                let x2 = colWidth/2 + ((rung.col+1) * colWidth);
+                let y = rung.row * rowHeight; let x1 = colWidth/2 + (rung.col * colWidth); let x2 = colWidth/2 + ((rung.col+1) * colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x1, y); ctxL.lineTo(x2, y); ctxL.stroke();
              });
           }
-
           function playLadder(startIndex) {
              drawLadderBase();
-             const colWidth = canvasL.width / ladderCount;
-             const rowHeight = canvasL.height / 15;
-             
-             let path = [{ x: colWidth/2 + (startIndex*colWidth), y: 0 }];
-             let currentCol = startIndex;
+             const colWidth = canvasL.width / ladderCount; const rowHeight = canvasL.height / 15;
+             let path = [{ x: colWidth/2 + (startIndex*colWidth), y: 0 }]; let currentCol = startIndex;
 
              for(let f=1; f<=15; f++) {
                 let y = f * rowHeight;
                 path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
-                
                 let rToRight = rungs.find(r => r.row === f && r.col === currentCol);
                 let rToLeft = rungs.find(r => r.row === f && r.col === currentCol - 1);
                 
-                if (rToRight) {
-                   currentCol++;
-                   path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
-                } else if (rToLeft) {
-                   currentCol--;
-                   path.push({ x: colWidth/2 + (currentCol*colWidth), y: y });
-                }
+                if (rToRight) { currentCol++; path.push({ x: colWidth/2 + (currentCol*colWidth), y: y }); } 
+                else if (rToLeft) { currentCol--; path.push({ x: colWidth/2 + (currentCol*colWidth), y: y }); }
              }
 
              let step = 0; let progress = 0;
@@ -1095,32 +1130,20 @@ export default {
 
              function animate() {
                 if (step >= path.length - 1) {
-                   document.querySelectorAll('.ladder-res-box').forEach(el => {
-                      el.style.background = 'var(--bg-card)'; el.style.color = 'var(--text-main)';
-                   });
+                   document.querySelectorAll('.ladder-res-box').forEach(el => { el.style.background = 'var(--bg-card)'; el.style.color = 'var(--text-main)'; });
                    const finalBox = document.getElementById('res-box-'+currentCol);
                    finalBox.style.background = '#ff8200'; finalBox.style.color = '#fff';
                    return;
                 }
                 let p1 = path[step]; let p2 = path[step+1];
-                
-                progress += 0.15; 
-                if(progress > 1) { progress = 1; }
-
-                let currX = p1.x + (p2.x - p1.x) * progress;
-                let currY = p1.y + (p2.y - p1.y) * progress;
+                progress += 0.15; if(progress > 1) { progress = 1; }
+                let currX = p1.x + (p2.x - p1.x) * progress; let currY = p1.y + (p2.y - p1.y) * progress;
 
                 drawLadderBase(); 
-                
-                ctxL.beginPath();
-                ctxL.moveTo(path[0].x, path[0].y);
+                ctxL.beginPath(); ctxL.moveTo(path[0].x, path[0].y);
                 for(let i=1; i<=step; i++) { ctxL.lineTo(path[i].x, path[i].y); }
-                ctxL.lineTo(currX, currY);
-                ctxL.stroke();
-
-                ctxL.beginPath();
-                ctxL.arc(currX, currY, 6, 0, Math.PI*2);
-                ctxL.fillStyle = '#ff8200'; ctxL.fill();
+                ctxL.lineTo(currX, currY); ctxL.stroke();
+                ctxL.beginPath(); ctxL.arc(currX, currY, 6, 0, Math.PI*2); ctxL.fillStyle = '#ff8200'; ctxL.fill();
 
                 if(progress === 1) { step++; progress = 0; }
                 requestAnimationFrame(animate);
@@ -1130,28 +1153,67 @@ export default {
 
           /* ===== 🌟 블루델 스타일 핀볼(Plinko) 물리엔진 ===== */
           let pbCanvas, pbCtx;
-          let pbPegs = []; let pbBalls = []; let pbSlots = [];
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
+          let pinballMapType = 'map1';
+
+          // 점과 선분(segment) 사이의 최단거리 계산 공식
+          function distToSegmentSquared(p, v, w) {
+             let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
+             if (l2 === 0) return (p.x - v.x)**2 + (p.y - v.y)**2;
+             let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+             t = Math.max(0, Math.min(1, t));
+             return (p.x - (v.x + t * (w.x - v.x)))**2 + (p.y - (v.y + t * (w.y - v.y)))**2;
+          }
+
+          function getClosestPointOnSegment(p, v, w) {
+             let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
+             if (l2 === 0) return {x:v.x, y:v.y};
+             let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+             t = Math.max(0, Math.min(1, t));
+             return { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) };
+          }
 
           function initPinballBoard() {
               pbCanvas = document.getElementById('pinballCanvas');
               if(!pbCanvas) return;
-              const cw = pbCanvas.parentElement.clientWidth - 40;
-              pbCanvas.width = cw; pbCanvas.height = 500;
+              pbCanvas.width = 250; pbCanvas.height = 600; // 고정 해상도
               pbCtx = pbCanvas.getContext('2d');
               
-              // 페그(장애물) 배열 생성
-              pbPegs = [];
-              let rows = 10; let ySp = 40; let xSp = cw / 10;
-              for(let r=1; r<=rows; r++) {
-                  let isEven = (r%2 === 0);
-                  let numCols = isEven ? 9 : 10;
-                  let offset = isEven ? xSp/2 : 0;
-                  for(let c=0; c<numCols; c++) {
-                      pbPegs.push({ x: (c*xSp) + offset + xSp/2, y: r*ySp + 30, r: 4 });
-                  }
+              pinballMapType = document.getElementById('pb-map-select').value;
+              pbLines = []; pbSpinners = []; pbBalls = [];
+              let cw = pbCanvas.width; let ch = pbCanvas.height;
+
+              // 맵 생성 로직 (좌우 벽 포함)
+              pbLines.push({x1: 0, y1: 0, x2: 0, y2: ch});
+              pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
+
+              if(pinballMapType === 'map1') { // 운명의 수레바퀴
+                  pbSpinners.push({cx: cw/2, cy: 300, len: 120, angle: 0, speed: 0.05});
+                  pbSpinners.push({cx: cw/2, cy: 450, len: 100, angle: Math.PI/2, speed: -0.04});
+              } else if(pinballMapType === 'map2') { // 지그재그
+                  pbLines.push({x1: 0, y1: 150, x2: cw*0.7, y2: 200});
+                  pbLines.push({x1: cw, y1: 300, x2: cw*0.3, y2: 350});
+                  pbLines.push({x1: 0, y1: 450, x2: cw*0.7, y2: 500});
+              } else if(pinballMapType === 'map3') { // 블랙홀
+                  pbLines.push({x1: 0, y1: 200, x2: cw*0.4, y2: 300});
+                  pbLines.push({x1: cw, y1: 200, x2: cw*0.6, y2: 300});
+                  pbSpinners.push({cx: cw/2, cy: 350, len: 80, angle: 0, speed: 0.1});
+              } else if(pinballMapType === 'map4') { // 회전교차로
+                  pbSpinners.push({cx: cw*0.3, cy: 200, len: 80, angle: 0, speed: 0.06});
+                  pbSpinners.push({cx: cw*0.7, cy: 300, len: 80, angle: 0, speed: -0.06});
+                  pbSpinners.push({cx: cw*0.3, cy: 400, len: 80, angle: 0, speed: 0.06});
+              } else if(pinballMapType === 'map5') { // 벽타기
+                  pbLines.push({x1: cw*0.3, y1: 100, x2: cw*0.3, y2: 400});
+                  pbLines.push({x1: cw*0.7, y1: 100, x2: cw*0.7, y2: 400});
+                  pbSpinners.push({cx: cw/2, cy: 450, len: 100, angle: 0, speed: 0.05});
+              } else { // 카오스
+                  pbLines.push({x1: cw*0.2, y1: 100, x2: cw*0.8, y2: 150});
+                  pbLines.push({x1: cw*0.8, y1: 250, x2: cw*0.2, y2: 300});
+                  pbSpinners.push({cx: cw/2, cy: 450, len: 150, angle: 0, speed: 0.08});
               }
+
               drawPinballFrame();
           }
 
@@ -1160,16 +1222,24 @@ export default {
               const pText = document.getElementById('pb-participants').value.trim().split('\\n').filter(t => t);
               const rText = document.getElementById('pb-rewards').value.trim().split('\\n').filter(t => t);
               
-              if(pText.length === 0 || rText.length === 0) {
-                 alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return;
-              }
+              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
+
+              // `수박*2` 형태 파싱
+              let parsedPlayers = [];
+              pText.forEach(line => {
+                  let parts = line.split('*');
+                  let name = parts[0].trim();
+                  let count = parts.length > 1 ? parseInt(parts[1]) : 1;
+                  if(isNaN(count) || count < 1) count = 1;
+                  for(let i=0; i<count; i++) { parsedPlayers.push(name); }
+              });
 
               pbSlots = rText.map((t) => ({ text: t }));
-              pbBalls = pText.map((p, i) => ({
+              pbBalls = parsedPlayers.map((p, i) => ({
                   name: p, color: pbColors[i % pbColors.length],
                   x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 10,
-                  vx: (Math.random()-0.5)*3, vy: 0,
-                  r: 10, settled: false, slotIndex: -1
+                  vx: (Math.random()-0.5)*2, vy: 0,
+                  r: 8, settled: false, slotIndex: -1
               }));
               
               document.getElementById('pb-winner-box').style.display = 'block';
@@ -1181,11 +1251,38 @@ export default {
               }
           }
 
+          // 구슬끼리의 충돌 감지
+          function resolveBallCollision() {
+             for(let i=0; i<pbBalls.length; i++) {
+                for(let j=i+1; j<pbBalls.length; j++) {
+                   let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                   if(b1.settled || b2.settled) continue;
+                   let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                   let dist = Math.sqrt(dx*dx + dy*dy);
+                   let minDist = b1.r + b2.r;
+                   if(dist < minDist) {
+                      let angle = Math.atan2(dy, dx);
+                      let overlap = minDist - dist;
+                      b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                      b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                      // 튕기기
+                      let nx = dx/dist; let ny = dy/dist;
+                      let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                      b1.vx -= p*nx; b1.vy -= p*ny;
+                      b2.vx += p*nx; b2.vy += p*ny;
+                   }
+                }
+             }
+          }
+
           function updatePinball() {
               if(!pbIsRunning) return;
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
               pbCtx.clearRect(0,0,cw,ch);
+              
+              // 스피너 회전 업데이트
+              pbSpinners.forEach(sp => { sp.angle += sp.speed; });
               drawPinballFrame();
               
               let allSettled = true;
@@ -1195,28 +1292,52 @@ export default {
                   if(!b.settled) {
                       allSettled = false;
                       b.vy += 0.2; // 중력
+                      b.vy *= 0.99; // 공기 저항
                       b.x += b.vx; b.y += b.vy;
                       
-                      // 벽 튕기기
-                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.7; }
-                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.7; }
-                      
-                      // 페그 튕기기
-                      pbPegs.forEach(p => {
-                          let dx = b.x - p.x; let dy = b.y - p.y;
-                          let dist = Math.sqrt(dx*dx + dy*dy);
-                          if(dist < b.r + p.r) {
-                              let overlap = b.r + p.r - dist;
-                              let nx = dx/dist; let ny = dy/dist;
-                              b.x += nx * overlap; b.y += ny * overlap;
-                              let dot = b.vx*nx + b.vy*ny;
-                              b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
-                              b.vx *= 0.7; b.vy *= 0.7;
-                              b.vx += (Math.random()-0.5)*1.5;
-                          }
+                      // 1. 고정 선분(벽) 충돌
+                      pbLines.forEach(line => {
+                         let v = {x:line.x1, y:line.y1}; let w = {x:line.x2, y:line.y2};
+                         let distSq = distToSegmentSquared(b, v, w);
+                         if(distSq < b.r*b.r) {
+                            let closest = getClosestPointOnSegment(b, v, w);
+                            let dx = b.x - closest.x; let dy = b.y - closest.y;
+                            let dist = Math.sqrt(dx*dx + dy*dy);
+                            if(dist > 0) {
+                               let nx = dx/dist; let ny = dy/dist;
+                               b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
+                               let dot = b.vx*nx + b.vy*ny;
+                               b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
+                               b.vx *= 0.6; b.vy *= 0.6; // 마찰력
+                            }
+                         }
+                      });
+
+                      // 2. 회전하는 스피너 충돌
+                      pbSpinners.forEach(sp => {
+                         let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2);
+                         let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
+                         let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2);
+                         let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
+                         
+                         let v = {x:x1, y:y1}; let w = {x:x2, y:y2};
+                         let distSq = distToSegmentSquared(b, v, w);
+                         if(distSq < b.r*b.r) {
+                            let closest = getClosestPointOnSegment(b, v, w);
+                            let dx = b.x - closest.x; let dy = b.y - closest.y;
+                            let dist = Math.sqrt(dx*dx + dy*dy);
+                            if(dist > 0) {
+                               let nx = dx/dist; let ny = dy/dist;
+                               b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
+                               // 회전에 의한 추가 물리력 (kick)
+                               let kickVx = -Math.sin(sp.angle) * sp.speed * 10;
+                               let kickVy = Math.cos(sp.angle) * sp.speed * 10;
+                               b.vx += kickVx; b.vy += kickVy;
+                            }
+                         }
                       });
                       
-                      // 슬롯 도착
+                      // 슬롯 도착 체크
                       if(b.y > ch - 40 - b.r) {
                           b.y = ch - 40 - b.r;
                           b.vx = 0; b.vy = 0;
@@ -1227,13 +1348,28 @@ export default {
                       }
                   }
                   
+                  // 구슬 그리기
                   pbCtx.beginPath(); pbCtx.arc(b.x, b.y, b.r, 0, Math.PI*2);
                   pbCtx.fillStyle = b.color; pbCtx.fill();
-                  pbCtx.strokeStyle = '#fff'; pbCtx.lineWidth = 2; pbCtx.stroke();
-                  
-                  pbCtx.fillStyle = '#fff'; pbCtx.font = '11px Pretendard';
-                  pbCtx.textAlign = 'center'; pbCtx.fillText(b.name, b.x, b.y - 14);
+                  pbCtx.strokeStyle = '#fff'; pbCtx.lineWidth = 1; pbCtx.stroke();
               });
+
+              resolveBallCollision(); // 구슬끼리 부딪힘
+              
+              // 화면 밖을 벗어난 구슬 정리
+              pbBalls.forEach(b => {
+                 if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r;
+              });
+
+              // 라이브 랭킹 업데이트 (y좌표 기준, 도착한 애들이 우선)
+              let sortedBalls = [...pbBalls].sort((a,b) => b.y - a.y);
+              let rankHtml = '';
+              sortedBalls.forEach((b, idx) => {
+                  let rTxt = b.settled ? (pbSlots[b.slotIndex] ? pbSlots[b.slotIndex].text : '') : '진행중..';
+                  rankHtml += '<div class="pb-rank-item" style="border-color:'+b.color+';">' +
+                              '<span>' + (idx+1) + '위. ' + b.name + '</span><span style="color:var(--point-color);">' + rTxt + '</span></div>';
+              });
+              document.getElementById('pb-live-ranks').innerHTML = rankHtml;
               
               if(allSettled) {
                   pbIsRunning = false;
@@ -1251,22 +1387,34 @@ export default {
           function drawPinballFrame() {
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
+              // 라인
+              pbCtx.strokeStyle = '#0284c7'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
+              pbLines.forEach(l => {
+                 pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
+              });
+              
+              // 스피너
+              pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 4;
+              pbSpinners.forEach(sp => {
+                 let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
+                 let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
+                 pbCtx.beginPath(); pbCtx.moveTo(x1, y1); pbCtx.lineTo(x2, y2); pbCtx.stroke();
+                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 5, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
+              });
+
+              // 슬롯 구역
               if(pbSlots.length > 0) {
                   let slotW = cw / pbSlots.length;
-                  pbCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                  pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                  pbCtx.lineWidth = 2; pbCtx.font = '13px Pretendard'; pbCtx.textAlign = 'center';
+                  pbCtx.fillStyle = 'rgba(255, 255, 255, 0.1)'; pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                  pbCtx.lineWidth = 2; pbCtx.font = '12px Pretendard'; pbCtx.textAlign = 'center';
                   for(let i=0; i<pbSlots.length; i++) {
                       pbCtx.strokeRect(i*slotW, ch - 40, slotW, 40);
                       pbCtx.fillStyle = '#ff8200';
                       pbCtx.fillText(pbSlots[i].text, i*slotW + slotW/2, ch - 15);
                   }
               }
-              pbCtx.fillStyle = '#ffffff';
-              pbPegs.forEach(p => {
-                  pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill();
-              });
           }
+
 
           /* ===== 🌟 VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
@@ -1298,15 +1446,12 @@ export default {
                 
                 let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
                 
-                let title = cells[0] || '';
-                let link = cells[1] || '#';
+                let title = cells[0] || ''; let link = cells[1] || '#';
                 let thumb = cells[2] || 'https://via.placeholder.com/640x360/eeeeee/999999?text=No+Thumbnail';
-                let duration = cells[3] || '';
-                let date = cells[4] || '';
+                let duration = cells[3] || ''; let date = cells[4] || '';
                 let isPinned = (cells[5] === '고정');
                 
-                let catText = cells[6] || '';
-                let category = 'live'; 
+                let catText = cells[6] || ''; let category = 'live'; 
                 if (catText === '노래커버') { category = 'cover'; }
                 else if (catText === '라이브') { category = 'live'; }
                 else if (title.indexOf('커버') !== -1 || title.toLowerCase().indexOf('cover') !== -1) { category = 'cover'; }
@@ -1318,16 +1463,8 @@ export default {
                 let durationHtml = duration ? '<span class="vod-badge">' + duration + '</span>' : '';
 
                 let cardHtml = '<a href="' + link + '" target="_blank" class="vod-card' + pinnedClass + '" data-category="' + category + '">' +
-                          '<div class="vod-thumb">' +
-                            '<img src="' + thumb + '" alt="썸네일">' +
-                            '<div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>' +
-                            durationHtml +
-                          '</div>' +
-                          '<div class="vod-info">' +
-                            '<div class="vod-title">' + pinnedTitle + '</div>' +
-                            '<div class="vod-meta-stats"><span>' + date + '</span></div>' +
-                          '</div>' +
-                        '</a>';
+                          '<div class="vod-thumb"><img src="' + thumb + '" alt="썸네일"><div class="vod-play-overlay"><span class="material-symbols-rounded">play_circle</span></div>' + durationHtml + '</div>' +
+                          '<div class="vod-info"><div class="vod-title">' + pinnedTitle + '</div><div class="vod-meta-stats"><span>' + date + '</span></div></div></a>';
                         
                 if (isPinned) { pinnedCards.push(cardHtml); } else { normalCards.push(cardHtml); }
               });
@@ -1335,7 +1472,6 @@ export default {
               let finalPinned = pinnedCards.slice(0, 4);
               let remainingSlots = 20 - finalPinned.length;
               let finalNormal = normalCards.slice(0, remainingSlots);
-              
               let combinedCards = finalPinned.concat(finalNormal);
 
               if(combinedCards.length === 0) {
@@ -1360,14 +1496,11 @@ export default {
           function filterVods() {
             const query = document.getElementById('vod-search-input').value.toLowerCase();
             const vodCards = document.querySelectorAll('#tab-vod .vod-card');
-            
             vodCards.forEach(function(card) {
               const title = card.querySelector('.vod-title').textContent.toLowerCase();
               const cat = card.getAttribute('data-category');
-              
               const matchQuery = title.indexOf(query) !== -1;
               const matchCat = (currentVodCategory === 'all' || cat === currentVodCategory);
-              
               if (matchQuery && matchCat) { card.style.display = 'flex'; } 
               else { card.style.display = 'none'; }
             });
