@@ -70,6 +70,8 @@ export default {
             width: 100%; min-height: 100vh; margin: 0; padding: 0 80px 0 0; background-color: var(--bg-card); box-sizing: border-box; 
           }
           #tab-home .main-wrapper { padding: 0; background-color: transparent; }
+          .main-wrapper::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 40px; background: linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.02) 40%, transparent 100%); z-index: 10; pointer-events: none; }
+          [data-theme="dark"] .main-wrapper::before { background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%); }
           .fullscreen-bg { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('https://stimg.sooplive.com/NORMAL_BBS/8/10867168/73306a6d17133a899.gif'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: -1; }
           
           .content-card { width: 100%; max-width: 1400px; margin: 0 auto; padding: 60px 40px 100px 60px; min-height: 100vh; box-sizing: border-box; }
@@ -78,25 +80,38 @@ export default {
           .section-header-out h2 { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: 1px; }
           .section-header-out span { font-size: 12px; color: var(--text-sub); }
 
-          /* 서브탭 버튼 */
+          /* ===== 서브 탭 버튼 공통 ===== */
           .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
           .sub-tab-btn { padding: 8px 18px; border: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-sub); border-radius: 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; font-family:inherit;}
           .sub-tab-btn:hover { color: var(--point-color); border-color: var(--point-color); }
           .sub-tab-btn.active { background-color: var(--point-color); color: #ffffff; border-color: var(--point-color); }
 
-          /* 팝업 공통 */
+          /* ===== 팝업 공통 ===== */
           .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; animation: fadeIn 0.2s; }
           .modal-content { background: var(--bg-card); width: 400px; max-width: 90%; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
           .modal-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-body); color: var(--text-main); font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.2s; }
           .modal-input:focus { border-color: var(--point-color); }
+          
+          /* 🌟 복구된 음악 팝업 스타일 */
           #music-popup { display: none; position: fixed; width: 320px; background-color: var(--bg-card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 200; padding: 15px; border: 1px solid var(--border-color); }
+          @keyframes popLeft { from { opacity: 0; transform: translate(20px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
+          .popup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+          .popup-header span { font-size: 11px; font-weight: bold; color: var(--point-color); }
+          .close-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; }
+          .video-container { width: 100%; height: 180px; background-color: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+          .music-controls { display: flex; align-items: center; gap: 10px; }
+          .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
+          .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* ===== 2. 프로필 탭 ===== */
           .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
           [data-theme="dark"] .vn-profile-wrapper { box-shadow: inset 0 0 50px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5); }
+          .vn-profile-wrapper::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background-image: radial-gradient(var(--point-color) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.15; pointer-events: none; z-index: 1; }
+          [data-theme="dark"] .vn-profile-wrapper::after { opacity: 0.05; }
           .vn-profile-inner { display: flex; flex-wrap: wrap; position: relative; z-index: 2; gap: 40px; align-items: center; }
           .vn-left-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
           .vn-character-img { width: 100%; max-width: 350px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(255,130,0,0.15)); }
+          [data-theme="dark"] .vn-character-img { filter: drop-shadow(0 0 15px rgba(255,130,0,0.2)); }
           .vn-quote-box { background: var(--bg-body); border: 2px solid var(--point-color); border-radius: 12px; padding: 20px; position: relative; width: 100%; box-sizing: border-box; }
           .vn-quote-icon { position: absolute; top: -16px; left: -10px; width: 32px; height: 32px; background: var(--point-color); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 18px; font-weight: bold; }
           .vn-quote-text { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-main); padding-left: 10px; border-left: 3px solid var(--point-color);}
@@ -116,6 +131,7 @@ export default {
           @media (max-width: 900px) { .profile-bottom-grid { grid-template-columns: 1fr; } }
           .recent-posts { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; height: 100%; box-sizing: border-box; }
           .recent-posts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 12px; }
+          [data-theme="dark"] .recent-posts-header { border-bottom-color: rgba(255,255,255,0.2); }
           .recent-posts-more { font-size: 11px; font-weight: 700; color: var(--point-color); transition: 0.2s; }
           .recent-posts-list { display: flex; flex-direction: column; gap: 12px; }
           .post-item { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--text-main); transition: 0.2s; padding: 5px 0; }
@@ -150,8 +166,6 @@ export default {
           .cal-week-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; min-height: 250px; display: flex; flex-direction: column; gap: 8px; }
           .cal-week-date { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 15px; }
           .event-pill { font-size: 11px; font-weight: 800; padding: 6px 8px; border-radius: 6px; text-align: left; word-break: keep-all; }
-          
-          /* 캘린더 네비게이션용 버튼 오버라이드 방지 */
           .cal-nav .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: flex; align-items: center; transition: color 0.2s; }
           .cal-nav .nav-arrow:hover { color: var(--point-color); background: transparent; box-shadow: none; }
 
@@ -164,6 +178,7 @@ export default {
           .song-table th, .song-table td { padding: 15px 10px; border-bottom: 1px solid var(--border-color); text-align: left; }
           .song-table th { font-size: 13px; color: var(--text-sub); font-weight: normal; }
           .song-table td { font-size: 14px; font-weight: 600; color: var(--text-main); }
+          .group-header-row td { padding: 0 !important; border: none !important; }
           .group-header-box { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-point-light); padding: 12px 20px; border-radius: 12px; margin-top: 20px; margin-bottom: 5px; }
 
           /* ===== 5. 의상실 (CLOSET) ===== */
@@ -173,6 +188,9 @@ export default {
           .closet-item-card { position: relative; width: 300px; height: 450px; border-radius: 16px; background-color: #1a1a1a; background-size: cover; background-position: center; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 10px 25px rgba(0,0,0,0.15); overflow: hidden; box-sizing: border-box; }
           .closet-tag-name { position: absolute; top: 15px; left: 15px; color: #ffffff; font-size: 14px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.6); z-index: 2; }
           .closet-tag-badge { position: absolute; top: 12px; right: 12px; background: #ff478e; color: #ffffff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
+          .closet-item-card::before, .closet-item-card::after { content: ''; position: absolute; width: 16px; height: 16px; pointer-events: none; z-index: 2; }
+          .closet-item-card::before { top: 8px; left: 8px; border-top: 2px solid rgba(255,255,255,0.6); border-left: 2px solid rgba(255,255,255,0.6); }
+          .closet-item-card::after { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(255,255,255,0.6); border-right: 2px solid rgba(255,255,255,0.6); }
           .closet-card-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; box-sizing: border-box; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; z-index: 2; }
           .closet-bottom-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
           
@@ -208,7 +226,7 @@ export default {
           }
           @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
-          /* 좌측 핀볼 맵 (Canvas) */
+          /* 좌측 네온 맵 (Canvas) */
           .pb-canvas-container { width: 320px; height: 100%; background: #080808; border-right: 1px solid #333; flex-shrink: 0; position:relative; }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
@@ -218,36 +236,18 @@ export default {
              background: #888888; padding: 15px; box-sizing:border-box; border-top: 1px solid #555;
           }
           .pb-controls textarea { 
-             width: 100%; height: 50px; background: #bbbbbb; border: none; color: #111;
-             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit; font-weight:bold;
-             margin-bottom: 10px; outline:none;
+             width: 100%; height: 50px; background: #cccccc; color: #111; border: none;
+             border-radius: 4px; padding: 8px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none;
           }
-          .pb-controls textarea::placeholder { color: #555; }
           .pb-controls select {
-             width: 100%; background: #bbbbbb; color:#111; border: none; border-radius: 4px; 
-             padding: 6px; font-size: 12px; font-family: inherit; font-weight:bold; outline: none; margin-bottom: 10px;
+             flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; 
+             padding: 6px; font-size: 12px; outline: none; cursor: pointer;
           }
-          .pb-start-btn { 
-             width:100%; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;
-             padding: 8px; font-size: 13px; font-weight: 900; cursor: pointer; 
-             display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
-          }
-          .pb-start-btn:hover { background: #000; }
-
+          
           /* 우측 검은 랭킹 공간 */
-          .pb-right-col {
-             flex: 1; position: relative; background: #000; overflow: hidden;
-          }
-          /* 중앙의 떨어지는 애니메이션 요소 */
-          #pb-live-view {
-             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-             display: flex; gap: 10px; align-items: flex-end; justify-content: center; width:90%;
-          }
-          /* 우측 상단 순위표 */
-          #pb-ranking-list {
-             position: absolute; top: 20px; right: 20px; text-align: right; 
-             display: flex; flex-direction: column; gap: 5px;
-          }
+          .pb-right-col { flex: 1; position: relative; background: #000; overflow: hidden; }
+          #pb-live-view { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; }
+          #pb-ranking-list { position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; }
 
           /* ===== 8. VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -255,14 +255,18 @@ export default {
           @media (max-width: 800px) { .vod-grid { grid-template-columns: repeat(2, 1fr); } }
           
           .vod-card { background: var(--bg-body); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.2s; text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; }
-          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
+          .vod-card:hover { transform: translateY(-5px); border-color: var(--point-color); box-shadow: 0 8px 20px rgba(255,130,0,0.15); }
           .vod-card.pinned { border: 2px solid var(--point-color); }
           .vod-thumb { width: 100%; aspect-ratio: 16/9; background-color: #e2e8f0; position: relative; }
           .vod-thumb img { width: 100%; height: 100%; object-fit: cover; }
           .vod-play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; z-index: 1; }
+          .vod-play-overlay span { font-size: 50px; color: #fff; text-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: transform 0.2s, color 0.2s; }
           .vod-card:hover .vod-play-overlay { opacity: 1; }
+          .vod-card:hover .vod-play-overlay span { color: var(--point-color); transform: scale(1.1); }
           .vod-info { padding: 15px; }
           .vod-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+          .vod-meta-stats { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); margin-top: 8px; }
+          .vod-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 700; z-index: 2; }
 
           /* ===== 9. INFO 링크 ===== */
           .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
@@ -274,6 +278,7 @@ export default {
           .link-txt h4 { margin: 0 0 3px 0; font-size: 15px; }
           .link-txt p { margin: 0; font-size: 12px; color: var(--text-sub); }
           .link-right { font-size: 11px; font-weight: bold; color: var(--point-color); }
+
         </style>
       </head>
       <body>
@@ -303,16 +308,22 @@ export default {
           <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 뮤직 플레이어 팝업 -->
-        <div id="music-popup" class="modal-overlay">
-          <div class="modal-content" style="width:320px; padding:15px;">
-            <div class="modal-header" style="margin-bottom:10px;">
-              <div><span style="font-size:11px; font-weight:bold; color:var(--point-color);">NOW PLAYING</span><br><strong style="font-size:14px;">Song Hyun BGM</strong></div>
-              <button onclick="toggleMusicPopup()" style="background:none; border:none; color:var(--text-sub); cursor:pointer;"><span class="material-symbols-rounded">close</span></button>
+        <!-- 🌟 복원된 뮤직 플레이어 플로팅 팝업 -->
+        <div id="music-popup">
+          <div class="popup-header">
+            <div>
+              <span style="font-size:11px; font-weight:bold; color:var(--point-color);">NOW PLAYING</span><br>
+              <strong style="font-size:14px;">Song Hyun BGM</strong>
             </div>
-            <div style="width:100%; height:180px; background:#000; border-radius:8px; overflow:hidden; margin-bottom:15px;">
-              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+            <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
+          </div>
+          <div class="video-container">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="music-controls">
+            <span class="material-symbols-rounded" style="font-size:16px;">volume_up</span>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span style="font-size:11px; font-weight:bold;">70%</span>
           </div>
         </div>
 
@@ -357,14 +368,14 @@ export default {
           </div>
         </div>
 
-        <!-- 1. 홈 탭 (전체화면, 흰색카드 없음) -->
+        <!-- 1. 홈 탭 -->
         <section id="tab-home" class="tab-section active">
           <div class="main-wrapper">
             <div class="fullscreen-bg"></div>
           </div>
         </section>
 
-        <!-- 2. 프로필 탭 (오류 복구 완료) -->
+        <!-- 2. 프로필 탭 -->
         <section id="tab-profile" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -439,17 +450,16 @@ export default {
                     <div class="vn-panel" style="height:180px; display:flex; flex-direction:column; padding:15px 25px; margin:0;">
                       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:10px; margin-bottom:10px;">
                         <h3 style="margin:0; font-size:14px; color:var(--point-color);"><span class="material-symbols-rounded" style="font-size:16px;">menu_book</span> 송현위키</h3>
-                        <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded" style="font-size:18px;">add</span></button>
+                        <button onclick="openWikiPopup()" style="background:var(--point-color); color:#fff; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer;"><span class="material-symbols-rounded">add</span></button>
                       </div>
                       <div id="wiki-content-list" style="overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px;">
-                        <div class="wiki-item"><strong>[환영합니다]</strong> 우측 상단의 + 버튼을 눌러 송현님의 정보를 추가해 보세요!</div>
+                        <div class="wiki-item"><strong>[환영합니다]</strong> 송현위키에 오신 것을 환영합니다!</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- 구독 뱃지 -->
               <div class="badge-section">
                 <h3>구독 뱃지</h3>
                 <div class="badge-container">
@@ -466,7 +476,6 @@ export default {
                   <div class="badge-item"><img src="https://static.file.sooplive.com/spcon/532367750f27010e1.png?_=1735785295" class="badge-img" alt="60개월"><span class="badge-label">60개월</span></div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
@@ -511,7 +520,7 @@ export default {
               <div class="section-header-out"><h2>SONG BOOK ♫</h2><span>/ 노래책</span></div>
               <div class="search-bar">
                 <input type="text" id="song-search-input" onkeyup="filterSongs()" placeholder="노래 제목이나 가수를 검색해보세요...">
-                <button class="refresh-btn" onclick="loadSongs()" title="실시간 새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
+                <button class="refresh-btn" onclick="loadSongs()" title="새로고침"><span class="material-symbols-rounded" style="font-size:18px;">refresh</span></button>
               </div>
               <div id="songbook-list">
                 <div class="empty-state">모든 시트 탭의 노래 목록을 불러오는 중입니다...</div>
@@ -567,14 +576,14 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (초기화 및 복구 완료) -->
+        <!-- 🌟 6. 업보 탭 (원상복구 초기화 완료) -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
               <div class="section-header-out"><h2>업보 ♡</h2><span>/ 리스트</span></div>
               <div style="margin-bottom: 20px;">
                 <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 6px;">업보 청산소</h1>
-                <p style="font-size: 13px; color: var(--text-sub);">시청자 카드를 누르면 어떤 업보가 있는지 자세히 볼 수 있어요.</p>
+                <p style="font-size: 13px; color: var(--text-sub);">시청자 룰렛 당첨으로 쌓인 업보 목록입니다.</p>
               </div>
               <div id="upbo-list-container">
                 <!-- 사용자가 추가 연동을 원하기 전까지 초기 상태 유지 -->
@@ -584,7 +593,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 블루델스타일 핀볼게임 완벽 구현) -->
+        <!-- 🌟 7. 미니게임 탭 (핀볼 마블 룰렛 완벽 적용) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -623,15 +632,15 @@ export default {
                 <div class="pb-game-wrapper">
                   
                   <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
-                  <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
+                  <div style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
                     <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
                       <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                     </div>
                     
                     <!-- 컨트롤 패널 -->
-                    <div class="pb-controls" style="padding: 15px; background: #888888; border-top: 1px solid #333;">
+                    <div style="padding: 15px; background: #888888; border-top: 1px solid #333;">
                       <div style="color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 5px; letter-spacing:-0.5px;">이름들을 입력하세요 (이름*갯수)</div>
-                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none;">수박*2, 키위*2, 귤*2</textarea>
+                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing:border-box;">수박*2, 키위*2, 귤*2</textarea>
                       
                       <div style="display: flex; gap: 8px;">
                         <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
@@ -650,7 +659,7 @@ export default {
                   </div>
 
                   <!-- 우측: 랭킹 및 라이브 현황판 -->
-                  <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
+                  <div style="flex: 1; position: relative; background: #000; overflow: hidden;">
                     <!-- 현재 달리고 있는 구슬 뷰 -->
                     <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end;">
                       <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
@@ -815,6 +824,23 @@ export default {
               const themeIcon = document.querySelector('#themeToggleBtn .material-symbols-rounded');
               if (htmlTag.getAttribute('data-theme') === 'light') { htmlTag.setAttribute('data-theme', 'dark'); themeIcon.textContent = 'light_mode'; } 
               else { htmlTag.setAttribute('data-theme', 'light'); themeIcon.textContent = 'dark_mode'; }
+            } catch(e) {}
+          }
+
+          function toggleMusicPopup(btnElement) {
+            try {
+              const popup = document.getElementById('music-popup');
+              if (popup.style.display === 'block') { popup.style.display = 'none'; } 
+              else {
+                popup.style.display = 'block';
+                if(btnElement) {
+                  const rect = btnElement.getBoundingClientRect();
+                  popup.style.top = (rect.top + rect.height / 2) + 'px';
+                  popup.style.right = (window.innerWidth - rect.left + 15) + 'px';
+                  popup.style.left = 'auto'; popup.style.transform = 'translateY(-50%)';
+                  popup.style.animation = 'popLeft 0.3s ease-out';
+                }
+              }
             } catch(e) {}
           }
 
@@ -1024,7 +1050,7 @@ export default {
           // 4. 미니게임 (핀볼 / 마블룰렛)
           // ==============================
           let pbCanvas, pbCtx;
-          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbPegs = [];
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = []; let pbPegs = [];
           let pbFinished = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
@@ -1049,15 +1075,17 @@ export default {
             try {
               pbCanvas = document.getElementById('pinballCanvas');
               if(!pbCanvas) return;
-              pbCanvas.width = 300; 
-              pbCanvas.height = pbCanvas.parentElement.clientHeight || 500; 
+              
+              // 캔버스 크기를 명시적으로 고정 (사진과 같은 세로형 맵 비율)
+              pbCanvas.width = 320; 
+              pbCanvas.height = 600; 
               pbCtx = pbCanvas.getContext('2d');
               
               pinballMapType = document.getElementById('pb-map-select').value;
               pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
-              // 양 벽
+              // 양쪽 벽
               pbLines.push({x1: 0, y1: 0, x2: 0, y2: ch});
               pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
 
@@ -1101,19 +1129,20 @@ export default {
               }
 
               drawPinballFrame();
-              document.getElementById('pb-ranking-list').innerHTML = '<div style="color:#666; font-size:12px;">결과 대기 중...</div>';
-              document.getElementById('pb-live-view').innerHTML = '';
+              document.getElementById('pb-ranking-list').innerHTML = '';
+              document.getElementById('pb-live-view').innerHTML = '<div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>';
             } catch(e) {}
           }
 
           function startPinballGame() {
             try {
               initPinballBoard();
-              const raw = document.getElementById('pb-participants').value.trim();
-              if(!raw) { alert('참가자를 입력해주세요!'); return; }
+              const pRaw = document.getElementById('pb-participants').value.trim();
+              
+              if(!pRaw) { alert('참가자를 입력해주세요!'); return; }
               
               let parsed = [];
-              let items = raw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              let items = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
               items.forEach(item => {
                  let parts = item.split('*');
                  let name = parts[0].trim();
@@ -1225,13 +1254,39 @@ export default {
                   pbCtx.fillStyle = b.color; pbCtx.fill();
               });
 
+              // 구슬끼리 부딪힘
+              for(let i=0; i<pbBalls.length; i++) {
+                 for(let j=i+1; j<pbBalls.length; j++) {
+                    let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                    if(b1.settled || b2.settled) continue;
+                    let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let minDist = b1.r + b2.r;
+                    if(dist < minDist) {
+                       let angle = Math.atan2(dy, dx);
+                       let overlap = minDist - dist;
+                       b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                       b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                       let nx = dx/dist; let ny = dy/dist;
+                       let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                       b1.vx -= p*nx; b1.vy -= p*ny;
+                       b2.vx += p*nx; b2.vy += p*ny;
+                    }
+                 }
+              }
+              
+              // 화면 밖을 벗어난 구슬 정리
+              pbBalls.forEach(b => {
+                 if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r;
+              });
+
               // 라이브 뷰 업데이트 (우측 검은 화면 중앙)
               let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
               let liveHtml = '';
               activeBalls.forEach(b => {
                  let initial = b.name.charAt(0);
                  liveHtml += '<div style="display:flex; flex-direction:column; align-items:center; gap:3px;">' +
-                             '<div style="width:24px; height:24px; border-radius:50%; border:2px dashed '+b.color+'; background:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#000;">'+initial+'</div>' +
+                             '<div style="width:24px; height:24px; border-radius:50%; border:2px solid '+b.color+'; background:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#000;">'+initial+'</div>' +
                              '<span style="color:'+b.color+'; font-size:12px; font-weight:bold; letter-spacing:-0.5px;">'+b.name+'</span></div>';
               });
               document.getElementById('pb-live-view').innerHTML = liveHtml;
@@ -1253,24 +1308,27 @@ export default {
           }
 
           function drawPinballFrame() {
-              pbCtx.shadowBlur = 8; pbCtx.shadowColor = '#38bdf8';
-              pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 2; pbCtx.lineCap = 'round';
+              let cw = pbCanvas.width; let ch = pbCanvas.height;
+              
+              // 네온 스타일 선분
+              pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
+              pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
                  pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
               });
               
-              pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 3;
+              // 네온 스타일 스피너
+              pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 4;
               pbSpinners.forEach(sp => {
                  let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
                  let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
                  pbCtx.beginPath(); pbCtx.moveTo(x1, y1); pbCtx.lineTo(x2, y2); pbCtx.stroke();
-                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 4, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
+                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 5, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
               });
               
               pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
               pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
           }
-
 
           /* ===== 🌟 VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
@@ -1327,7 +1385,7 @@ export default {
                   container.innerHTML = combinedCards.join('');
               }
             } catch (err) {
-              container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">VOD 시트 연동에 실패했습니다.<br>구글 시트 하단에 <strong>[VOD]</strong> 라는 탭이 있는지 확인해주세요.</div>';
+              container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">VOD 구글 시트 연동에 실패했습니다.<br>구글 시트 하단에 <strong>[VOD]</strong> 라는 탭이 있는지 확인해주세요.</div>';
             }
           }
 
@@ -1380,7 +1438,6 @@ export default {
                 rows.forEach(function(row) {
                   if (!row || !row.c) return; 
                   let cells = row.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
-                  
                   let rawSinger = cells[1] || ''; let title = cells[2] || '';
                   let diff = cells[3] || 'ㅡ'; let status = cells[4] || 'ㅡ';
 
@@ -1456,30 +1513,6 @@ export default {
                 }
               });
               if (currentGroupHeader) { currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none'; }
-            } catch(e) {}
-          }
-
-          /* ===== 최근 게시글 ===== */
-          function loadRecentPosts() {
-            try {
-              const container = document.getElementById('soop-posts-container');
-              const dummyPosts = [
-                { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
-                { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
-                { isNotice: false, title: "어제 방송 너무 재밌었어요!!", date: "2026.08.10", likes: 32, comments: 15 }
-              ];
-              let html = '';
-              dummyPosts.forEach(post => {
-                let badge = post.isNotice ? '<span class="post-badge notice">공지</span>' : '<span class="post-badge">일반</span>';
-                html += '<a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="post-item">' +
-                    '<div class="post-title-row">' + badge + '<span class="post-title">' + post.title + '</span></div>' +
-                    '<div class="post-meta">' +
-                      '<span>' + post.date + '</span>' +
-                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">favorite</span> ' + post.likes +
-                      '<span class="material-symbols-rounded" style="font-size:11px; margin-left:8px; margin-right:2px;">chat_bubble</span> ' + post.comments +
-                    '</div></a>';
-              });
-              container.innerHTML = html;
             } catch(e) {}
           }
 
