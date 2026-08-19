@@ -101,8 +101,6 @@ export default {
           .close-btn { background: none; border: none; color: var(--text-sub); cursor: pointer; }
           .video-container { width: 100%; height: 180px; background-color: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
           .music-controls { display: flex; align-items: center; gap: 10px; }
-          .progress-bar { flex: 1; height: 4px; background-color: var(--bg-body); border-radius: 2px; }
-          .progress-fill { width: 70%; height: 100%; background-color: var(--point-color); border-radius: 2px; }
 
           /* ===== 2. 프로필 탭 ===== */
           .vn-profile-wrapper { background: var(--bg-card); border: 3px solid var(--point-color); border-radius: 20px; padding: 40px; box-shadow: inset 0 0 50px rgba(255,130,0,0.05), 0 10px 30px rgba(0,0,0,0.05); position: relative; overflow: hidden; margin-bottom: 30px; }
@@ -140,14 +138,17 @@ export default {
           .post-item:hover .post-title { color: var(--point-color); }
           .post-badge { background-color: rgba(0,0,0,0.05); color: var(--text-sub); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
           .post-badge.notice { background-color: var(--point-color); color: #fff; }
-          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-          .post-meta { display: flex; align-items: center; font-size: 9px; color: var(--text-sub); } /* 🌟 날짜/좋아요 폰트 크기 9px 조정 */
+          .post-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .post-meta { display: flex; align-items: center; font-size: 9px; color: var(--text-sub); } 
 
           .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
-          .vn-panel { background: var(--bg-card); border: 2px solid var(--point-color); border-radius: 16px; padding: 25px; }
-
-          /* 위키 & 방송규칙 공통 아이템 디자인 */
+          
+          /* 🌟 2번 탭 - 서브 탭 패널 */
+          .vn-panel { 
+            background: var(--bg-card); border: 2px solid var(--point-color); 
+            border-radius: 16px; padding: 20px 25px; height: 220px; box-sizing: border-box; 
+          }
           .wiki-item { background: var(--bg-body); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
 
           .badge-section { background-color: var(--bg-point-light); border-radius: 12px; padding: 20px; border: 1px dashed rgba(255,130,0,0.3); margin-top:20px; }
@@ -160,8 +161,9 @@ export default {
 
           /* ===== 3. 일정표 탭 ===== */
           .calendar-header-new { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: nowrap; width: 100%; }
-          .cal-title-left { display: flex; align-items: center; gap: 20px; flex-wrap: nowrap; white-space: nowrap; }
+          .cal-title-left { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; white-space: nowrap; }
           .cal-title-left h1 { font-size: 32px; font-weight: 900; margin: 0; padding: 0; }
+          
           .cal-nav { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 15px !important; flex-wrap: nowrap !important; white-space: nowrap !important; }
           .cal-nav .nav-arrow { background: none; border: none; padding: 0; margin: 0; color: var(--text-sub); cursor: pointer; display: inline-flex; align-items: center; justify-content:center; transition: color 0.2s; flex-shrink: 0; }
           .cal-nav .nav-arrow:hover { color: var(--point-color); background: transparent; box-shadow: none; }
@@ -238,18 +240,13 @@ export default {
           }
           @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:600px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
           
-          /* 좌측 네온 맵 (Canvas) */
           .pb-canvas-container {
              width: 320px; height: 100%; background: #080808; 
-             border-right: 1px solid #333; position: relative;
-             flex-shrink: 0;
+             border-right: 1px solid #333; position: relative; flex-shrink: 0;
           }
           canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
           
-          /* 우측 리더보드 및 설정 영역 */
-          .pb-side-panel {
-             flex: 1; display: flex; flex-direction: column; position: relative; background: #111;
-          }
+          .pb-side-panel { flex: 1; display: flex; flex-direction: column; position: relative; background: #111; }
           
           .pb-leaderboard {
              flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -348,7 +345,7 @@ export default {
           <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn" title="다크모드"><span class="material-symbols-rounded">dark_mode</span></button>
         </nav>
 
-        <!-- 🌟 복원된 뮤직 플레이어 플로팅 팝업 -->
+        <!-- 🌟 복원된 뮤직 플레이어 플로팅 팝업 (작동하는 볼륨 바 적용 완료) -->
         <div id="music-popup">
           <div class="popup-header">
             <div>
@@ -358,12 +355,12 @@ export default {
             <button class="close-btn" onclick="toggleMusicPopup()"><span class="material-symbols-rounded">close</span></button>
           </div>
           <div class="video-container">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="yt-player" width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?list=PLQsBVkS90xTY&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div class="music-controls">
-            <span class="material-symbols-rounded" style="font-size:16px;">volume_up</span>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-            <span style="font-size:11px; font-weight:bold;">70%</span>
+            <span id="vol-icon" class="material-symbols-rounded" style="font-size:16px;">volume_up</span>
+            <input type="range" id="vol-slider" min="0" max="100" value="70" oninput="changeVolume(this.value)" style="flex:1; cursor:pointer; accent-color: var(--point-color);">
+            <span id="vol-text" style="font-size:11px; font-weight:bold; width:30px; text-align:right;">70%</span>
           </div>
         </div>
 
@@ -541,7 +538,7 @@ export default {
               <div class="calendar-header-new">
                 <div class="cal-title-left" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; white-space:nowrap;">
                   <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
-                  <!-- 월 변경 1줄 강제 고정 (타이틀 바로 밑으로 이동 완료) -->
+                  <!-- 월 변경 1줄 강제 고정 -->
                   <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
@@ -629,7 +626,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (초기 빈 상태로 복구) -->
+        <!-- 🌟 6. 업보 탭 (초기 빈 상태로 유지) -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -645,7 +642,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델스타일 네온 핀볼) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델스타일 네온 핀볼 완벽 작동) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -879,12 +876,13 @@ export default {
             } catch(e) {}
           }
 
-          function toggleMusicPopup(btnElement) {
+          function toggleMusicPopup() {
             try {
               const popup = document.getElementById('music-popup');
               if (popup.style.display === 'block') { popup.style.display = 'none'; } 
               else {
                 popup.style.display = 'block';
+                const btnElement = document.querySelector('button[title="배경음악"]');
                 if(btnElement) {
                   const rect = btnElement.getBoundingClientRect();
                   popup.style.top = (rect.top + rect.height / 2) + 'px';
@@ -892,6 +890,23 @@ export default {
                   popup.style.left = 'auto'; popup.style.transform = 'translateY(-50%)';
                   popup.style.animation = 'popLeft 0.3s ease-out';
                 }
+              }
+            } catch(e) {}
+          }
+
+          // 🌟 추가: 유튜브 볼륨 작동 함수
+          function changeVolume(val) {
+            try {
+              document.getElementById('vol-text').innerText = val + '%';
+              let icon = document.getElementById('vol-icon');
+              if (val == 0) icon.innerText = 'volume_off';
+              else if (val < 50) icon.innerText = 'volume_down';
+              else icon.innerText = 'volume_up';
+              
+              let iframe = document.getElementById('yt-player');
+              if(iframe && iframe.contentWindow) {
+                 iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [val] }), '*');
+                 if(val > 0) iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unMute', args: [] }), '*');
               }
             } catch(e) {}
           }
@@ -1127,6 +1142,7 @@ export default {
               pbCanvas = document.getElementById('pinballCanvas');
               if(!pbCanvas) return;
               
+              // 캔버스 크기
               pbCanvas.width = 320; 
               pbCanvas.height = 800; 
               pbCtx = pbCanvas.getContext('2d');
@@ -1135,6 +1151,7 @@ export default {
               pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
+              // 양쪽 벽
               pbLines.push({x1: 0, y1: 0, x2: 0, y2: ch});
               pbLines.push({x1: cw, y1: 0, x2: cw, y2: ch});
 
@@ -1194,28 +1211,24 @@ export default {
             try {
               initPinballBoard();
               const pRaw = document.getElementById('pb-participants').value.trim();
-              const rRaw = document.getElementById('pb-rewards').value.trim();
               
-              const pText = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
-              const rText = rRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              if(!pRaw) { alert('참가자를 입력해주세요!'); return; }
               
-              if(pText.length === 0 || rText.length === 0) { alert('참가자와 보상 슬롯을 최소 1개 이상 입력해주세요!'); return; }
-
-              let parsedPlayers = [];
-              pText.forEach(line => {
-                  let parts = line.split('*');
-                  let name = parts[0].trim();
-                  let count = parts.length > 1 ? parseInt(parts[1]) : 1;
-                  if(isNaN(count) || count < 1) count = 1;
-                  for(let i=0; i<count; i++) { parsedPlayers.push(name); }
+              let parsed = [];
+              let items = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              items.forEach(item => {
+                 let parts = item.split('*');
+                 let name = parts[0].trim();
+                 let count = parts.length > 1 ? parseInt(parts[1]) : 1;
+                 if(isNaN(count) || count < 1) count = 1;
+                 for(let i=0; i<count; i++) parsed.push(name);
               });
 
-              pbSlots = rText.map(t => ({ text: t }));
-              pbBalls = parsedPlayers.map((p, i) => ({
-                  name: p, color: pbColors[i % pbColors.length],
+              pbBalls = parsed.map((p, i) => ({
+                  id: i, name: p, color: pbColors[i % pbColors.length],
                   x: pbCanvas.width / 2 + (Math.random()*40 - 20), y: 20,
                   vx: (Math.random()-0.5)*3, vy: 0,
-                  r: 8, settled: false, slotIndex: -1
+                  r: 8, settled: false
               }));
               
               pbFinished = [];
@@ -1225,30 +1238,7 @@ export default {
                   pbIsRunning = true;
                   requestAnimationFrame(updatePinball);
               }
-            } catch(e) { console.error(e); }
-          }
-
-          function resolveBallCollision() {
-             for(let i=0; i<pbBalls.length; i++) {
-                for(let j=i+1; j<pbBalls.length; j++) {
-                   let b1 = pbBalls[i]; let b2 = pbBalls[j];
-                   if(b1.settled || b2.settled) continue;
-                   let dx = b2.x - b1.x; let dy = b2.y - b1.y;
-                   let dist = Math.sqrt(dx*dx + dy*dy);
-                   let minDist = b1.r + b2.r;
-                   if(dist < minDist) {
-                      let angle = Math.atan2(dy, dx);
-                      let overlap = minDist - dist;
-                      b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
-                      b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
-                      let nx = dx/dist; let ny = dy/dist;
-                      let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
-                      
-                      b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
-                      b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
-                   }
-                }
-             }
+            } catch(e) {}
           }
 
           function updatePinball() {
@@ -1260,18 +1250,19 @@ export default {
               drawPinballFrame();
               
               let allSettled = true;
-              const slotW = cw / pbSlots.length;
               
               pbBalls.forEach(b => {
                   if(!b.settled) {
                       allSettled = false;
-                      b.vy += 0.15; 
-                      b.vy *= 0.99; b.vx *= 0.99; 
+                      b.vy += 0.15; // 약한 중력
+                      b.vy *= 0.99; b.vx *= 0.99; // 공기 저항
                       b.x += b.vx; b.y += b.vy;
                       
+                      // 벽 튕기기
                       if(b.x < b.r) { b.x = b.r; b.vx *= -0.8; }
                       if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.8; }
                       
+                      // 선분(벽) 충돌
                       pbLines.forEach(line => {
                          let v = {x:line.x1, y:line.y1}; let w = {x:line.x2, y:line.y2};
                          let distSq = distToSegmentSquared(b, v, w);
@@ -1284,11 +1275,12 @@ export default {
                                b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
                                let dot = b.vx*nx + b.vy*ny;
                                b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
-                               b.vx *= 0.85; b.vy *= 0.85; 
+                               b.vx *= 0.85; b.vy *= 0.85; // 🌟 탄성 계수 상향
                             }
                          }
                       });
 
+                      // 둥근 페그 충돌
                       pbPegs.forEach(p => {
                           let dx = b.x - p.x; let dy = b.y - p.y;
                           let dist = Math.sqrt(dx*dx + dy*dy);
@@ -1301,6 +1293,7 @@ export default {
                           }
                       });
 
+                      // 회전 스피너 충돌
                       pbSpinners.forEach(sp => {
                          let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
                          let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
@@ -1313,7 +1306,7 @@ export default {
                             if(dist > 0) {
                                let nx = dx/dist; let ny = dy/dist;
                                b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
-                               let kickVx = -Math.sin(sp.angle) * sp.speed * 12; 
+                               let kickVx = -Math.sin(sp.angle) * sp.speed * 12; // 타격감 상향
                                let kickVy = Math.cos(sp.angle) * sp.speed * 12;
                                b.vx += kickVx; b.vy += kickVy;
                                b.vx *= 0.85; b.vy *= 0.85;
@@ -1321,24 +1314,50 @@ export default {
                          }
                       });
                       
-                      if(b.y > ch - 40 - b.r) {
-                          b.y = ch - 40 - b.r; b.vx = 0; b.vy = 0; 
+                      // 도착 판정 (레이싱 방식)
+                      if(b.y > ch - b.r - 5) {
+                          b.y = ch - b.r - 5; b.vx = 0; b.vy = 0; 
                           b.settled = true;
-                          b.slotIndex = Math.floor(b.x / slotW);
-                          if(b.slotIndex < 0) b.slotIndex = 0;
-                          if(b.slotIndex >= pbSlots.length) b.slotIndex = pbSlots.length - 1;
                           pbFinished.push(b);
                           updateRankingUI();
                       }
                   }
                   
+                  // 구슬 그리기
                   pbCtx.beginPath(); pbCtx.arc(b.x, b.y, b.r, 0, Math.PI*2);
                   pbCtx.fillStyle = b.color; pbCtx.fill();
+                  pbCtx.strokeStyle = '#fff'; pbCtx.lineWidth = 1; pbCtx.stroke();
               });
 
-              resolveBallCollision(); 
-              pbBalls.forEach(b => { if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r; });
+              // 구슬끼리 부딪힘
+              for(let i=0; i<pbBalls.length; i++) {
+                 for(let j=i+1; j<pbBalls.length; j++) {
+                    let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                    if(b1.settled || b2.settled) continue;
+                    let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let minDist = b1.r + b2.r;
+                    if(dist < minDist) {
+                       let angle = Math.atan2(dy, dx);
+                       let overlap = minDist - dist;
+                       b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                       b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                       let nx = dx/dist; let ny = dy/dist;
+                       let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                       
+                       // 통통 튀도록 탄성계수 0.8 적용
+                       b1.vx -= p*nx*0.8; b1.vy -= p*ny*0.8;
+                       b2.vx += p*nx*0.8; b2.vy += p*ny*0.8;
+                    }
+                 }
+              }
+              
+              // 화면 밖을 벗어난 구슬 정리
+              pbBalls.forEach(b => {
+                 if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r;
+              });
 
+              // 라이브 뷰 업데이트 (우측 검은 화면 중앙)
               let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
               let liveHtml = '';
               activeBalls.forEach(b => {
@@ -1360,8 +1379,7 @@ export default {
           function updateRankingUI() {
              let html = '';
              pbFinished.forEach((b, idx) => {
-                let reward = pbSlots[b.slotIndex] ? pbSlots[b.slotIndex].text : '?';
-                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:14px; margin-bottom:4px; animation: popIn 0.3s ease-out;">'+b.name+' <span style="color:#fff;">#'+(idx+1)+' ('+reward+')</span></div>';
+                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:14px; margin-bottom:4px; animation: popIn 0.3s ease-out;">'+b.name+' <span style="color:#fff;">#'+(idx+1)+'</span></div>';
              });
              document.getElementById('pb-ranking-list').innerHTML = html;
           }
@@ -1369,12 +1387,14 @@ export default {
           function drawPinballFrame() {
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
+              // 네온 스타일 선분
               pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
               pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 3; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
                  pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
               });
               
+              // 네온 스타일 스피너
               pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 4;
               pbSpinners.forEach(sp => {
                  let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
@@ -1385,17 +1405,6 @@ export default {
               
               pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
               pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
-
-              if(pbSlots.length > 0) {
-                  let slotW = cw / pbSlots.length;
-                  pbCtx.fillStyle = 'rgba(255, 255, 255, 0.1)'; pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                  pbCtx.lineWidth = 2; pbCtx.font = '12px Pretendard'; pbCtx.textAlign = 'center';
-                  for(let i=0; i<pbSlots.length; i++) {
-                      pbCtx.strokeRect(i*slotW, ch - 40, slotW, 40);
-                      pbCtx.fillStyle = '#ff8200';
-                      pbCtx.fillText(pbSlots[i].text, i*slotW + slotW/2, ch - 15);
-                  }
-              }
           }
 
           /* ===== 5. VOD 탭 검색 및 카테고리 필터 ===== */
@@ -1452,7 +1461,7 @@ export default {
                   container.innerHTML = combinedCards.join('');
               }
             } catch (err) {
-              container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">VOD 시트 연동에 실패했습니다.</div>';
+              container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">VOD 구글 시트 연동에 실패했습니다.</div>';
             }
           }
 
@@ -1580,30 +1589,6 @@ export default {
                 }
               });
               if (currentGroupHeader) { currentGroupHeader.style.display = visibleCountInGroup > 0 ? '' : 'none'; }
-            } catch(e) {}
-          }
-
-          /* 최근 게시글 더미데이터 */
-          function loadRecentPosts() {
-            try {
-              const container = document.getElementById('soop-posts-container');
-              const dummyPosts = [
-                { isNotice: true, title: "안녕하세요! 방송 관련 공지입니다💙", date: "2026.08.14", likes: 25, comments: 8 },
-                { isNotice: false, title: "오늘 뱅송은 조금 늦을 것 같아요ㅠㅠ", date: "2026.08.12", likes: 14, comments: 3 },
-                { isNotice: false, title: "어제 방송 너무 재밌었어요!!", date: "2026.08.10", likes: 32, comments: 15 }
-              ];
-              let html = '';
-              dummyPosts.forEach(post => {
-                let badge = post.isNotice ? '<span class="post-badge notice">공지</span>' : '<span class="post-badge">일반</span>';
-                html += '<a href="https://bj.afreecatv.com/songhy/posts" target="_blank" class="post-item">' +
-                    '<div class="post-title-row">' + badge + '<span class="post-title">' + post.title + '</span></div>' +
-                    '<div class="post-meta" style="font-size:9px;">' +
-                      '<span>' + post.date + '</span>' +
-                      '<span class="material-symbols-rounded" style="font-size:10px; margin-left:8px; margin-right:2px;">favorite</span> ' + post.likes +
-                      '<span class="material-symbols-rounded" style="font-size:10px; margin-left:8px; margin-right:2px;">chat_bubble</span> ' + post.comments +
-                    '</div></a>';
-              });
-              container.innerHTML = html;
             } catch(e) {}
           }
 
