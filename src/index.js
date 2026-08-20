@@ -1105,8 +1105,8 @@ export default {
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             try {
-              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ';
-              const sheetNames = ['k pop', 'pop', 'j pop', '오리지널 곡✨', '숙제곡💖']; 
+              const sheetId = '1DqUd6qW7BC-yfQWPR76h59q4BYNSq14uOEL0kKTXlzY';
+              const sheetNames = ['K POP', 'POP', 'J POP', '오리지널 곡✨', '숙제곡💖']; 
               const grouped = {}; let globalSongIndex = 1;
 
               const timestamp = new Date().getTime();
