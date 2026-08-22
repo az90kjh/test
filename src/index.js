@@ -146,7 +146,7 @@ export default {
           .extra-sub-section { display: none; animation: fadeIn 0.3s ease-in-out; height: 100%; }
           .extra-sub-section.active { display: block; }
           
-          /* 🌟 2번 탭 - 서브 탭 패널 (높이 고정) */
+          /* 2번 탭 - 서브 탭 패널 (높이 고정) */
           .vn-panel { 
             background: var(--bg-card); border: 2px solid var(--point-color); 
             border-radius: 16px; padding: 20px 25px; height: 220px; box-sizing: border-box; 
@@ -222,23 +222,21 @@ export default {
           .action-btn { background-color: var(--point-color); color: #fff; padding: 10px 25px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; box-shadow:0 2px 8px rgba(255,130,0,0.3);}
           .action-btn:hover { filter: brightness(0.9); }
 
-          /* 🌟 사다리게임 UI 변경 사항 적용 (화면 전환) */
+          /* 사다리 설정 (화면분리) */
           .ladder-setup { background: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px dashed rgba(255,130,0,0.3); }
-          .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto; }
-          .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
-          .ladder-input-box input { width: 100%; border: none; background: transparent; color: var(--text-main); font-size: 12px; outline: none; margin-bottom: 5px; font-family: inherit; }
-          .ladder-input-box input:last-child { margin-bottom: 0; color: var(--point-color); font-weight: bold; }
+          .ladder-inputs-grid { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 300px; overflow-y: auto; }
+          .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); box-sizing:border-box;}
+          .ladder-input-box input { width: 100%; border: none; background: transparent; font-size: 12px; outline: none; font-family: inherit; }
           
           .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); text-align:center; }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
           
-          /* 가로 100% 채워서 Flexbox 정밀 정렬 */
           .ladder-btn-row { display: flex; margin-bottom: 5px; width: 100%; }
           .ladder-result-row { display: flex; margin-top: 5px; width: 100%; }
           .ladder-start-btn { width: 90%; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; display:inline-block; }
           .ladder-res-box { width: 90%; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; display:inline-block; text-align: center; }
 
-          /* 🌟 핀볼게임 (마블룰렛 스타일) */
+          /* 🌟 핀볼게임 (마블룰렛 스타일 확장 완벽 재현) */
           .pb-game-wrapper {
              display: flex; gap: 0; width: 100%; height: 600px; 
              background: #000000; border-radius: 12px; overflow: hidden;
@@ -278,7 +276,7 @@ export default {
           .pb-input-group label { color: #aaa; font-size: 11px; font-weight: 700; }
           .pb-input-group textarea { 
              width: 100%; height: 60px; background: #111; border: 1px solid #444; color: #fff;
-             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit;
+             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit; box-sizing: border-box;
           }
           .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 200px; }
           .pb-settings-row { display: flex; align-items: center; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 700; }
@@ -546,6 +544,7 @@ export default {
               <div class="calendar-header-new">
                 <div class="cal-title-left" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; white-space:nowrap;">
                   <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
+                  <!-- 월 변경 1줄 강제 고정 -->
                   <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
@@ -649,7 +648,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리게임 UI 화면전환 구현 완료) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리게임 & 마블룰렛) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -671,9 +670,21 @@ export default {
                     <div class="counter-num" id="ladder-count">4</div>
                     <button class="counter-btn" onclick="changeLadderCount(1)">+</button>
                   </div>
-                  <div class="ladder-inputs-grid" id="ladder-inputs-container"></div>
+                  
+                  <!-- 🌟 이름과 결과 입력창 좌우 분리 -->
+                  <div style="display: flex; gap: 20px; margin-top: 15px;">
+                    <div style="flex: 1;">
+                      <div style="font-size:13px; font-weight:bold; color:var(--text-sub); margin-bottom:5px;">참가자 이름</div>
+                      <div class="ladder-inputs-grid" id="ladder-names-container" style="margin-top:0;"></div>
+                    </div>
+                    <div style="flex: 1;">
+                      <div style="font-size:13px; font-weight:bold; color:var(--text-sub); margin-bottom:5px;">결과 입력</div>
+                      <div class="ladder-inputs-grid" id="ladder-results-container" style="margin-top:0;"></div>
+                    </div>
+                  </div>
+                  
                   <!-- 사다리 생성하기 클릭 시 설정창 가리고 게임판 띄움 -->
-                  <button class="action-btn" style="margin-top:15px;" onclick="generateLadder()">사다리 무작위 생성하기</button>
+                  <button class="action-btn" style="margin-top:20px;" onclick="generateLadder()">사다리 무작위 생성하기</button>
                 </div>
                 
                 <!-- 화면 2: 게임 플레이 창 -->
@@ -703,7 +714,7 @@ export default {
                 <!-- 전체 높이를 600px로 세팅 -->
                 <div class="pb-game-wrapper" style="display: flex; width: 100%; height: 600px; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;">
                   
-                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
+                  <!-- 좌측: 캔버스 + 컨트롤 -->
                   <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
                     <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
                       <!-- Canvas 자체에 100%를 주어 내부 2400px가 시각적으로 꽉 맞게 축소됨 -->
@@ -731,14 +742,14 @@ export default {
                     </div>
                   </div>
 
-                  <!-- 우측: 랭킹 및 라이브 현황판 (보상 목록 삭제됨) -->
+                  <!-- 우측: 랭킹 및 라이브 현황판 -->
                   <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
                     <!-- 현재 달리고 있는 구슬 뷰 -->
                     <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;">
                       <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
                     </div>
                     
-                    <!-- 🌟 우측 상단 순위표 고정 -->
+                    <!-- 우측 상단 순위표 고정 -->
                     <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; width: 100%; max-height: calc(100% - 40px); overflow-y: auto; z-index: 10;"></div>
                   </div>
                 </div>
@@ -922,6 +933,7 @@ export default {
             } catch(e) {}
           }
 
+          // 유튜브 볼륨 컨트롤 함수
           function changeVolume(val) {
             try {
               document.getElementById('vol-text').innerText = val + '%';
@@ -1050,15 +1062,19 @@ export default {
           
           function renderLadderInputs() {
             try {
-              const container = document.getElementById('ladder-inputs-container'); let html = '';
+              const namesContainer = document.getElementById('ladder-names-container');
+              const resContainer = document.getElementById('ladder-results-container');
+              let namesHtml = ''; let resHtml = '';
               for(let i=0; i<ladderCount; i++) {
-                 html += '<div class="ladder-input-box"><input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'"><input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'"></div>';
+                 namesHtml += '<div class="ladder-input-box"><input type="text" id="ladder-name-'+i+'" value="참가자 '+(i+1)+'" style="color:var(--text-main); font-weight:normal;"></div>';
+                 resHtml += '<div class="ladder-input-box"><input type="text" id="ladder-res-'+i+'" value="결과 '+(i+1)+'" style="color:var(--point-color); font-weight:bold;"></div>';
               }
-              container.innerHTML = html;
+              namesContainer.innerHTML = namesHtml;
+              resContainer.innerHTML = resHtml;
             } catch(e) {}
           }
 
-          // 🌟 추가: 다시 설정하기 버튼 동작
+          // 다시 설정하기 버튼 동작
           function resetLadder() {
              document.querySelector('.ladder-setup').style.display = 'block';
              document.getElementById('ladder-play-area').style.display = 'none';
@@ -1066,7 +1082,7 @@ export default {
 
           function generateLadder() {
             try {
-              // 🌟 사다리 생성 누르면 첫화면 숨기고 두번째 게임화면 띄우기
+              // 사다리 생성 누르면 첫화면 숨기고 두번째 게임화면 띄우기
               document.querySelector('.ladder-setup').style.display = 'none';
               document.getElementById('ladder-play-area').style.display = 'block';
               
@@ -1080,7 +1096,6 @@ export default {
               let btnHtml = ''; let resHtml = '';
               for(let i=0; i<ladderCount; i++) {
                 let pName = document.getElementById('ladder-name-'+i).value || (i+1); let pRes = document.getElementById('ladder-res-'+i).value || '?';
-                // 🌟 버튼과 결과 박스를 flex:1 로 묶어 캔버스의 줄들과 완벽하게 가운데 정렬되도록 조정
                 btnHtml += '<div style="flex:1; display:flex; justify-content:center; padding:0 2px;"><button class="ladder-start-btn" style="width:100%;" onclick="playLadder('+i+')">' + pName + '</button></div>';
                 resHtml += '<div style="flex:1; display:flex; justify-content:center; padding:0 2px;"><div class="ladder-res-box" style="width:100%;" id="res-box-'+i+'">' + pRes + '</div></div>';
               }
@@ -1103,7 +1118,7 @@ export default {
              const colWidth = canvasL.width / ladderCount;
              ctxL.lineWidth = 4; ctxL.lineCap = 'round'; ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
              
-             // 세로줄 그리기 (이름 버튼 정가운데부터 밑에 결과 중앙까지 완벽하게 이어짐)
+             // 세로줄 그리기
              for(let i=0; i<ladderCount; i++) {
                 let x = colWidth/2 + (i*colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x, 0); ctxL.lineTo(x, canvasL.height); ctxL.stroke();
@@ -1141,7 +1156,10 @@ export default {
                      return;
                   }
                   let p1 = path[step]; let p2 = path[step+1];
-                  progress += 0.15; if(progress > 1) { progress = 1; }
+                  
+                  // 🌟 애니메이션 속도 절반으로 감소 (0.15 -> 0.075)
+                  progress += 0.075; if(progress > 1) { progress = 1; }
+                  
                   let currX = p1.x + (p2.x - p1.x) * progress; let currY = p1.y + (p2.y - p1.y) * progress;
 
                   drawLadderBase(); 
@@ -1161,7 +1179,7 @@ export default {
           // 4. 미니게임 (핀볼 / 마블룰렛)
           // ==============================
           let pbCanvas, pbCtx;
-          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbPegs = [];
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbSlots = []; let pbPegs = [];
           let pbFinished = [];
           let pbIsRunning = false;
           let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
@@ -1182,22 +1200,11 @@ export default {
              return { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) };
           }
 
+          // 커스텀 벽면 생성을 위한 배열 그리기 함수
           function buildWall(pts) {
               for(let i=0; i<pts.length-1; i++) {
                   pbLines.push({x1: pts[i][0], y1: pts[i][1], x2: pts[i+1][0], y2: pts[i+1][1]});
               }
-          }
-
-          function generateJaggedWalls(cw, ch) {
-              let leftWall = [[0,0]]; let rightWall = [[cw,0]];
-              let segments = 12 + Math.floor(Math.random()*6);
-              let yStep = ch / segments;
-              for(let i=1; i<segments; i++) {
-                  leftWall.push([20 + Math.random() * 80, i * yStep + (Math.random()*100-50)]);
-                  rightWall.push([cw - 20 - (Math.random() * 80), i * yStep + (Math.random()*100-50)]);
-              }
-              leftWall.push([0, ch]); rightWall.push([cw, ch]);
-              buildWall(leftWall); buildWall(rightWall);
           }
 
           function initPinballBoard() {
@@ -1213,67 +1220,59 @@ export default {
               pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
               let cw = pbCanvas.width; let ch = pbCanvas.height;
 
-              generateJaggedWalls(cw, ch);
+              // 무작위 삐뚤빼뚤한 커스텀 바깥 벽 생성
+              let leftWall = [[0,0]]; let rightWall = [[cw,0]];
+              let segments = 12 + Math.floor(Math.random()*6);
+              let yStep = ch / segments;
+              for(let i=1; i<segments; i++) {
+                  leftWall.push([20 + Math.random() * 80, i * yStep + (Math.random()*100-50)]);
+                  rightWall.push([cw - 20 - (Math.random() * 80), i * yStep + (Math.random()*100-50)]);
+              }
+              leftWall.push([0, ch]); rightWall.push([cw, ch]);
+              buildWall(leftWall); buildWall(rightWall);
 
               if(pinballMapType === 'map1') { 
-                  buildWall([[60,0],[60,300],[100,600],[100,1000],[40,1300],[40,1800],[80,2100],[80,2400]]);
-                  buildWall([[cw-60,0],[cw-60,300],[cw-100,600],[cw-100,1000],[cw-40,1300],[cw-40,1800],[cw-80,2100],[cw-80,2400]]);
-                  pbSpinners.push({cx: cw/2, cy: 450, len: 120, angle: 0, speed: 0.05});
-                  pbSpinners.push({cx: cw/2, cy: 800, len: 100, angle: Math.PI/4, speed: -0.06});
-                  pbSpinners.push({cx: cw/2, cy: 1150, len: 140, angle: 0, speed: 0.04});
-                  pbSpinners.push({cx: cw/2, cy: 1550, len: 120, angle: Math.PI/2, speed: -0.05});
-                  pbSpinners.push({cx: cw/2, cy: 1950, len: 140, angle: 0, speed: 0.07});
+                  pbSpinners.push({cx: cw/2, cy: 600, len: cw*0.5, angle: 0, speed: 0.05});
+                  pbSpinners.push({cx: cw/2, cy: 1080, len: cw*0.6, angle: Math.PI/4, speed: -0.06});
+                  pbSpinners.push({cx: cw/2, cy: 1560, len: cw*0.5, angle: Math.PI/2, speed: 0.04});
               } 
               else if(pinballMapType === 'map2') { 
-                  buildWall([[20,0],[60,400],[20,800],[60,1200],[20,1600],[60,2000],[20,2400]]);
-                  buildWall([[cw-20,0],[cw-60,400],[cw-20,800],[cw-60,1200],[cw-20,1600],[cw-60,2000],[cw-20,2400]]);
-                  for(let r=6; r<=48; r+=2) { 
-                      let cols = (r/2)%2===0 ? 5 : 6;
+                  for(let r=3; r<=15; r++) { 
+                      let cols = r%2===0 ? 6 : 7;
                       let sp = cw/(cols+1);
-                      for(let c=1; c<=cols; c++) { pbPegs.push({x: c*sp, y: r*45, r: 4}); }
+                      for(let c=1; c<=cols; c++) { pbPegs.push({x: c*sp, y: r*120, r: 16}); }
                   }
               } 
               else if(pinballMapType === 'map3') { 
-                  buildWall([[100,0],[100,400],[20,900],[20,1700],[100,2100],[100,2400]]);
-                  buildWall([[cw-100,0],[cw-100,400],[cw-20,900],[cw-20,1700],[cw-100,2100],[cw-100,2400]]);
                   let d = (cx, cy, s) => {
                      pbLines.push({x1:cx, y1:cy-s, x2:cx+s, y2:cy}); pbLines.push({x1:cx+s, y1:cy, x2:cx, y2:cy+s});
                      pbLines.push({x1:cx, y1:cy+s, x2:cx-s, y2:cy}); pbLines.push({x1:cx-s, y1:cy, x2:cx, y2:cy-s});
                   };
-                  d(cw*0.3, 600, 30); d(cw*0.7, 600, 30); 
-                  d(cw*0.5, 900, 50); 
-                  d(cw*0.3, 1200, 40); d(cw*0.7, 1200, 40);
-                  d(cw*0.5, 1500, 50);
-                  pbSpinners.push({cx: cw/2, cy: 1900, len: cw*0.5, angle: 0, speed: 0.08});
+                  d(cw*0.3, 720, 120); d(cw*0.7, 720, 120); 
+                  d(cw*0.5, 1200, 200); 
+                  d(cw*0.3, 1680, 160); d(cw*0.7, 1680, 160);
+                  pbSpinners.push({cx: cw/2, cy: 2040, len: cw*0.5, angle: 0, speed: 0.08});
               } 
               else if(pinballMapType === 'map4') { 
-                  buildWall([[cw/2-60,0], [cw/2-60,300], [40,600], [40,1200], [100,1500], [100,2000], [60,2200], [60,2400]]);
-                  buildWall([[cw/2+60,0], [cw/2+60,300], [cw-40,600], [cw-40,1200], [cw-100,1500], [cw-100,2000], [cw-60,2200], [cw-60,2400]]);
-                  pbLines.push({x1: cw/2, y1: 800, x2: cw/2-40, y2: 900});
-                  pbLines.push({x1: cw/2, y1: 800, x2: cw/2+40, y2: 900});
-                  pbLines.push({x1: cw/2-40, y1: 900, x2: cw/2, y2: 1000});
-                  pbLines.push({x1: cw/2+40, y1: 900, x2: cw/2, y2: 1000});
-                  pbSpinners.push({cx: cw/2, cy: 1750, len: 100, angle: 0, speed: 0.08});
+                  pbLines.push({x1: cw/2, y1: 960, x2: cw/2-240, y2: 1200});
+                  pbLines.push({x1: cw/2, y1: 960, x2: cw/2+240, y2: 1200});
+                  pbLines.push({x1: cw/2-240, y1: 1200, x2: cw/2, y2: 1440});
+                  pbLines.push({x1: cw/2+240, y1: 1200, x2: cw/2, y2: 1440});
+                  pbSpinners.push({cx: cw/2, cy: 1920, len: 400, angle: 0, speed: 0.08});
               } 
               else if(pinballMapType === 'map5') { 
-                  buildWall([[110,0],[110,300],[30,700],[30,1100],[190,1500],[190,1900],[110,2300],[110,2400]]);
-                  buildWall([[210,0],[210,300],[130,700],[130,1100],[290,1500],[290,1900],[210,2300],[210,2400]]);
-                  pbSpinners.push({cx: 120, cy: 500, len: 60, angle: 0, speed: 0.08});
-                  pbSpinners.push({cx: 80, cy: 1300, len: 60, angle: 0, speed: -0.08});
-                  pbSpinners.push({cx: 240, cy: 1700, len: 60, angle: 0, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.3, cy: 480, len: 240, angle: 0, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.7, cy: 960, len: 240, angle: 0, speed: -0.08});
+                  pbSpinners.push({cx: cw*0.3, cy: 1440, len: 240, angle: 0, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.7, cy: 1920, len: 240, angle: 0, speed: -0.08});
               } 
               else { 
-                  buildWall([[20,0],[20,2400]]);
-                  buildWall([[cw-20,0],[cw-20,2400]]);
-                  pbSpinners.push({cx: cw*0.3, cy: 300, len: 80, angle: 0, speed: 0.06});
-                  pbSpinners.push({cx: cw*0.7, cy: 300, len: 80, angle: 0, speed: -0.06});
-                  pbSpinners.push({cx: cw*0.5, cy: 700, len: 140, angle: Math.PI/2, speed: 0.08});
-                  pbSpinners.push({cx: cw*0.3, cy: 1100, len: 80, angle: 0, speed: 0.07});
-                  pbSpinners.push({cx: cw*0.7, cy: 1100, len: 80, angle: 0, speed: -0.07});
-                  pbSpinners.push({cx: cw*0.5, cy: 1500, len: 140, angle: 0, speed: -0.09});
-                  pbSpinners.push({cx: cw*0.3, cy: 1900, len: 80, angle: 0, speed: 0.06});
-                  pbSpinners.push({cx: cw*0.7, cy: 1900, len: 80, angle: 0, speed: -0.06});
-                  pbSpinners.push({cx: cw*0.5, cy: 2200, len: cw*0.8, angle: 0, speed: -0.05});
+                  pbSpinners.push({cx: cw*0.3, cy: 480, len: 320, angle: 0, speed: 0.06});
+                  pbSpinners.push({cx: cw*0.7, cy: 480, len: 320, angle: 0, speed: -0.06});
+                  pbSpinners.push({cx: cw*0.5, cy: 960, len: 560, angle: Math.PI/2, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.3, cy: 1440, len: 320, angle: 0, speed: 0.07});
+                  pbSpinners.push({cx: cw*0.7, cy: 1440, len: 320, angle: 0, speed: -0.07});
+                  pbSpinners.push({cx: cw*0.5, cy: 1920, len: cw*0.8, angle: 0, speed: -0.09});
               }
 
               drawPinballFrame();
@@ -1286,8 +1285,8 @@ export default {
             try {
               initPinballBoard();
               const pRaw = document.getElementById('pb-participants').value.trim();
-              
               const pText = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              
               if(pText.length === 0) { alert('참가자를 1명 이상 입력해주세요!'); return; }
 
               let parsedPlayers = [];
@@ -1452,12 +1451,14 @@ export default {
           function drawPinballFrame() {
               let cw = pbCanvas.width; let ch = pbCanvas.height;
               
+              // 네온 스타일 선분
               pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
               pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 6; pbCtx.lineCap = 'round';
               pbLines.forEach(l => {
                  pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
               });
               
+              // 네온 스타일 스피너
               pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 8;
               pbSpinners.forEach(sp => {
                  let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
@@ -1469,6 +1470,7 @@ export default {
               pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
               pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
 
+              // 도착선 (점선)
               pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
               pbCtx.lineWidth = 4;
               pbCtx.setLineDash([20, 20]);
