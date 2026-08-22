@@ -234,6 +234,12 @@ export default {
           .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
           .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
+          /* 🌟 외부 링크 핀볼게임 아이프레임 연동 */
+          .pb-game-wrapper {
+             width: 100%; height: 700px; border-radius: 12px; overflow: hidden;
+             box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+          }
+
           /* ===== 8. VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
           @media (max-width: 1100px) { .vod-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -314,7 +320,7 @@ export default {
           </div>
         </div>
 
-        <!-- 🌟 송현위키 팝업 (+ 닫기버튼 우측상단 모서리 배치 / 저장버튼 우측하단) -->
+        <!-- 송현위키 팝업 -->
         <div id="wiki-popup" class="modal-overlay">
           <div class="modal-content" style="padding-top:35px;">
             <button onclick="closeWikiPopup()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:var(--text-sub); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;">
@@ -575,7 +581,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 6. 업보 탭 (초기 빈 상태 유지) -->
+        <!-- 🌟 6. 업보 탭 -->
         <section id="tab-upbo" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -591,7 +597,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 -->
+        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델의 핀볼 iframe 연동) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -625,9 +631,9 @@ export default {
                 </div>
               </div>
 
-              <!-- 🌟 외부 핀볼 링크 iframe 연동 -->
+              <!-- 🎮 🌟 블루델 마블룰렛 iframe 연동 영역 -->
               <div id="game-pinball" class="game-sub-section">
-                <div style="width: 100%; height: 700px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);">
+                <div class="pb-game-wrapper" style="width: 100%; height: 750px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);">
                   <iframe src="https://lazygyu.github.io/roulette/" style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
               </div>
@@ -1025,7 +1031,7 @@ export default {
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             try {
-              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ'; 
+              const sheetId = '1DqUd6qW7BC-yfQWPR76h59q4BYNSq14uOEL0kKTXlzY'; 
               const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&headers=1&sheet=VOD';
               const response = await fetch(url);
               let text = await response.text();
@@ -1101,13 +1107,13 @@ export default {
             } catch(e) {}
           }
 
-          /* ===== 노래책 시트 연동 ===== */
+          /* ===== 🌟 노래책 시트 완벽 연속 번호 매기기 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             try {
               const sheetId = '1DqUd6qW7BC-yfQWPR76h59q4BYNSq14uOEL0kKTXlzY';
               const sheetNames = ['K POP', 'POP', 'J POP', '오리지널 곡✨', '숙제곡💖']; 
-              const grouped = {}; let globalSongIndex = 1;
+              const grouped = {}; 
 
               const timestamp = new Date().getTime();
               const fetchPromises = sheetNames.map(async function(sheetName) {
@@ -1157,10 +1163,8 @@ export default {
                     let singer = s ? s : lastSinger;
                     lastSinger = singer;
 
-                    let no = cells[0] && cells[0].length < 5 ? cells[0] : String(globalSongIndex).padStart(2, '0');
                     if (!grouped[singer]) grouped[singer] = [];
-                    grouped[singer].push({ no: no, title: t, difficulty: d || 'ㅡ', status: st || 'ㅡ', sheetName: sheetName });
-                    globalSongIndex++;
+                    grouped[singer].push({ title: t, difficulty: d || 'ㅡ', status: st || 'ㅡ', sheetName: sheetName });
                   }
                 });
               });
@@ -1170,10 +1174,17 @@ export default {
               }
               
               let html = '<table class="song-table"><thead><tr><th style="width:10%;">번호</th><th style="width:15%;">가수</th><th style="width:45%;">노래제목</th><th style="width:15%;">난이도</th><th style="width:15%; text-align:center;">상태</th></tr></thead><tbody id="songbook-tbody">';
+              
+              // 🌟 HTML 렌더링 단계에서 1번부터 차례대로 번호(finalSongIndex)를 강제로 부여합니다.
+              // 이렇게 하면 스프레드시트 탭이 달라도 무조건 숫자가 이어집니다!
+              let finalSongIndex = 1;
+
               for (const [singer, songs] of Object.entries(grouped)) {
                 html += '<tr class="group-header-row"><td colspan="5"><div class="group-header-box"><div style="font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;"><span class="material-symbols-rounded" style="color: var(--point-color); font-size:16px;">music_note</span>' + singer + '</div><div style="font-size: 13px; color: var(--text-sub); font-weight: 600;">' + songs.length + '곡</div></div></td></tr>';
+                
                 songs.forEach(song => {
-                  html += '<tr><td style="color: var(--text-sub); font-size: 13px;">' + song.no + '</td><td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td><td style="font-weight: 600;">' + song.title + '</td><td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td><td style="text-align: center; color: var(--text-sub);">' + song.status + '</td></tr>';
+                  let displayNo = String(finalSongIndex++).padStart(2, '0');
+                  html += '<tr><td style="color: var(--text-sub); font-size: 13px;">' + displayNo + '</td><td style="color: var(--text-sub); font-size: 13px;">' + singer + '</td><td style="font-weight: 600;">' + song.title + '</td><td style="color: var(--point-color); font-size:12px;">' + song.difficulty + '</td><td style="text-align: center; color: var(--text-sub);">' + song.status + '</td></tr>';
                 });
               }
               html += '</tbody></table>';
