@@ -316,7 +316,7 @@ export default {
           </div>
         </div>
 
-        <!-- 🌟 송현위키 팝업 -->
+        <!-- 송현위키 팝업 -->
         <div id="wiki-popup" class="modal-overlay">
           <div class="modal-content" style="padding-top:35px;">
             <button onclick="closeWikiPopup()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:var(--text-sub); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:4px;">
@@ -489,6 +489,7 @@ export default {
               <div class="calendar-header-new">
                 <div class="cal-title-left" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; white-space:nowrap;">
                   <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
+                  <!-- 월 변경 1줄 강제 고정 -->
                   <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
@@ -648,9 +649,9 @@ export default {
                 </div>
               </div>
 
-              <!-- 🎮 🌟 블루델 마블룰렛 iframe 연동 영역 (이전의 커스텀 캔버스 핀볼 코드는 완전히 삭제) -->
+              <!-- 🎮 🌟 블루델 마블룰렛 iframe 연동 영역 -->
               <div id="game-pinball" class="game-sub-section">
-                <div style="width: 100%; height: 750px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);">
+                <div class="pb-game-wrapper" style="width: 100%; height: 750px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);">
                   <iframe src="https://lazygyu.github.io/roulette/" style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
               </div>
@@ -764,7 +765,8 @@ export default {
                     newTab.classList.remove('flipping-in');
                     newTab.classList.add('active');
                     if(tabId === 'tab-game') {
-                       if(document.getElementById('game-ladder').classList.contains('active')) generateLadder();
+                       // 탭 전환 시 설정창이 보이게 초기화
+                       resetLadder();
                     }
                   }
                 }, 400); 
@@ -796,7 +798,9 @@ export default {
               clickedBtn.parentElement.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
               document.getElementById(subTabId).classList.add('active');
               clickedBtn.classList.add('active');
-              if(subTabId === 'game-ladder') { generateLadder(); }
+              if(subTabId === 'game-ladder') { 
+                resetLadder();
+              }
             } catch(e) {}
           }
 
@@ -826,6 +830,7 @@ export default {
             } catch(e) {}
           }
 
+          // 유튜브 볼륨 컨트롤 함수
           function changeVolume(val) {
             try {
               document.getElementById('vol-text').innerText = val + '%';
@@ -966,15 +971,17 @@ export default {
             } catch(e) {}
           }
 
-          // 다시 설정하기 버튼 동작
+          // 다시 설정하기 버튼 및 새로고침 시 호출
           function resetLadder() {
-             document.querySelector('.ladder-setup').style.display = 'block';
-             document.getElementById('ladder-play-area').style.display = 'none';
+             let setupEl = document.querySelector('.ladder-setup');
+             let playEl = document.getElementById('ladder-play-area');
+             if(setupEl) setupEl.style.display = 'block';
+             if(playEl) playEl.style.display = 'none';
           }
 
           function generateLadder() {
             try {
-              // 사다리 생성 누르면 첫화면 숨기고 두번째 게임화면 띄우기
+              // 🌟 사다리 생성 누르면 첫화면 숨기고 두번째 게임화면 띄우기
               document.querySelector('.ladder-setup').style.display = 'none';
               document.getElementById('ladder-play-area').style.display = 'block';
               
@@ -1010,7 +1017,7 @@ export default {
              const colWidth = canvasL.width / ladderCount;
              ctxL.lineWidth = 4; ctxL.lineCap = 'round'; ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
              
-             // 세로줄 그리기 (이름 버튼 정가운데부터 밑에 결과 중앙까지 완벽하게 이어짐)
+             // 세로줄 그리기
              for(let i=0; i<ladderCount; i++) {
                 let x = colWidth/2 + (i*colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x, 0); ctxL.lineTo(x, canvasL.height); ctxL.stroke();
@@ -1049,8 +1056,8 @@ export default {
                   }
                   let p1 = path[step]; let p2 = path[step+1];
                   
-                  // 🌟 애니메이션 속도 절반으로 감소 (0.15 -> 0.075)
-                  progress += 0.075; if(progress > 1) { progress = 1; }
+                  // 🌟 사다리 애니메이션 속도 50% 절반으로 감소 (0.075 -> 0.0375)
+                  progress += 0.0375; if(progress > 1) { progress = 1; }
                   
                   let currX = p1.x + (p2.x - p1.x) * progress; let currY = p1.y + (p2.y - p1.y) * progress;
 
@@ -1148,7 +1155,7 @@ export default {
             } catch(e) {}
           }
 
-          /* ===== 🌟 노래책 시트 완벽 연속 번호 매기기 ===== */
+          /* ===== 노래책 시트 연동 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             try {
@@ -1295,7 +1302,7 @@ export default {
             } catch(e) {}
 
             try { renderCalendar(); } catch(e) {}
-            try { renderLadderInputs(); } catch(e) {}
+            try { resetLadder(); renderLadderInputs(); } catch(e) {} // 🌟 새로고침 시 초기 세팅 화면으로 리셋!
             try { loadVods(); } catch(e) {}
             try { loadRecentPosts(); } catch(e) {}
             try { loadSongs(); } catch(e) {}
