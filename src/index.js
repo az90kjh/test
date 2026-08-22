@@ -222,23 +222,76 @@ export default {
           .action-btn { background-color: var(--point-color); color: #fff; padding: 10px 25px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; transition: 0.2s; box-shadow:0 2px 8px rgba(255,130,0,0.3);}
           .action-btn:hover { filter: brightness(0.9); }
 
-          /* 사다리 */
+          /* 🌟 사다리게임 UI 변경 사항 적용 (화면 전환) */
           .ladder-setup { background: var(--bg-point-light); border-radius: 12px; padding: 25px; margin-bottom: 20px; border: 1px dashed rgba(255,130,0,0.3); }
-          .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 200px; overflow-y: auto; }
+          .ladder-inputs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto; }
           .ladder-input-box { background: var(--bg-card); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
           .ladder-input-box input { width: 100%; border: none; background: transparent; color: var(--text-main); font-size: 12px; outline: none; margin-bottom: 5px; font-family: inherit; }
           .ladder-input-box input:last-child { margin-bottom: 0; color: var(--point-color); font-weight: bold; }
-          .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); }
+          
+          .ladder-board-container { position: relative; width: 100%; overflow-x: auto; background: var(--bg-body); border-radius: 12px; padding: 20px; box-sizing: border-box; border: 1px solid var(--border-color); text-align:center; }
           canvas#ladderCanvas { display: block; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-          .ladder-btn-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; min-width: 600px; }
-          .ladder-start-btn { flex: 1; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
-          .ladder-res-box { flex: 1; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
+          
+          /* 가로 100% 채워서 Flexbox 정밀 정렬 */
+          .ladder-btn-row { display: flex; margin-bottom: 5px; width: 100%; }
+          .ladder-result-row { display: flex; margin-top: 5px; width: 100%; }
+          .ladder-start-btn { width: 90%; padding: 8px 0; background: var(--text-main); color: var(--bg-card); border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; display:inline-block; }
+          .ladder-res-box { width: 90%; padding: 8px 0; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; font-weight: bold; font-size: 12px; display:inline-block; text-align: center; }
 
-          /* 🌟 외부 링크 핀볼게임 아이프레임 연동 */
+          /* 🌟 핀볼게임 (마블룰렛 스타일) */
           .pb-game-wrapper {
-             width: 100%; height: 700px; border-radius: 12px; overflow: hidden;
-             box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+             display: flex; gap: 0; width: 100%; height: 600px; 
+             background: #000000; border-radius: 12px; overflow: hidden;
+             box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;
           }
+          @media (max-width: 900px) { .pb-game-wrapper { flex-direction: column; height: auto; } .pb-canvas-container{ height:500px !important; width:100% !important; border-right:none; border-bottom:1px solid #333;} }
+          
+          .pb-canvas-container {
+             width: 320px; height: 100%; background: #080808; 
+             border-right: 1px solid #333; position: relative;
+             flex-shrink: 0;
+          }
+          canvas#pinballCanvas { width: 100%; height: 100%; display: block; }
+          
+          .pb-side-panel {
+             flex: 1; display: flex; flex-direction: column; position: relative; background: #111;
+          }
+          
+          .pb-leaderboard {
+             flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+             color: #fff; padding: 20px; overflow-y: auto; position: relative;
+          }
+          .pb-rank-title { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.2); margin-bottom: 20px; letter-spacing: 5px; }
+          .pb-live-ranks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 350px; }
+          .pb-rank-item { 
+             display: flex; justify-content: space-between; align-items: center; 
+             background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px;
+             font-size: 14px; font-weight: 700; border-left: 4px solid transparent;
+             animation: popIn 0.3s ease-out;
+          }
+
+          .pb-controls {
+             background: #2a2a2a; padding: 15px 20px;
+             display: flex; gap: 20px; align-items: flex-end; border-top: 1px solid #444;
+          }
+          .pb-input-group { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+          .pb-input-group label { color: #aaa; font-size: 11px; font-weight: 700; }
+          .pb-input-group textarea { 
+             width: 100%; height: 60px; background: #111; border: 1px solid #444; color: #fff;
+             border-radius: 4px; padding: 8px; font-size: 12px; resize: none; font-family: inherit;
+          }
+          .pb-settings-group { display: flex; flex-direction: column; gap: 10px; width: 200px; }
+          .pb-settings-row { display: flex; align-items: center; justify-content: space-between; color: #fff; font-size: 12px; font-weight: 700; }
+          .pb-settings-row select { 
+             background: #444; color:#fff; border: none; border-radius: 4px; padding: 4px 8px; 
+             font-size: 12px; font-family: inherit; outline: none; cursor: pointer; width: 130px;
+          }
+          .pb-start-btn { 
+             background: var(--point-color); color: #fff; border: none; border-radius: 6px;
+             padding: 15px 25px; font-size: 16px; font-weight: 900; cursor: pointer; 
+             display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
+          }
+          .pb-start-btn:hover { filter: brightness(0.8); }
 
           /* ===== 8. VOD 다시보기 ===== */
           .vod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -493,7 +546,6 @@ export default {
               <div class="calendar-header-new">
                 <div class="cal-title-left" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; white-space:nowrap;">
                   <h1 style="margin:0; font-size:32px; font-weight:900;">SCHEDULE</h1>
-                  <!-- 월 변경 1줄 강제 고정 -->
                   <div class="cal-nav" style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap;">
                     <button class="nav-arrow" onclick="changeDate(-1)"><span class="material-symbols-rounded">chevron_left</span></button>
                     <span id="current-month-year" style="font-size:15px; font-weight:600; color:var(--text-main);">2026년 8월</span>
@@ -597,7 +649,7 @@ export default {
           </div>
         </section>
 
-        <!-- 🌟 7. 미니게임 탭 (사다리 & 블루델의 핀볼 iframe 연동) -->
+        <!-- 🌟 7. 미니게임 탭 (사다리게임 UI 화면전환 구현 완료) -->
         <section id="tab-game" class="tab-section">
           <div class="main-wrapper">
             <div class="content-card">
@@ -610,6 +662,8 @@ export default {
 
               <!-- 🎮 사다리게임 영역 -->
               <div id="game-ladder" class="game-sub-section active">
+                
+                <!-- 화면 1: 설정창 -->
                 <div class="ladder-setup">
                   <div style="font-weight:800; font-size:15px; margin-bottom:10px; color:var(--point-color);">1. 참가 인원 설정 (최대 16명)</div>
                   <div class="counter-box">
@@ -618,23 +672,75 @@ export default {
                     <button class="counter-btn" onclick="changeLadderCount(1)">+</button>
                   </div>
                   <div class="ladder-inputs-grid" id="ladder-inputs-container"></div>
+                  <!-- 사다리 생성하기 클릭 시 설정창 가리고 게임판 띄움 -->
                   <button class="action-btn" style="margin-top:15px;" onclick="generateLadder()">사다리 무작위 생성하기</button>
                 </div>
                 
+                <!-- 화면 2: 게임 플레이 창 -->
                 <div id="ladder-play-area" style="display:none; animation:fadeIn 0.3s;">
-                  <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">시작 버튼(참가자 이름)을 누르면 결과로 이동합니다!</div>
-                  <div class="ladder-board-container" id="ladder-board-wrap">
-                    <div class="ladder-btn-row" id="ladder-btns"></div>
-                    <canvas id="ladderCanvas" height="400"></canvas>
-                    <div class="ladder-result-row" id="ladder-results"></div>
+                  <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px; font-weight:bold;">시작 버튼(참가자 이름)을 누르면 사다리를 타고 결과로 이동합니다!</div>
+                  
+                  <div class="ladder-board-container" id="ladder-board-wrap" style="text-align:center;">
+                    <!-- 내부를 한 덩어리로 묶어서 정밀하게 정렬 -->
+                    <div style="display:inline-block; width:100%; min-width:600px; position:relative;">
+                      <!-- 이름 줄 -->
+                      <div class="ladder-btn-row" id="ladder-btns" style="display:flex; width:100%; margin-bottom:5px;"></div>
+                      <!-- 사다리 캔버스 -->
+                      <canvas id="ladderCanvas" height="400" style="display:block; width:100%; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05);"></canvas>
+                      <!-- 결과 줄 -->
+                      <div class="ladder-result-row" id="ladder-results" style="display:flex; width:100%; margin-top:5px;"></div>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                      <button class="action-btn" style="background:var(--bg-body); color:var(--text-sub); border:1px solid var(--border-color); box-shadow:none;" onclick="resetLadder()">다시 설정하기</button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- 🎮 🌟 블루델 마블룰렛 iframe 연동 영역 -->
+              <!-- 🎮 핀볼게임 영역 -->
               <div id="game-pinball" class="game-sub-section">
-                <div class="pb-game-wrapper" style="width: 100%; height: 750px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color);">
-                  <iframe src="https://lazygyu.github.io/roulette/" style="width: 100%; height: 100%; border: none;"></iframe>
+                <!-- 전체 높이를 600px로 세팅 -->
+                <div class="pb-game-wrapper" style="display: flex; width: 100%; height: 600px; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #333;">
+                  
+                  <!-- 좌측: 캔버스 + 컨트롤 (사진 구조와 동일하게 배치) -->
+                  <div class="pb-left-col" style="width: 320px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #333; flex-shrink: 0;">
+                    <div class="pb-canvas-container" style="flex: 1; position: relative; background: #080808;">
+                      <!-- Canvas 자체에 100%를 주어 내부 2400px가 시각적으로 꽉 맞게 축소됨 -->
+                      <canvas id="pinballCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
+                    </div>
+                    
+                    <!-- 컨트롤 패널 -->
+                    <div class="pb-controls" style="padding: 15px; background: #888888; border-top: 1px solid #333;">
+                      <div style="color: #fff; font-size: 12px; font-weight: bold; margin-bottom: 5px; letter-spacing:-0.5px;">이름들을 입력하세요 (이름*갯수)</div>
+                      <textarea id="pb-participants" spellcheck="false" style="width: 100%; height: 50px; background: #cccccc; color: #111; border: none; padding: 5px; font-size: 12px; font-weight:bold; resize: none; margin-bottom: 10px; outline:none; box-sizing:border-box;">수박*2, 키위*2, 귤*2</textarea>
+                      
+                      <div style="display: flex; gap: 8px;">
+                        <select id="pb-map-select" onchange="initPinballBoard()" style="flex: 1; background: #cccccc; color: #111; font-weight:bold; border: none; border-radius: 4px; padding: 6px; font-size: 12px; outline: none; cursor: pointer;">
+                          <option value="map1">운명의 수레바퀴</option>
+                          <option value="map2">버블팝 (플링코)</option>
+                          <option value="map3">욕망의 항아리</option>
+                          <option value="map4" selected>장애물 밭 (사진버전)</option>
+                          <option value="map5">지그재그 협곡</option>
+                          <option value="map6">스피너 지옥</option>
+                        </select>
+                        <button onclick="startPinballGame()" style="background: #222; color: #fff; border: 1px solid #444; padding: 6px 15px; cursor: pointer; border-radius: 4px; display:flex; align-items:center; gap:5px; font-weight:bold; font-size:12px; transition:0.2s;">
+                          <span class="material-symbols-rounded" style="font-size:16px;">play_arrow</span> 시작
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 우측: 랭킹 및 라이브 현황판 (보상 목록 삭제됨) -->
+                  <div class="pb-right-col" style="flex: 1; position: relative; background: #000; overflow: hidden;">
+                    <!-- 현재 달리고 있는 구슬 뷰 -->
+                    <div id="pb-live-view" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:10px; align-items:flex-end; justify-content:center; flex-wrap:wrap; width:90%;">
+                      <div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>
+                    </div>
+                    
+                    <!-- 🌟 우측 상단 순위표 고정 -->
+                    <div id="pb-ranking-list" style="position: absolute; top: 20px; right: 20px; text-align: right; display: flex; flex-direction: column; gap: 5px; width: 100%; max-height: calc(100% - 40px); overflow-y: auto; z-index: 10;"></div>
+                  </div>
                 </div>
               </div>
 
@@ -747,7 +853,10 @@ export default {
                     newTab.classList.remove('flipping-in');
                     newTab.classList.add('active');
                     if(tabId === 'tab-game') {
-                       if(document.getElementById('game-ladder').classList.contains('active')) generateLadder();
+                       // 탭 전환 시 설정창이 보이게 초기화
+                       document.querySelector('.ladder-setup').style.display = 'block';
+                       document.getElementById('ladder-play-area').style.display = 'none';
+                       initPinballBoard();
                     }
                   }
                 }, 400); 
@@ -779,7 +888,11 @@ export default {
               clickedBtn.parentElement.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
               document.getElementById(subTabId).classList.add('active');
               clickedBtn.classList.add('active');
-              if(subTabId === 'game-ladder') { generateLadder(); }
+              if(subTabId === 'game-ladder') { 
+                document.querySelector('.ladder-setup').style.display = 'block';
+                document.getElementById('ladder-play-area').style.display = 'none';
+              }
+              if(subTabId === 'game-pinball') { initPinballBoard(); }
             } catch(e) {}
           }
 
@@ -934,6 +1047,7 @@ export default {
             ladderCount += val; if (ladderCount < 2) ladderCount = 2; if (ladderCount > 16) ladderCount = 16;
             document.getElementById('ladder-count').innerText = ladderCount; renderLadderInputs();
           }
+          
           function renderLadderInputs() {
             try {
               const container = document.getElementById('ladder-inputs-container'); let html = '';
@@ -943,19 +1057,32 @@ export default {
               container.innerHTML = html;
             } catch(e) {}
           }
+
+          // 🌟 추가: 다시 설정하기 버튼 동작
+          function resetLadder() {
+             document.querySelector('.ladder-setup').style.display = 'block';
+             document.getElementById('ladder-play-area').style.display = 'none';
+          }
+
           function generateLadder() {
             try {
+              // 🌟 사다리 생성 누르면 첫화면 숨기고 두번째 게임화면 띄우기
+              document.querySelector('.ladder-setup').style.display = 'none';
               document.getElementById('ladder-play-area').style.display = 'block';
+              
               const btnWrap = document.getElementById('ladder-btns'); const resWrap = document.getElementById('ladder-results');
               canvasL = document.getElementById('ladderCanvas'); ctxL = canvasL.getContext('2d');
               const cw = Math.max(600, ladderCount * 80);
-              canvasL.width = cw; btnWrap.style.minWidth = cw + 'px'; resWrap.style.minWidth = cw + 'px';
+              
+              // 캔버스와 버튼/결과 틀이 완벽히 같은 너비를 가지도록 교정
+              canvasL.width = cw; 
               
               let btnHtml = ''; let resHtml = '';
               for(let i=0; i<ladderCount; i++) {
                 let pName = document.getElementById('ladder-name-'+i).value || (i+1); let pRes = document.getElementById('ladder-res-'+i).value || '?';
-                btnHtml += '<button class="ladder-start-btn" onclick="playLadder('+i+')">' + pName + '</button>';
-                resHtml += '<div class="ladder-res-box" id="res-box-'+i+'">' + pRes + '</div>';
+                // 🌟 버튼과 결과 박스를 flex:1 로 묶어 캔버스의 줄들과 완벽하게 가운데 정렬되도록 조정
+                btnHtml += '<div style="flex:1; display:flex; justify-content:center; padding:0 2px;"><button class="ladder-start-btn" style="width:100%;" onclick="playLadder('+i+')">' + pName + '</button></div>';
+                resHtml += '<div style="flex:1; display:flex; justify-content:center; padding:0 2px;"><div class="ladder-res-box" style="width:100%;" id="res-box-'+i+'">' + pRes + '</div></div>';
               }
               btnWrap.innerHTML = btnHtml; resWrap.innerHTML = resHtml;
 
@@ -970,10 +1097,13 @@ export default {
               drawLadderBase();
             } catch(e) {}
           }
+
           function drawLadderBase() {
              ctxL.clearRect(0, 0, canvasL.width, canvasL.height);
              const colWidth = canvasL.width / ladderCount;
              ctxL.lineWidth = 4; ctxL.lineCap = 'round'; ctxL.strokeStyle = 'rgba(150, 150, 150, 0.3)';
+             
+             // 세로줄 그리기 (이름 버튼 정가운데부터 밑에 결과 중앙까지 완벽하게 이어짐)
              for(let i=0; i<ladderCount; i++) {
                 let x = colWidth/2 + (i*colWidth);
                 ctxL.beginPath(); ctxL.moveTo(x, 0); ctxL.lineTo(x, canvasL.height); ctxL.stroke();
@@ -984,6 +1114,7 @@ export default {
                 ctxL.beginPath(); ctxL.moveTo(x1, y); ctxL.lineTo(x2, y); ctxL.stroke();
              });
           }
+
           function playLadder(startIndex) {
              try {
                drawLadderBase();
@@ -1026,12 +1157,334 @@ export default {
              } catch(e) {}
           }
 
+          // ==============================
+          // 4. 미니게임 (핀볼 / 마블룰렛)
+          // ==============================
+          let pbCanvas, pbCtx;
+          let pbLines = []; let pbSpinners = []; let pbBalls = []; let pbPegs = [];
+          let pbFinished = [];
+          let pbIsRunning = false;
+          let pbColors = ['#ff478e', '#38bdf8', '#facc15', '#a3e635', '#c084fc', '#fb923c', '#fb7185', '#22d3ee'];
+          let pinballMapType = 'map4';
+
+          function distToSegmentSquared(p, v, w) {
+             let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
+             if (l2 === 0) return (p.x - v.x)**2 + (p.y - v.y)**2;
+             let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+             t = Math.max(0, Math.min(1, t));
+             return (p.x - (v.x + t * (w.x - v.x)))**2 + (p.y - (v.y + t * (w.y - v.y)))**2;
+          }
+          function getClosestPointOnSegment(p, v, w) {
+             let l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
+             if (l2 === 0) return {x:v.x, y:v.y};
+             let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+             t = Math.max(0, Math.min(1, t));
+             return { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) };
+          }
+
+          function buildWall(pts) {
+              for(let i=0; i<pts.length-1; i++) {
+                  pbLines.push({x1: pts[i][0], y1: pts[i][1], x2: pts[i+1][0], y2: pts[i+1][1]});
+              }
+          }
+
+          function generateJaggedWalls(cw, ch) {
+              let leftWall = [[0,0]]; let rightWall = [[cw,0]];
+              let segments = 12 + Math.floor(Math.random()*6);
+              let yStep = ch / segments;
+              for(let i=1; i<segments; i++) {
+                  leftWall.push([20 + Math.random() * 80, i * yStep + (Math.random()*100-50)]);
+                  rightWall.push([cw - 20 - (Math.random() * 80), i * yStep + (Math.random()*100-50)]);
+              }
+              leftWall.push([0, ch]); rightWall.push([cw, ch]);
+              buildWall(leftWall); buildWall(rightWall);
+          }
+
+          function initPinballBoard() {
+            try {
+              pbCanvas = document.getElementById('pinballCanvas');
+              if(!pbCanvas) return;
+              
+              pbCanvas.width = 320; 
+              pbCanvas.height = 2400; 
+              pbCtx = pbCanvas.getContext('2d');
+              
+              pinballMapType = document.getElementById('pb-map-select').value;
+              pbLines = []; pbSpinners = []; pbBalls = []; pbPegs = []; pbFinished = [];
+              let cw = pbCanvas.width; let ch = pbCanvas.height;
+
+              generateJaggedWalls(cw, ch);
+
+              if(pinballMapType === 'map1') { 
+                  buildWall([[60,0],[60,300],[100,600],[100,1000],[40,1300],[40,1800],[80,2100],[80,2400]]);
+                  buildWall([[cw-60,0],[cw-60,300],[cw-100,600],[cw-100,1000],[cw-40,1300],[cw-40,1800],[cw-80,2100],[cw-80,2400]]);
+                  pbSpinners.push({cx: cw/2, cy: 450, len: 120, angle: 0, speed: 0.05});
+                  pbSpinners.push({cx: cw/2, cy: 800, len: 100, angle: Math.PI/4, speed: -0.06});
+                  pbSpinners.push({cx: cw/2, cy: 1150, len: 140, angle: 0, speed: 0.04});
+                  pbSpinners.push({cx: cw/2, cy: 1550, len: 120, angle: Math.PI/2, speed: -0.05});
+                  pbSpinners.push({cx: cw/2, cy: 1950, len: 140, angle: 0, speed: 0.07});
+              } 
+              else if(pinballMapType === 'map2') { 
+                  buildWall([[20,0],[60,400],[20,800],[60,1200],[20,1600],[60,2000],[20,2400]]);
+                  buildWall([[cw-20,0],[cw-60,400],[cw-20,800],[cw-60,1200],[cw-20,1600],[cw-60,2000],[cw-20,2400]]);
+                  for(let r=6; r<=48; r+=2) { 
+                      let cols = (r/2)%2===0 ? 5 : 6;
+                      let sp = cw/(cols+1);
+                      for(let c=1; c<=cols; c++) { pbPegs.push({x: c*sp, y: r*45, r: 4}); }
+                  }
+              } 
+              else if(pinballMapType === 'map3') { 
+                  buildWall([[100,0],[100,400],[20,900],[20,1700],[100,2100],[100,2400]]);
+                  buildWall([[cw-100,0],[cw-100,400],[cw-20,900],[cw-20,1700],[cw-100,2100],[cw-100,2400]]);
+                  let d = (cx, cy, s) => {
+                     pbLines.push({x1:cx, y1:cy-s, x2:cx+s, y2:cy}); pbLines.push({x1:cx+s, y1:cy, x2:cx, y2:cy+s});
+                     pbLines.push({x1:cx, y1:cy+s, x2:cx-s, y2:cy}); pbLines.push({x1:cx-s, y1:cy, x2:cx, y2:cy-s});
+                  };
+                  d(cw*0.3, 600, 30); d(cw*0.7, 600, 30); 
+                  d(cw*0.5, 900, 50); 
+                  d(cw*0.3, 1200, 40); d(cw*0.7, 1200, 40);
+                  d(cw*0.5, 1500, 50);
+                  pbSpinners.push({cx: cw/2, cy: 1900, len: cw*0.5, angle: 0, speed: 0.08});
+              } 
+              else if(pinballMapType === 'map4') { 
+                  buildWall([[cw/2-60,0], [cw/2-60,300], [40,600], [40,1200], [100,1500], [100,2000], [60,2200], [60,2400]]);
+                  buildWall([[cw/2+60,0], [cw/2+60,300], [cw-40,600], [cw-40,1200], [cw-100,1500], [cw-100,2000], [cw-60,2200], [cw-60,2400]]);
+                  pbLines.push({x1: cw/2, y1: 800, x2: cw/2-40, y2: 900});
+                  pbLines.push({x1: cw/2, y1: 800, x2: cw/2+40, y2: 900});
+                  pbLines.push({x1: cw/2-40, y1: 900, x2: cw/2, y2: 1000});
+                  pbLines.push({x1: cw/2+40, y1: 900, x2: cw/2, y2: 1000});
+                  pbSpinners.push({cx: cw/2, cy: 1750, len: 100, angle: 0, speed: 0.08});
+              } 
+              else if(pinballMapType === 'map5') { 
+                  buildWall([[110,0],[110,300],[30,700],[30,1100],[190,1500],[190,1900],[110,2300],[110,2400]]);
+                  buildWall([[210,0],[210,300],[130,700],[130,1100],[290,1500],[290,1900],[210,2300],[210,2400]]);
+                  pbSpinners.push({cx: 120, cy: 500, len: 60, angle: 0, speed: 0.08});
+                  pbSpinners.push({cx: 80, cy: 1300, len: 60, angle: 0, speed: -0.08});
+                  pbSpinners.push({cx: 240, cy: 1700, len: 60, angle: 0, speed: 0.08});
+              } 
+              else { 
+                  buildWall([[20,0],[20,2400]]);
+                  buildWall([[cw-20,0],[cw-20,2400]]);
+                  pbSpinners.push({cx: cw*0.3, cy: 300, len: 80, angle: 0, speed: 0.06});
+                  pbSpinners.push({cx: cw*0.7, cy: 300, len: 80, angle: 0, speed: -0.06});
+                  pbSpinners.push({cx: cw*0.5, cy: 700, len: 140, angle: Math.PI/2, speed: 0.08});
+                  pbSpinners.push({cx: cw*0.3, cy: 1100, len: 80, angle: 0, speed: 0.07});
+                  pbSpinners.push({cx: cw*0.7, cy: 1100, len: 80, angle: 0, speed: -0.07});
+                  pbSpinners.push({cx: cw*0.5, cy: 1500, len: 140, angle: 0, speed: -0.09});
+                  pbSpinners.push({cx: cw*0.3, cy: 1900, len: 80, angle: 0, speed: 0.06});
+                  pbSpinners.push({cx: cw*0.7, cy: 1900, len: 80, angle: 0, speed: -0.06});
+                  pbSpinners.push({cx: cw*0.5, cy: 2200, len: cw*0.8, angle: 0, speed: -0.05});
+              }
+
+              drawPinballFrame();
+              document.getElementById('pb-ranking-list').innerHTML = '';
+              document.getElementById('pb-live-view').innerHTML = '<div style="color:rgba(255,255,255,0.3); font-size:13px; font-weight:bold;">좌측 하단에서 시작 버튼을 눌러주세요.</div>';
+            } catch(e) {}
+          }
+
+          function startPinballGame() {
+            try {
+              initPinballBoard();
+              const pRaw = document.getElementById('pb-participants').value.trim();
+              
+              const pText = pRaw.split(/[,\\n]+/).map(t => t.trim()).filter(t => t);
+              if(pText.length === 0) { alert('참가자를 1명 이상 입력해주세요!'); return; }
+
+              let parsedPlayers = [];
+              pText.forEach(line => {
+                  let parts = line.split('*');
+                  let name = parts[0].trim();
+                  let count = parts.length > 1 ? parseInt(parts[1]) : 1;
+                  if(isNaN(count) || count < 1) count = 1;
+                  for(let i=0; i<count; i++) { parsedPlayers.push(name); }
+              });
+
+              pbBalls = parsedPlayers.map((p, i) => ({
+                  id: i, name: p, color: pbColors[i % pbColors.length],
+                  x: pbCanvas.width / 2 + (Math.random()*200 - 100), y: 40,
+                  vx: (Math.random()-0.5)*10, vy: 0,
+                  r: 28, settled: false
+              }));
+              
+              pbFinished = [];
+              document.getElementById('pb-ranking-list').innerHTML = '';
+
+              if(!pbIsRunning) {
+                  pbIsRunning = true;
+                  requestAnimationFrame(updatePinball);
+              }
+            } catch(e) {}
+          }
+
+          function updatePinball() {
+              if(!pbIsRunning) return;
+              let cw = pbCanvas.width; let ch = pbCanvas.height;
+              
+              pbCtx.clearRect(0,0,cw,ch);
+              pbSpinners.forEach(sp => { sp.angle += sp.speed; });
+              drawPinballFrame();
+              
+              let allSettled = true;
+              
+              pbBalls.forEach(b => {
+                  if(!b.settled) {
+                      allSettled = false;
+                      b.vy += 0.6; 
+                      b.vy *= 0.99; b.vx *= 0.99; 
+                      b.x += b.vx; b.y += b.vy;
+                      
+                      if(b.vy > 15) b.vy = 15; 
+
+                      if(b.x < b.r) { b.x = b.r; b.vx *= -0.98; }
+                      if(b.x > cw - b.r) { b.x = cw - b.r; b.vx *= -0.98; }
+                      
+                      pbLines.forEach(line => {
+                         let v = {x:line.x1, y:line.y1}; let w = {x:line.x2, y:line.y2};
+                         let distSq = distToSegmentSquared(b, v, w);
+                         if(distSq < b.r*b.r) {
+                            let closest = getClosestPointOnSegment(b, v, w);
+                            let dx = b.x - closest.x; let dy = b.y - closest.y;
+                            let dist = Math.sqrt(dx*dx + dy*dy);
+                            if(dist > 0) {
+                               let nx = dx/dist; let ny = dy/dist;
+                               b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
+                               let dot = b.vx*nx + b.vy*ny;
+                               b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
+                               b.vx *= 0.98; b.vy *= 0.98; 
+                            }
+                         }
+                      });
+
+                      pbPegs.forEach(p => {
+                          let dx = b.x - p.x; let dy = b.y - p.y;
+                          let dist = Math.sqrt(dx*dx + dy*dy);
+                          if(dist < b.r + p.r) {
+                              let nx = dx/dist; let ny = dy/dist;
+                              b.x = p.x + nx * (b.r + p.r - dist); b.y = p.y + ny * (b.r + p.r - dist);
+                              let dot = b.vx*nx + b.vy*ny;
+                              b.vx -= 2*dot*nx; b.vy -= 2*dot*ny;
+                              b.vx *= 0.98; b.vy *= 0.98;
+                          }
+                      });
+
+                      pbSpinners.forEach(sp => {
+                         let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
+                         let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
+                         let v = {x:x1, y:y1}; let w = {x:x2, y:y2};
+                         let distSq = distToSegmentSquared(b, v, w);
+                         if(distSq < b.r*b.r) {
+                            let closest = getClosestPointOnSegment(b, v, w);
+                            let dx = b.x - closest.x; let dy = b.y - closest.y;
+                            let dist = Math.sqrt(dx*dx + dy*dy);
+                            if(dist > 0) {
+                               let nx = dx/dist; let ny = dy/dist;
+                               b.x = closest.x + nx * b.r; b.y = closest.y + ny * b.r;
+                               let kickVx = -Math.sin(sp.angle) * sp.speed * 40; 
+                               let kickVy = Math.cos(sp.angle) * sp.speed * 40;
+                               b.vx += kickVx; b.vy += kickVy;
+                               b.vx *= 0.98; b.vy *= 0.98;
+                            }
+                         }
+                      });
+                      
+                      if(b.y > ch - 120 - b.r) {
+                          b.y = ch - 120 - b.r; b.vx = 0; b.vy = 0; 
+                          b.settled = true;
+                          pbFinished.push(b);
+                          updateRankingUI();
+                      }
+                  }
+                  
+                  pbCtx.beginPath(); pbCtx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+                  pbCtx.fillStyle = b.color; pbCtx.fill();
+                  pbCtx.strokeStyle = '#fff'; pbCtx.lineWidth = 2; pbCtx.stroke();
+              });
+
+              for(let i=0; i<pbBalls.length; i++) {
+                 for(let j=i+1; j<pbBalls.length; j++) {
+                    let b1 = pbBalls[i]; let b2 = pbBalls[j];
+                    if(b1.settled || b2.settled) continue;
+                    let dx = b2.x - b1.x; let dy = b2.y - b1.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let minDist = b1.r + b2.r;
+                    if(dist < minDist) {
+                       let angle = Math.atan2(dy, dx);
+                       let overlap = minDist - dist;
+                       b1.x -= Math.cos(angle) * overlap/2; b1.y -= Math.sin(angle) * overlap/2;
+                       b2.x += Math.cos(angle) * overlap/2; b2.y += Math.sin(angle) * overlap/2;
+                       let nx = dx/dist; let ny = dy/dist;
+                       let p = 2 * (b1.vx*nx + b1.vy*ny - b2.vx*nx - b2.vy*ny) / 2;
+                       
+                       b1.vx -= p*nx*0.98; b1.vy -= p*ny*0.98;
+                       b2.vx += p*nx*0.98; b2.vy += p*ny*0.98;
+                    }
+                 }
+              }
+              
+              pbBalls.forEach(b => { if(b.x < 0) b.x = b.r; if(b.x > cw) b.x = cw - b.r; });
+
+              let activeBalls = pbBalls.filter(b => !b.settled).sort((a,b) => b.y - a.y);
+              let liveHtml = '';
+              activeBalls.forEach(b => {
+                 let initial = b.name ? b.name.charAt(0) : '?';
+                 liveHtml += '<div style="display:flex; flex-direction:column; align-items:center; gap:3px;">' +
+                             '<div style="width:24px; height:24px; border-radius:50%; border:2px solid '+b.color+'; background:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; color:#000;">'+initial+'</div>' +
+                             '<span style="color:'+b.color+'; font-size:12px; font-weight:bold; letter-spacing:-0.5px;">'+b.name+'</span></div>';
+              });
+              document.getElementById('pb-live-view').innerHTML = liveHtml;
+              
+              if(allSettled) {
+                  pbIsRunning = false;
+                  document.getElementById('pb-live-view').innerHTML = '<div style="color:var(--point-color); font-size:24px; font-weight:900;">종료!</div>';
+              } else {
+                  requestAnimationFrame(updatePinball);
+              }
+          }
+
+          function updateRankingUI() {
+             let html = '';
+             pbFinished.forEach((b, idx) => {
+                html += '<div style="color:'+b.color+'; font-weight:bold; font-size:16px; margin-bottom:6px; animation: popIn 0.3s ease-out;">'+(idx+1)+'위. '+b.name+'</div>';
+             });
+             document.getElementById('pb-ranking-list').innerHTML = html;
+          }
+
+          function drawPinballFrame() {
+              let cw = pbCanvas.width; let ch = pbCanvas.height;
+              
+              pbCtx.shadowBlur = 10; pbCtx.shadowColor = '#38bdf8';
+              pbCtx.strokeStyle = '#38bdf8'; pbCtx.lineWidth = 6; pbCtx.lineCap = 'round';
+              pbLines.forEach(l => {
+                 pbCtx.beginPath(); pbCtx.moveTo(l.x1, l.y1); pbCtx.lineTo(l.x2, l.y2); pbCtx.stroke();
+              });
+              
+              pbCtx.shadowColor = '#ff8200'; pbCtx.strokeStyle = '#ff8200'; pbCtx.lineWidth = 8;
+              pbSpinners.forEach(sp => {
+                 let x1 = sp.cx + Math.cos(sp.angle) * (sp.len/2); let y1 = sp.cy + Math.sin(sp.angle) * (sp.len/2);
+                 let x2 = sp.cx - Math.cos(sp.angle) * (sp.len/2); let y2 = sp.cy - Math.sin(sp.angle) * (sp.len/2);
+                 pbCtx.beginPath(); pbCtx.moveTo(x1, y1); pbCtx.lineTo(x2, y2); pbCtx.stroke();
+                 pbCtx.beginPath(); pbCtx.arc(sp.cx, sp.cy, 10, 0, Math.PI*2); pbCtx.fillStyle = '#fff'; pbCtx.fill();
+              });
+              
+              pbCtx.shadowBlur = 0; pbCtx.fillStyle = '#fff';
+              pbPegs.forEach(p => { pbCtx.beginPath(); pbCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); pbCtx.fill(); });
+
+              pbCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+              pbCtx.lineWidth = 4;
+              pbCtx.setLineDash([20, 20]);
+              pbCtx.beginPath();
+              pbCtx.moveTo(0, ch - 120);
+              pbCtx.lineTo(cw, ch - 120);
+              pbCtx.stroke();
+              pbCtx.setLineDash([]);
+          }
+
           /* ===== 5. VOD 탭 검색 및 카테고리 필터 ===== */
           let currentVodCategory = 'all'; 
           async function loadVods() {
             const container = document.getElementById('vod-grid-container');
             try {
-              const sheetId = '1DqUd6qW7BC-yfQWPR76h59q4BYNSq14uOEL0kKTXlzY'; 
+              const sheetId = '1wWQ5ziB4hHnhBqqktFb7Yc-Vu-AVrOxdcGBMX860pXQ'; 
               const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&headers=1&sheet=VOD';
               const response = await fetch(url);
               let text = await response.text();
@@ -1107,7 +1560,7 @@ export default {
             } catch(e) {}
           }
 
-          /* ===== 🌟 노래책 시트 완벽 연속 번호 매기기 ===== */
+          /* ===== 노래책 시트 연동 ===== */
           async function loadSongs() {
             const container = document.getElementById('songbook-list');
             try {
@@ -1175,8 +1628,6 @@ export default {
               
               let html = '<table class="song-table"><thead><tr><th style="width:10%;">번호</th><th style="width:15%;">가수</th><th style="width:45%;">노래제목</th><th style="width:15%;">난이도</th><th style="width:15%; text-align:center;">상태</th></tr></thead><tbody id="songbook-tbody">';
               
-              // 🌟 HTML 렌더링 단계에서 1번부터 차례대로 번호(finalSongIndex)를 강제로 부여합니다.
-              // 이렇게 하면 스프레드시트 탭이 달라도 무조건 숫자가 이어집니다!
               let finalSongIndex = 1;
 
               for (const [singer, songs] of Object.entries(grouped)) {
@@ -1257,6 +1708,7 @@ export default {
 
             try { renderCalendar(); } catch(e) {}
             try { renderLadderInputs(); } catch(e) {}
+            try { initPinballBoard(); } catch(e) {} 
             try { loadVods(); } catch(e) {}
             try { loadRecentPosts(); } catch(e) {}
             try { loadSongs(); } catch(e) {}
